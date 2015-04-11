@@ -1,0 +1,25 @@
+exclude: [website.darcs, blog/generators]
+name: "Owen Stephens"
+title: "Owen Stephens' Website"
+tagline: "London-based Polyglot Programmer"
+img_dir: '/assets/images/'
+static_dir: '/assets/static/'
+markdown: redcarpet
+redcarpet:
+      extensions: ["fenced_code_blocks", "autolink", "tables", "with_toc_data", "footnotes"]
+
+highlighter: pygments
+defaults:
+  -
+    scope:
+      path: ""
+      type: "pages"
+    values:
+      layout: "page"
+  -
+    scope:
+      path: ""
+      type: "posts"
+    values:
+      layout: "post"
+

@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+  <meta charset="UTF-8">
+
+  <title>
+    
+      Determinism costs! A NFA with exponentially bigger DFA &middot; Owen Stephens' Website
+    
+  </title>
+
+  <link rel="stylesheet" href="/assets/css/style.css">
+  <link rel="stylesheet" href="/assets/css/pygments.css">
+  <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,600|Droid+Sans+Mono' rel='stylesheet' type='text/css'>
+</head>
+
+    <body>
+        <header>
+            <div id="name_tagline">
+                <span id="name"> 
+                    Owen Stephens
+                </span>
+                <span id="tagline">
+                    London-based Polyglot Programmer
+                </span>
+            </div>
+            <ul id="nav">
+              
+              
+                <li> 
+                    
+                    <a  href="/index.html">Home</a>
+                </li>
+                -
+              
+                <li> 
+                    
+                    <a id="active-nav" href="/blog.html">Blog</a>
+                </li>
+                -
+              
+                <li> 
+                    
+                    <a  href="/programming.html">Programming</a>
+                </li>
+                
+              
+            </ul>
+        </header>
+        <main>
+        <article class="post">
+  <h1 class="post-title">Determinism costs! A NFA with exponentially bigger DFA</h1>
+  <time datetime="2014-09-28T00:00:00+01:00" class="page-date">28 Sep 2014</time>
+  <style>
+table { text-align: center; margin: auto; }
+th { text-decoration: underline }
+img { display: block; margin-left: auto; margin-right: auto; }
+code { text-align: center }
+</style>
+
+<p>Two well known mathematical models of computation are finite automaton, either
+Non-deterministic or deterministic: NFA and DFA, respectively. Intuitively,
+whereas NFAs can be &quot;smaller&quot;, it is &quot;simpler&quot; to match strings against DFAs.
+In this post, we investigate a NFA that has an <em>exponentially larger</em> DFA,
+showing off the &quot;cost of determinism&quot;.</p>
+
+<p>First, lets define DFAs and NFAs:</p>
+
+<h2 id="dfas">DFAs</h2>
+
+<p>A finite automaton is:</p>
+
+<ul>
+<li>A (finite) set of states with finitely-many transitions between states,</li>
+<li>Each transition has a single-character label,</li>
+<li>Each state has an outgoing transition with each label,</li>
+<li>Some states are &quot;initial&quot;, and some states are &quot;accepting&quot;.</li>
+</ul>
+
+<p>Here&#39;s an example of an automaton:</p>
+
+<p><img src="/assets/images/blog/2014-09-28/0fffc4b1005038f00af6f4ed39df5383.svg" alt="NFA with hash 0fffc4b1005038f00af6f4ed39df5383"></p>
+
+<p>Here, 0 is initial, and 2 is accepting.  We can &quot;consume&quot; a string of
+characters (also referred to as &quot;matching&quot; the string by the DFA)  by taking
+appropriately-labelled transitions between states: in each state we consider
+the next character of the string, taking a transition labelled with that
+character, and then considering the next character, and so on. We say a word
+(sequence of characters) is &quot;accepted&quot; by the automaton if we can consume the
+string by starting in an initial state, and ending (i.e. when the whole string
+is consumed) in an accepting state.</p>
+
+<p>For example, the word &quot;xyyx&quot; is accepted by the previous automaton, but &quot;yyy&quot;
+is not (we can&#39;t reach 2, starting at 0).</p>
+
+<p>The &quot;language&quot; of an automaton is the collection of all strings that it
+accepts. If an initial state is also accepting, then the automaton can accept
+the empty string, written as ε.</p>
+
+<p>The previous example of an automaton is &quot;deterministic&quot;: for each state, and a
+particular label choice, there is exactly one outgoing transition with that
+label.</p>
+
+<p>I&#39;ll now give some more examples, along with their languages.</p>
+
+<p>A DFA, but has an empty language (no accepting states):</p>
+
+<p><img src="/assets/images/blog/2014-09-28/d11a39d0592ccdf4fdac0896b1a0b1e9.svg" alt="NFA with hash d11a39d0592ccdf4fdac0896b1a0b1e9"></p>
+
+<p><em>Not</em> a DFA - multiple transitions from state 0 with label &#39;a&#39;:</p>
+
+<p><img src="/assets/images/blog/2014-09-28/50ba84e91c215fa557439ad79e6eb6a1.svg" alt="NFA with hash 50ba84e91c215fa557439ad79e6eb6a1"></p>
+
+<p>A DFA that has the language of all even-length binary strings:</p>
+
+<p><code>ε, 00, 01, 10, 11, 0000, 0001, ...</code></p>
+
+<p><img src="/assets/images/blog/2014-09-28/8d5cc97fb3877cfb0929d233cac28596.svg" alt="NFA with hash 8d5cc97fb3877cfb0929d233cac28596"></p>
+
+<h2 id="nfas">NFAs</h2>
+
+<p>A <em>non</em>-deterministic finite automaton (NFA), lifts the restriction on
+transitions: we can have multiple (or zero!) transitions from a single state
+with the same label. For example:</p>
+
+<p><img src="/assets/images/blog/2014-09-28/a0c4c207e61ab1ada4c1ce751987d05c.svg" alt="NFA with hash a0c4c207e61ab1ada4c1ce751987d05c"></p>
+
+<p>which has the language of all words beginning with &#39;a&#39;, and finishing with zero
+or more &#39;b&#39;s, or those beginning with &#39;a&#39; and ending with zero or more &#39;c&#39;s.</p>
+
+<p>Now, why would we want to use a NFA instead of a DFA? The answer is
+&quot;compactness&quot;: we can use fewer states to recognise the same language. Indeed,
+NFAs and DFAs can recognise <a href="http://en.wikipedia.org/wiki/Nondeterministic_finite_automaton#Equivalence_to_DFA">exactly the same languages</a>.
+The drawback is that the NFA is &quot;harder&quot; to match a string against: since we
+can have a choice of transitions to take, we must try each, accepting a string
+if <em>any</em> of our choices succeed (finish in an accepting state)<sup id="fnref1"><a href="#fn1" rel="footnote">1</a></sup>.</p>
+
+<p>So, to summarise, a DFA is more efficient to &quot;run&quot; on a string, but a NFA is
+more efficient to represent, a classic <a href="http://en.wikipedia.org/wiki/Space%E2%80%93time_tradeoff">time-vs-space tradeoff</a>!</p>
+
+<p>Now the question is, <em>how much</em> more compact is an NFA vs. a DFA. Or, put
+differently, how much bigger is a DFA compared to an NFA recognising the same
+language?</p>
+
+<h2 id="a-tricky-case">A Tricky Case</h2>
+
+<p>Consider the language of binary strings that have a &#39;1&#39; at a fixed position
+within the string (say two characters from the end of the string, obviously
+forcing the length of the words to be &gt;= 3):</p>
+
+<pre>
+    (0|1)<sup>&#42;</sup>1(0|1)<sup>2</sup>
+</pre>
+
+<p>for example, the following strings <em>are</em> in the language:</p>
+
+<pre><u>1</u>00, 00<u>1</u>11, 10<u>1</u>01, 111<u>1</u>11</pre>
+
+<p>and the following <em>are not</em>:</p>
+
+<pre>ε, <u>0</u>00, 11<u>0</u>11, 00<u>0</u>01</pre>
+
+<p>Now, in general, this language is, for any natural number n (which is the
+minimum length of the words):</p>
+
+<pre>
+    (0|1)<sup>&#42;</sup>1(0|1)<sup>(n - 1)</sup>
+</pre>
+
+<p>but we&#39;ll stick with the n=3 case, for now. We can easily design an NFA for
+this language:</p>
+
+<p><img src="/assets/images/blog/2014-09-28/4d306b466f4a91d26cb0dec57205c5d8.svg" alt="NFA with hash 4d306b466f4a91d26cb0dec57205c5d8"></p>
+
+<p>Now, what does the DFA that accepts this language look like? To find out, we
+can perform the <a href="http://en.wikipedia.org/wiki/Powerset_construction">powerset construction</a> to &quot;determinise&quot;
+a NFA. We can easily (but tediously) perform the powerset construction,
+creating a table to record the possible <em>set</em> of states the NFA can be in
+(after starting in the set containing the initial state), and check how this
+set changes as we take transitions with either label:</p>
+
+<table><thead>
+<tr>
+<th>NFA State Set</th>
+<th>0 Label</th>
+<th>1 Label</th>
+<th>DFA State</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>{0}</td>
+<td>{0}</td>
+<td>{0,1}</td>
+<td>0</td>
+</tr>
+<tr>
+<td>{0,1}</td>
+<td>{0,2}</td>
+<td>{0,1,2}</td>
+<td>1</td>
+</tr>
+<tr>
+<td>{0,2}</td>
+<td>{0,3}</td>
+<td>{0,1,3}</td>
+<td>2</td>
+</tr>
+<tr>
+<td>{0,1,2}</td>
+<td>{0,2,3}</td>
+<td>{0,1,2,3}</td>
+<td>3</td>
+</tr>
+<tr>
+<td>{0,3}</td>
+<td>{0}</td>
+<td>{0,1}</td>
+<td>4</td>
+</tr>
+<tr>
+<td>{0,1,3}</td>
+<td>{0,2}</td>
+<td>{0,1,2}</td>
+<td>5</td>
+</tr>
+<tr>
+<td>{0,2,3}</td>
+<td>{0,3}</td>
+<td>{0,1,3}</td>
+<td>6</td>
+</tr>
+<tr>
+<td>{0,1,2,3}</td>
+<td>{0,2,3}</td>
+<td>{0,1,2,3}</td>
+<td>7</td>
+</tr>
+</tbody></table>
+
+<p>Now, we draw this as a DFA: the start state is the set containing the initial
+states and the accepting states are those states whose set contains a accepting
+state of the original NFA:</p>
+
+<p><img src="/assets/images/blog/2014-09-28/d493b6ff5dda16e41c02867cb036f8ff.svg" alt="NFA with hash d493b6ff5dda16e41c02867cb036f8ff"></p>
+
+<p>We&#39;ve gone from a 4 state NFA to a 8 state DFA, and in general, from a n + 1
+state NFA to a 2<sup>n</sup> state DFA - this is the &quot;exponential blowup&quot; of
+converting a NFA to DFA.</p>
+
+<p>Now, let&#39;s see if we can see why we&#39;ve had this blowup.</p>
+
+<h2 id="explaining-the-blowup">Explaining the blowup</h2>
+
+<p>As a first step to explaining the structure of the DFA, let&#39;s create a DFA to
+match a subset of the final language:</p>
+
+<p><img src="/assets/images/blog/2014-09-28/91c56ff2fda8af18fd2533bc2db133b2.svg" alt="NFA with hash 91c56ff2fda8af18fd2533bc2db133b2"></p>
+
+<p>The language of this DFA is <code>0<sup>&#42;</sup>1(0|1)<sup>2</sup></code> in
+other words, we can match the desired strings, as long as the first &#39;1&#39; appears
+2 characters before the end of the string.</p>
+
+<p>Now, consider what happens if we have more characters to match, when we reach
+state 4,5,6 or 7; in other words, the &#39;1&#39; we matched when moving between state
+0 and 1 wasn&#39;t the &#39;1&#39; that was 2 characters before the end of the string.</p>
+
+<p>Call the 1 that seperates the two sections of the word the <em>switch</em>; the
+initial part is the arbitrary-length <em>leader</em> and the final part is the
+fixed-length <em>trailer</em>.</p>
+
+<p>The NFA is able to choose a particular &#39;1&#39; to be the switch, by
+non-deterministically (or indeed, trying one choice, and if it fails,
+backtracking to try the other choice) treating the &#39;1&#39; as part of the leader,
+<em>or</em> as the switch. Only once the NFA has made this choice does it match the
+fixed-length trailer.</p>
+
+<p>A DFA can&#39;t have this non-deterministic choice, so every time the DFA sees a
+&#39;1&#39;, it must allow it to be <em>either</em> the switch or part of the leader. This
+insight shows us the way to understanding the DFA: once we&#39;ve seen two more
+characters, we can decide if the &#39;1&#39; was part of the leader, or the switch,
+depending on whether there are any further characters to consume. Indeed, after
+seeing these two extra characters, we have 8 choices for what to do next: 2
+choices for each 2-character string (one for &#39;0&#39; and one for &#39;1&#39;). These
+choices are:</p>
+
+<table><thead>
+<tr>
+<th>2 additional characters</th>
+<th>0 action</th>
+<th>1 action</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>00</td>
+<td>Go back to the initial state (no &#39;1&#39; in the last 3 chars)</td>
+<td>Go back to the state where we&#39;ve just seen the potential switch</td>
+</tr>
+<tr>
+<td>01</td>
+<td>Go the state reached after seeing &quot;0&quot; after the switch</td>
+<td>Go to the state reached after seeing &quot;1&quot; after the switch</td>
+</tr>
+<tr>
+<td>10</td>
+<td>Go to the state reached after seeing &quot;00&quot; after the switch</td>
+<td>Go to the state reached after seeing &quot;01&quot; after the switch</td>
+</tr>
+<tr>
+<td>11</td>
+<td>Go the state reached after seeing &quot;10&quot; after the switch</td>
+<td>Stay in the same state</td>
+</tr>
+</tbody></table>
+
+<p>In other words, each of the 4 choices leads to a different pair of states, thus
+we must have a different state for each of these 4 choices. If we add in
+transitions as desribed in the previous table, we obtain the same DFA as was
+generated by the subset construction.</p>
+
+<p>Now, lets <em>prove</em> that we <em>must</em> have exponentially more states for this
+particular language.</p>
+
+<h2 id="why-must-we-have-exponentially-more-states?">Why <em>must</em> we have exponentially more states?</h2>
+
+<p>Assume that we have a DFA with fewer than <code>2<sup>3</sup></code> states
+and has language <code>(0|1)<sup>&#42;</sup>1(0|1)<sup>2</code>.</p>
+
+<p>Now, by the <a href="http://en.wikipedia.org/wiki/Pigeonhole_principle">pidgeonhole principle</a>, there must be 2
+<em>distinct</em> strings in <code>(0|1)<sup>3</sup></code>, that lead to the same
+state of the DFA. Let us call these two strings <code>x</code> and <code>y</code>; since they are
+different, there must be a position, <code>i</code> (with <code>0 &lt; i &lt; |x|</code>) in <code>x</code> and
+<code>y</code>, at which <code>x[i] /= y[i]</code>, let us assume that <code>x[i] = 1</code> and <code>y[i] =
+0</code><sup id="fnref2"><a href="#fn2" rel="footnote">2</a></sup>.</p>
+
+<p>Now, let <code>z = 11</code>, clearly, we have <code>z ∈
+(0|1)<sup>2</sup></code>, so it is a valid trailer. Now, we have that &quot;xz&quot; <em>is</em>
+in the langauge, since it has the switch and the required two characters and
+that &quot;yz&quot; <em>is not</em> in the language, since it has a &#39;0&#39; in the switch position,
+which should be &#39;1&#39;. However, both composite words lead to the same state (we
+have added a common suffix to two strings that lead to the same state), which
+is a contradiction. Our only assumption was that we had fewer than
+<code>2<sup>3</sup></code> states, which must therefore be a bad assumption.
+Put differently, we <em>must</em> have <code>2<sup>3</sup></code> states in any DFA
+reconising this tricky language!  Indeed, we can easily generalise the argument
+to any <code>n</code>, not just 3.</p>
+
+<p>And we&#39;re done! To sum up:</p>
+
+<h2 id="summary">Summary</h2>
+
+<ul>
+<li>NFAs and DFAs recognise the same set of languages, the &quot;regular languages&quot;,</li>
+<li>NFAs can be exponentially smaller than DFAs recognising the same language,</li>
+<li>DFAs, however, are simpler to compute with,</li>
+<li>The pidgeon-hole principle can be used to prove that we must have this
+blowup.</li>
+</ul>
+
+<p>which we made a choice, and if we fail (consume the string without ending in an
+accepting state), we reverse backwards in the string and retrace our steps to
+the noted state, and try again, taking the next choice of transition instead,
+and so on.</p>
+
+<div class="footnotes">
+<hr>
+<ol>
+
+<li id="fn1">
+<p>An alternative approach is to use <em>backtracking</em>, where note the point at&nbsp;<a href="#fnref1" rev="footnote">&#8617;</a></p>
+</li>
+
+<li id="fn2">
+<p>A symmetric argument follows if the values are swapped.&nbsp;<a href="#fnref2" rev="footnote">&#8617;</a></p>
+</li>
+
+</ol>
+</div>
+
+</article>
+
+        </main>
+        <div class="divider"></div>
+        <footer> 
+            Owen Stephens 2015
+        </footer>
+    </body>
+</html>

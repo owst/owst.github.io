@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+  <meta charset="UTF-8">
+
+  <title>
+    
+      AES using ECB Demo using Python &middot; Owen Stephens' Website
+    
+  </title>
+
+  <link rel="stylesheet" href="/assets/css/style.css">
+  <link rel="stylesheet" href="/assets/css/pygments.css">
+  <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,600|Droid+Sans+Mono' rel='stylesheet' type='text/css'>
+</head>
+
+    <body>
+        <header>
+            <div id="name_tagline">
+                <span id="name"> 
+                    Owen Stephens
+                </span>
+                <span id="tagline">
+                    London-based Polyglot Programmer
+                </span>
+            </div>
+            <ul id="nav">
+              
+              
+                <li> 
+                    
+                    <a  href="/index.html">Home</a>
+                </li>
+                -
+              
+                <li> 
+                    
+                    <a  href="/blog.html">Blog</a>
+                </li>
+                -
+              
+                <li> 
+                    
+                    <a id="active-nav" href="/programming.html">Programming</a>
+                </li>
+                
+              
+            </ul>
+        </header>
+        <main>
+        <article class="post">
+  <h1 class="post-title">AES using ECB Demo using Python</h1>
+  <time datetime="2009-10-21T00:00:00+01:00" class="page-date">21 Oct 2009</time>
+  <p>Here&#39;s a little python program that I&#39;ve knocked together inspired by
+<a href="http://chargen.matasano.com/chargen/2009/7/22/if-youre-typing-the-letters-a-e-s-into-your-code-youre-doing.html">this</a> article, to demonstrate the serious gotcha involved with
+using <a href="http://en.wikipedia.org/wiki/Block_cipher_modes_of_operation#Electronic_codebook_.28ECB.29">ECB (Electronic Code Book)</a> as a cipher mode.</p>
+
+<p>This code uses the <a href="http://www.pythonware.com/products/pil/">PIL (Python Imaging Library)</a> (I used v1.1.6) and
+<a href="http://www.dlitz.net/software/pycrypto/">PyCrypto</a> (I used the precompiled binary from
+<a href="http://www.voidspace.org.uk/python/modules.shtml#pycrypto">here</a>).</p>
+
+<p>These modules are designed for Python 2.7, so that&#39;s what I used.</p>
+
+<p>The code:</p>
+<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="kn">import</span> <span class="nn">Image</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">from</span> <span class="nn">Crypto.Cipher</span> <span class="kn">import</span> <span class="n">AES</span>
+
+    <span class="n">IV_SIZE</span> <span class="o">=</span> <span class="mi">16</span>
+    <span class="n">BLOCK_SIZE</span> <span class="o">=</span> <span class="mi">16</span>
+
+    <span class="k">def</span> <span class="nf">check_args</span><span class="p">():</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">if</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">4</span><span class="p">):</span>
+                <span class="k">raise</span> <span class="ne">Exception</span><span class="p">()</span>
+            <span class="k">elif</span> <span class="p">(</span><span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">])):</span>
+                <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s">&quot;Input file must exist&quot;</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="p">(</span><span class="ow">not</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="ow">in</span> <span class="p">[</span><span class="s">&#39;CBC&#39;</span><span class="p">,</span> <span class="s">&#39;ECB&#39;</span><span class="p">]):</span>
+                <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s">&quot;Block cipher mode should be ECB or CBC&quot;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">3</span><span class="p">])</span>
+        <span class="k">except</span> <span class="ne">Exception</span><span class="p">,</span> <span class="n">ex</span><span class="p">:</span>
+            <span class="k">print</span> <span class="s">&quot;Usage:&quot;</span><span class="p">,</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> \
+              <span class="s">&quot;full_path_to_input_image full_path_to_output_image ECB|CBC&quot;</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">ex</span><span class="o">.</span><span class="n">args</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="k">print</span> <span class="s">&quot;--&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">ex</span><span class="p">)</span>
+            <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+
+
+    <span class="k">def</span> <span class="nf">encrypt</span><span class="p">(</span><span class="n">input_filename</span><span class="p">,</span> <span class="n">output_filename</span><span class="p">,</span> <span class="n">cipher_mode</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Encrypt an image file and write out the results as a JPEG.&quot;&quot;&quot;</span>
+
+        <span class="n">input_image</span> <span class="o">=</span> <span class="n">Image</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">input_filename</span><span class="p">)</span>
+
+        <span class="c"># Key must be one of 16/24/32 bytes in length.</span>
+        <span class="n">key</span> <span class="o">=</span> <span class="s">&quot;0123456789ABCDEF&quot;</span>
+        <span class="n">mode</span> <span class="o">=</span> <span class="n">AES</span><span class="o">.</span><span class="n">MODE_CBC</span> <span class="k">if</span> <span class="n">cipher_mode</span> <span class="o">==</span> <span class="s">&#39;CBC&#39;</span> <span class="k">else</span> <span class="n">AES</span><span class="o">.</span><span class="n">MODE_ECB</span>
+        <span class="n">iv</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">urandom</span><span class="p">(</span><span class="n">IV_SIZE</span><span class="p">)</span>
+
+        <span class="n">aes</span> <span class="o">=</span> <span class="n">AES</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">mode</span><span class="p">,</span> <span class="n">iv</span><span class="p">)</span>
+
+        <span class="n">image_string</span> <span class="o">=</span> <span class="n">input_image</span><span class="o">.</span><span class="n">tostring</span><span class="p">()</span>
+        <span class="c"># The input string must be padded to the input block size.</span>
+        <span class="n">image_padding_length</span> <span class="o">=</span> <span class="n">BLOCK_SIZE</span> <span class="o">-</span> <span class="nb">len</span><span class="p">(</span><span class="n">image_string</span><span class="p">)</span> <span class="o">%</span> <span class="n">BLOCK_SIZE</span>
+        <span class="n">image_string</span> <span class="o">+=</span> <span class="n">image_padding_length</span> <span class="o">*</span> <span class="s">&quot;~&quot;</span>
+
+        <span class="c"># generate the encrypted image string</span>
+        <span class="n">encrypted</span> <span class="o">=</span> <span class="n">aes</span><span class="o">.</span><span class="n">encrypt</span><span class="p">(</span><span class="n">image_string</span><span class="p">)</span>
+
+        <span class="c"># create an image from the encrypted string</span>
+        <span class="n">encrypted_img</span> <span class="o">=</span> <span class="n">Image</span><span class="o">.</span><span class="n">frombuffer</span><span class="p">(</span><span class="s">&quot;RGB&quot;</span><span class="p">,</span> <span class="n">input_image</span><span class="o">.</span><span class="n">size</span><span class="p">,</span> <span class="n">encrypted</span><span class="p">,</span> <span class="s">&#39;raw&#39;</span><span class="p">,</span>
+                                         <span class="s">&quot;RGB&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+
+        <span class="c"># create and save the output image</span>
+        <span class="n">encrypted_img</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">output_filename</span><span class="p">,</span> <span class="s">&#39;JPEG&#39;</span><span class="p">)</span>
+
+        <span class="k">print</span><span class="p">(</span><span class="s">&quot;Encrypted using AES in &quot;</span> <span class="o">+</span> <span class="n">cipher_mode</span> <span class="o">+</span> <span class="s">&quot; mode and saved to </span><span class="se">\&quot;</span><span class="s">&quot;</span> <span class="o">+</span>
+               <span class="n">output_filename</span> <span class="o">+</span> <span class="s">&quot;</span><span class="se">\&quot;</span><span class="s">!&quot;</span><span class="p">)</span>
+
+
+    <span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">&quot;__main__&quot;</span><span class="p">:</span>
+        <span class="n">args</span> <span class="o">=</span> <span class="n">check_args</span><span class="p">()</span>
+        <span class="n">encrypt</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">)</span>
+</code></pre></div>
+<p>And the test image, and resulting encrypted image, using first ECB then <a href="http://en.wikipedia.org/wiki/Block_cipher_modes_of_operation#Cipher-block_chaining_.28CBC.29">CBC
+(Cipher Block Chaining)</a>.</p>
+
+<p>Input:</p>
+
+<p><img src="/assets/images/programming/2009-10-21/test.jpg" alt="test-input">
+Encrypted with ECB:
+<img src="/assets/images/programming/2009-10-21/test_ecb.jpg" alt="test-ecb">
+Encrypted with CBC:
+<img src="/assets/images/programming/2009-10-21/test_cbc.jpg" alt="test-cbc"></p>
+
+<p>As you can see, ECB outputs the same encrypted data for equivalent input
+blocks, so the black and white areas are clearly distinguishable. Since CBC has
+feedback from the previous block&#39;s encryption into the next block, the
+equivalent input blocks are no longer encrypted to the same value, so we see
+noise.</p>
+
+</article>
+
+        </main>
+        <div class="divider"></div>
+        <footer> 
+            Owen Stephens 2015
+        </footer>
+    </body>
+</html>

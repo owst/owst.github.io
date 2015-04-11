@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+  <meta charset="UTF-8">
+
+  <title>
+    
+      Show patch diff for a given patch in darcs log &middot; Owen Stephens' Website
+    
+  </title>
+
+  <link rel="stylesheet" href="/assets/css/style.css">
+  <link rel="stylesheet" href="/assets/css/pygments.css">
+  <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,600|Droid+Sans+Mono' rel='stylesheet' type='text/css'>
+</head>
+
+    <body>
+        <header>
+            <div id="name_tagline">
+                <span id="name"> 
+                    Owen Stephens
+                </span>
+                <span id="tagline">
+                    London-based Polyglot Programmer
+                </span>
+            </div>
+            <ul id="nav">
+              
+              
+                <li> 
+                    
+                    <a  href="/index.html">Home</a>
+                </li>
+                -
+              
+                <li> 
+                    
+                    <a id="active-nav" href="/blog.html">Blog</a>
+                </li>
+                -
+              
+                <li> 
+                    
+                    <a  href="/programming.html">Programming</a>
+                </li>
+                
+              
+            </ul>
+        </header>
+        <main>
+        <article class="post">
+  <h1 class="post-title">Show patch diff for a given patch in darcs log</h1>
+  <time datetime="2011-01-06T00:00:00+00:00" class="page-date">06 Jan 2011</time>
+  <p>When using <a href="http://darcs.net/">darcs</a> you may want to be able to pick a patch
+from the log, and see its changes. How to achieve this wasn&#39;t particularly
+obvious to my git-oriented mind, so I thought I&#39;d blog the answer.</p>
+
+<p>Say we want to see the patch that is the third &quot;away&quot; from our current state.
+In darcs, we use a 1-indexed numbering scheme so the patch is #4 (since the
+current state is 1). To show the details of the patch, issue the simple
+command:</p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash">darcs log -n 4
+</code></pre></div>
+<p>If you&#39;re a <a href="http://git-scm.com/">git</a> user, the equivalent revision is
+<code>HEAD~3</code> (the third-generation grandparent of the current branch). To show the
+patch details in a similar fashion to darcs, execute:</p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash">git log -1 HEAD~3
+</code></pre></div>
+<p>To show a unified diff of the changes introduced in the revision/patch, the
+darcs command changes slightly to this:</p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash">darcs diff -u -n 4
+</code></pre></div>
+<p>whereas the git command changes to:</p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash">git log -1 -u HEAD~3
+</code></pre></div>
+<p><em>N.B.</em> It is also possible to use darcs&#39; interactive mode to view patch
+differences (including the ability to pick which patches to view, and which to
+skip). To do this, issue the command:</p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash">darcs log -i
+</code></pre></div>
+<p>and then show the chosen patch diffs by pressing the <code>p</code> key.</p>
+
+</article>
+
+        </main>
+        <div class="divider"></div>
+        <footer> 
+            Owen Stephens 2015
+        </footer>
+    </body>
+</html>

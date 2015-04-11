@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+    {% include head.html %}
+    <body>
+        <header>
+            <div id="name_tagline">
+                <span id="name"> 
+                    {{site.name}}
+                </span>
+                <span id="tagline">
+                    {{site.tagline}}
+                </span>
+            </div>
+            <ul id="nav">
+              {% assign pages = site.pages | sort:"weight"  %}
+              {% for p in pages %}
+                <li> 
+                    {% capture down_title %}{{ p.title | downcase }}{% endcapture%}
+                    <a {% if p.url == page.url or page.categories.first == down_title%}id="active-nav"{% endif %} href="{{ p.url }}">{{ p.title }}</a>
+                </li>
+                {% if forloop.last %}{%else%}-{% endif %}
+              {% endfor %}
+            </ul>
+        </header>
+        <main>
+        {{ content }}
+        </main>
+        <div class="divider"></div>
+        <footer> 
+            {{ site.name }} {{ site.time | date: '%Y' }}
+        </footer>
+    </body>
+</html>

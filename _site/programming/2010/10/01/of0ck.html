@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+  <meta charset="UTF-8">
+
+  <title>
+    
+      Of0ck the language &middot; Owen Stephens' Website
+    
+  </title>
+
+  <link rel="stylesheet" href="/assets/css/style.css">
+  <link rel="stylesheet" href="/assets/css/pygments.css">
+  <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,600|Droid+Sans+Mono' rel='stylesheet' type='text/css'>
+</head>
+
+    <body>
+        <header>
+            <div id="name_tagline">
+                <span id="name"> 
+                    Owen Stephens
+                </span>
+                <span id="tagline">
+                    London-based Polyglot Programmer
+                </span>
+            </div>
+            <ul id="nav">
+              
+              
+                <li> 
+                    
+                    <a  href="/index.html">Home</a>
+                </li>
+                -
+              
+                <li> 
+                    
+                    <a  href="/blog.html">Blog</a>
+                </li>
+                -
+              
+                <li> 
+                    
+                    <a id="active-nav" href="/programming.html">Programming</a>
+                </li>
+                
+              
+            </ul>
+        </header>
+        <main>
+        <article class="post">
+  <h1 class="post-title">Of0ck the language</h1>
+  <time datetime="2010-10-01T00:00:00+01:00" class="page-date">01 Oct 2010</time>
+  <script src="http://code.jquery.com/jquery-1.4.2.min.js"></script>
+
+<script src="/assets/static/programming/2010-10-01/of0ck.js"></script>
+
+<script>
+    function go() {
+        var input = $("#program").val();
+        var stdin = $("#input").val();
+        var output = "no input";
+
+        if (input != undefined && input != "") {
+            try {
+                output = interpret(input, stdin);
+            } catch (er) {
+                alert("Error: " + er);
+                return;
+            }
+        }
+
+        $("#output").val(output);
+    }
+
+    function doTranslate() {
+        var bf = $("#toTranslate").val();
+        $("#toTranslate").val(translateBfToOf0ck(bf));
+    }
+</script>
+
+<p>Here&#39;s a quick twist on the classic esoteric programming language
+<a href="http://esolangs.org/wiki/Brainfuck">Brainf*ck</a>.</p>
+
+<p>Of0ck uses modified input symbols:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">oO == &gt; Increment the pointer.
+oo == &lt; Decrement the pointer.
+0O == + Increment the byte at the pointer.
+0o == - Decrement the byte at the pointer.
+Oo == . Output the byte at the pointer.
+OO == , Input a byte and store it in the byte at the pointer.
+O0 == [ Jump forward past the matching ] if the byte at the pointer is zero.
+o0 == ] Jump backward to the matching [ unless the byte at the pointer is zero.
+</code></pre></div>
+<p>Any lines beginning with * are treated as comments and all whitespace is
+insignificant.</p>
+
+<p>As an example, a program that reads its input, reverses it and prints to the
+output looks like: <code>OOO0oOOOo0ooO0Ooooo0</code> nice, eh? :)</p>
+
+<p>Program:<br>
+<textarea id="program">OOO0oOOOo0ooO0Ooooo0</textarea></p>
+
+<p>Input:<br>
+<textarea id="input">Hit go!</textarea></p>
+
+<p><input type="submit" value="Go!" onclick="go()"/><br>
+<span id="info"></span></p>
+
+<p>Output:<br>
+<textarea id="output"></textarea></p>
+
+<p>Got a BF program, but want to execute it using Of0ck? No problem:
+paste the BF into the field below, hit translate and equivalent
+Of0ck will appear!</p>
+
+<p>Translate BF to Of0ck:<br>
+<textarea id="toTranslate"></textarea></p>
+
+<p><input type="submit" value="Translate" onclick="doTranslate()"/></p>
+
+<p>I&#39;ve uploaded the code to GitHub, <a href="https://github.com/owst/of0ck">here</a>.</p>
+
+</article>
+
+        </main>
+        <div class="divider"></div>
+        <footer> 
+            Owen Stephens 2015
+        </footer>
+    </body>
+</html>

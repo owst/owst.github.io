@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+  <meta charset="UTF-8">
+
+  <title>
+    
+      Simple type isomorphisms &middot; Owen Stephens' Website
+    
+  </title>
+
+  <link rel="stylesheet" href="/assets/css/style.css">
+  <link rel="stylesheet" href="/assets/css/pygments.css">
+  <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,600|Droid+Sans+Mono' rel='stylesheet' type='text/css'>
+</head>
+
+    <body>
+        <header>
+            <div id="name_tagline">
+                <span id="name"> 
+                    Owen Stephens
+                </span>
+                <span id="tagline">
+                    London-based Polyglot Programmer
+                </span>
+            </div>
+            <ul id="nav">
+              
+              
+                <li> 
+                    
+                    <a  href="/index.html">Home</a>
+                </li>
+                -
+              
+                <li> 
+                    
+                    <a id="active-nav" href="/blog.html">Blog</a>
+                </li>
+                -
+              
+                <li> 
+                    
+                    <a  href="/programming.html">Programming</a>
+                </li>
+                
+              
+            </ul>
+        </header>
+        <main>
+        <article class="post">
+  <h1 class="post-title">Simple type isomorphisms</h1>
+  <time datetime="2013-08-15T00:00:00+01:00" class="page-date">15 Aug 2013</time>
+  <p>I found some simple notes that I wrote for a class that followed Pierce&#39;s
+excellent book <a href="http://www.cis.upenn.edu/%7Ebcpierce/tapl/">&quot;Types and Programming Languages&quot;</a> on type isomorphisms. The
+course is no longer running, so I thought I&#39;d reproduce the notes here, for
+posterity. The examples are written in OCaml, but the ideas easily translate to
+other languages such as Haskell or F#.</p>
+
+<h1 id="type-isomorphisms">Type Isomorphisms</h1>
+
+<p>In this note, we&#39;ll look at &quot;Type Isomorphisms&quot;, which are a general notion of
+conversion between types.</p>
+
+<h2 id="motivation">Motivation</h2>
+
+<p>Imagine that I&#39;ve written a particularly good parsing library, and that you
+want to use it in your code. Unfortunately, I&#39;ve written it using types that
+are not <em>equal</em> to your types, so you can&#39;t use my library; disaster!</p>
+
+<p>However, if it&#39;s the case that you can write conversion functions, that
+transform from my types into yours, and vice-versa, and further, if these
+functions don&#39;t lose or gain any information, you could write a &quot;wrapper&quot;
+around my library, and be able to parse away to your heart&#39;s content!</p>
+
+<p>This wrapper would convert function arguments into types that my library
+understands, call the relevant parsing functions in my library, before
+converting the result back into types that your code understands. As long as
+our conversion functions don&#39;t &quot;change&quot; the arguments or result in a way that
+loses/gains information, then this transformation is &quot;safe&quot;, and will guarantee
+the correct data goes into and out of my library.</p>
+
+<h2 id="isomorphisms">Isomorphisms</h2>
+
+<p>It turns out that this notion of conversion, or adaptation without loss of
+information between types has a fancy title: an <em>isomorphism</em> between the two
+types. We say that types A and B are isomorphic, if we have conversion
+functions that <em>witness</em> the isomorphism:</p>
+<div class="highlight"><pre><code class="language-ocaml" data-lang="ocaml"><span class="n">f</span> <span class="o">:</span> <span class="nc">A</span> <span class="o">-&gt;</span> <span class="nc">B</span>
+<span class="n">g</span> <span class="o">:</span> <span class="nc">B</span> <span class="o">-&gt;</span> <span class="nc">A</span>
+</code></pre></div>
+<p>such that:</p>
+<div class="highlight"><pre><code class="language-ocaml" data-lang="ocaml"><span class="n">f</span> <span class="o">.</span> <span class="n">g</span> <span class="o">=</span> <span class="n">id_B</span>
+<span class="n">g</span> <span class="o">.</span> <span class="n">f</span> <span class="o">=</span> <span class="n">id_A</span>
+</code></pre></div>
+<p>the notation <code>.</code> is function composition (from right to left) and can be
+defined as:</p>
+<div class="highlight"><pre><code class="language-ocaml" data-lang="ocaml"><span class="n">g</span> <span class="o">.</span> <span class="n">f</span> <span class="o">==</span> <span class="k">fun</span> <span class="n">x</span> <span class="o">-&gt;</span> <span class="n">g</span> <span class="o">(</span><span class="n">f</span> <span class="n">x</span><span class="o">)</span>
+</code></pre></div>
+<p>that is, the composition of f and g (confusingly, we usually read &quot;g . f&quot; as &quot;g
+composed with f&quot;!) is itself a function which first applies f, then applies g.</p>
+
+<p>The notation id_X means &quot;the identity function for type X&quot; where the identity
+function can be easily defined as:</p>
+<div class="highlight"><pre><code class="language-ocaml" data-lang="ocaml"><span class="k">let</span> <span class="n">id</span> <span class="n">x</span> <span class="o">=</span> <span class="n">x</span>
+</code></pre></div>
+<p>or as a &quot;lambda expression&quot;, or &quot;anonymous function&quot;:</p>
+<div class="highlight"><pre><code class="language-ocaml" data-lang="ocaml"><span class="k">fun</span> <span class="n">x</span> <span class="o">-&gt;</span> <span class="n">x</span>
+</code></pre></div>
+<p>So, we can study type isomorhpisms as an interesting general technique; they
+are just two types <code>A</code>, <code>B</code>, with conversion functions <code>f : A -&gt; B</code> and <code>g: B
+-&gt; A</code> such that applying the composite of <code>f</code> and <code>g</code> in either order is the
+same as doing nothing.</p>
+
+<p>Right, onto some examples:</p>
+
+<h2 id="example:-(un)curry">Example: (un)curry</h2>
+
+<p>Recall that <a href="http://en.wikipedia.org/wiki/Currying">&quot;Currying&quot;</a> transforms a function that takes as input multiple
+arguments (via a pair), into a function that accepts the first element of the
+pair, and returns a function that accepts the second argument, before returning
+the result.</p>
+
+<p>We can give the functions for currying and in the &quot;other direction&quot;, so called
+&quot;uncurrying&quot;:</p>
+<div class="highlight"><pre><code class="language-ocaml" data-lang="ocaml"><span class="k">let</span> <span class="n">curry</span> <span class="o">(</span><span class="n">f</span> <span class="o">:</span> <span class="o">((</span><span class="k">&#39;</span><span class="n">a</span> <span class="o">*</span> <span class="k">&#39;</span><span class="n">b</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="k">&#39;</span><span class="n">c</span><span class="o">))</span> <span class="o">=</span>
+    <span class="k">fun</span> <span class="o">(</span><span class="n">a</span> <span class="o">:</span> <span class="k">&#39;</span><span class="n">a</span><span class="o">)</span> <span class="o">-&gt;</span>
+        <span class="k">fun</span> <span class="o">(</span><span class="n">b</span> <span class="o">:</span> <span class="k">&#39;</span><span class="n">b</span><span class="o">)</span> <span class="o">-&gt;</span>
+            <span class="n">f</span> <span class="o">(</span><span class="n">a</span><span class="o">,</span> <span class="n">b</span><span class="o">);;</span>
+</code></pre></div><div class="highlight"><pre><code class="language-text" data-lang="text">let uncurry (f : (&#39;a -&gt; &#39;b -&gt; &#39;c)) =
+    fun ((a, b) : (&#39;a * &#39;b)) -&gt;
+        f a b;;
+</code></pre></div>
+<p>So, what is the result of using these functions like this:</p>
+<div class="highlight"><pre><code class="language-ocaml" data-lang="ocaml"><span class="k">let</span> <span class="n">doBoth</span> <span class="n">f</span> <span class="o">=</span> <span class="n">uncurry</span> <span class="o">(</span><span class="n">curry</span> <span class="n">f</span><span class="o">);;</span>
+</code></pre></div>
+<p><em>Exercise</em>: what is the type of <code>doBoth</code>? &quot;Follow the types&quot; through the call
+to curry and then uncurry to see that it checks out.</p>
+
+<p>In fact, the curried, and uncurried form of a given function type <em>are</em>
+isomorphic:</p>
+<div class="highlight"><pre><code class="language-ocaml" data-lang="ocaml"><span class="k">let</span> <span class="n">uncurryCurry</span> <span class="n">f</span> <span class="o">=</span> <span class="n">curry</span><span class="o">(</span><span class="n">uncurry</span> <span class="n">f</span><span class="o">);;</span> <span class="c">(* = id at type &quot;(&#39;a -&gt; &#39;b -&gt; c&quot; *)</span>
+<span class="k">let</span> <span class="n">curryUncurry</span> <span class="n">g</span> <span class="o">=</span> <span class="n">uncurry</span><span class="o">(</span><span class="n">curry</span> <span class="n">g</span><span class="o">);;</span> <span class="c">(* = id at type &quot;(&#39;a * &#39;b) -&gt; c&quot; *)</span>
+</code></pre></div>
+<p>We don&#39;t prove here that the compositions really are equal to <code>id</code>, but with
+some simple equational reasoning, we can convince ourselves it&#39;s ok.</p>
+
+<p><em>Exercise</em>: do the proof!</p>
+
+<p>So, we&#39;ve found one isomorphism - between a function and its curried form;
+let&#39;s try to find some more!</p>
+
+<h2 id="sums-and-products">Sums and Products</h2>
+
+<p>Another commonly used data type is the &quot;Sum&quot; type, defined thus:</p>
+<div class="highlight"><pre><code class="language-ocaml" data-lang="ocaml"><span class="k">type</span> <span class="o">(</span><span class="k">&#39;</span><span class="n">a</span> <span class="o">,</span> <span class="k">&#39;</span><span class="n">b</span><span class="o">)</span> <span class="n">sum</span> <span class="o">=</span> <span class="nc">Left</span> <span class="k">of</span> <span class="o">(</span><span class="k">&#39;</span><span class="n">a</span><span class="o">)</span>
+                   <span class="o">|</span> <span class="nc">Right</span> <span class="k">of</span> <span class="o">(</span><span class="k">&#39;</span><span class="n">b</span><span class="o">)</span> <span class="o">;;</span>
+</code></pre></div>
+<p>We can&#39;t write it in OCaml, but sometimes we write <code>(&#39;a, &#39;b) sum</code> as
+<code>&#39;a + &#39;b</code>.</p>
+
+<p>So a value of Sum type <code>(&#39;a, &#39;b) sum</code> is either a value of type <code>&#39;a</code>, <em>or</em> a
+value of type <code>&#39;b</code>. Similarly, we have the well-known Product (or pair) type
+<code>(&#39;a * &#39;b)</code>, values of which contain a value of type <code>&#39;a</code>, <em>and</em> a value of
+type <code>&#39;b</code>.</p>
+
+<p>Are Sum and Product isomorphic? If so, we can write the witnessing functions.
+If not, can we say why not?</p>
+
+<p>Let&#39;s try in the Product to Sum direction:</p>
+<div class="highlight"><pre><code class="language-ocaml" data-lang="ocaml"><span class="k">let</span> <span class="n">prodToSum</span> <span class="o">(</span><span class="n">a</span><span class="o">,</span> <span class="n">b</span><span class="o">)</span> <span class="o">=</span> <span class="nc">Left</span> <span class="n">a</span><span class="o">;;</span> <span class="c">(* Any alternatives here? *)</span>
+</code></pre></div>
+<p>Ok, that appeared to sort of work; what about in the reverse direction?</p>
+<div class="highlight"><pre><code class="language-ocaml" data-lang="ocaml"><span class="k">exception</span> <span class="nc">Oops</span><span class="o">;;</span>
+<span class="k">let</span> <span class="n">sumToProd</span> <span class="o">(</span><span class="n">ab</span> <span class="o">:</span> <span class="o">(</span><span class="k">&#39;</span><span class="n">a</span><span class="o">,</span> <span class="k">&#39;</span><span class="n">b</span><span class="o">)</span> <span class="n">sum</span><span class="o">)</span> <span class="o">:</span> <span class="o">(</span><span class="k">&#39;</span><span class="n">a</span> <span class="o">*</span> <span class="k">&#39;</span><span class="n">b</span><span class="o">)</span> <span class="o">=</span> <span class="k">match</span> <span class="n">ab</span> <span class="k">with</span>
+    <span class="o">|</span> <span class="nc">Left</span> <span class="n">a</span> <span class="o">-&gt;</span> <span class="k">raise</span> <span class="nc">Oops</span>
+    <span class="o">|</span> <span class="nc">Right</span> <span class="n">b</span> <span class="o">-&gt;</span> <span class="k">raise</span> <span class="nc">Oops</span><span class="o">;;</span>
+</code></pre></div>
+<p>Oh. We can&#39;t construct witnesses between Product and Sum! So, Product and Sum
+are <em>not</em> isomorphic. But, why not?</p>
+
+<p><em>Exercise</em>: Answer the question, thinking about missing information.</p>
+
+<h2 id="example:-the-algebra-of-types">Example: The algebra of types</h2>
+
+<p>Now for my final example. If we follow our intuitions from high school algebra,
+we should have that for any integers a,b,c: <code>(a * (b + c)) = ((a * b) + (a *
+c))</code></p>
+
+<p>Can we translate this equality into an isomorphism between the aptly-named
+Sum and Product types? Yes we can:</p>
+<div class="highlight"><pre><code class="language-ocaml" data-lang="ocaml"><span class="k">type</span> <span class="o">(</span><span class="k">&#39;</span><span class="n">a</span><span class="o">,</span> <span class="k">&#39;</span><span class="n">b</span><span class="o">,</span> <span class="k">&#39;</span><span class="n">c</span><span class="o">)</span> <span class="n">pairsum</span> <span class="o">=</span> <span class="k">&#39;</span><span class="n">a</span> <span class="o">*</span> <span class="o">((</span><span class="k">&#39;</span><span class="n">b</span><span class="o">,</span> <span class="k">&#39;</span><span class="n">c</span><span class="o">)</span> <span class="n">sum</span><span class="o">);;</span>
+
+<span class="k">type</span> <span class="o">(</span><span class="k">&#39;</span><span class="n">a</span><span class="o">,</span> <span class="k">&#39;</span><span class="n">b</span><span class="o">,</span> <span class="k">&#39;</span><span class="n">c</span><span class="o">)</span> <span class="n">sumpair</span> <span class="o">=</span> <span class="o">((</span><span class="k">&#39;</span><span class="n">a</span> <span class="o">*</span> <span class="k">&#39;</span><span class="n">b</span><span class="o">),</span> <span class="o">(</span><span class="k">&#39;</span><span class="n">a</span> <span class="o">*</span> <span class="k">&#39;</span><span class="n">c</span><span class="o">))</span> <span class="n">sum</span><span class="o">;;</span>
+
+<span class="k">let</span> <span class="n">trans</span> <span class="o">(</span><span class="n">f</span><span class="o">:</span> <span class="o">(</span><span class="k">&#39;</span><span class="n">a</span><span class="o">,</span> <span class="k">&#39;</span><span class="n">b</span><span class="o">,</span> <span class="k">&#39;</span><span class="n">c</span><span class="o">)</span> <span class="n">pairsum</span><span class="o">)</span> <span class="o">:</span> <span class="o">(</span><span class="k">&#39;</span><span class="n">a</span><span class="o">,</span> <span class="k">&#39;</span><span class="n">b</span><span class="o">,</span> <span class="k">&#39;</span><span class="n">c</span><span class="o">)</span> <span class="n">sumpair</span> <span class="o">=</span> <span class="k">match</span> <span class="n">f</span> <span class="k">with</span>
+    <span class="o">|</span> <span class="o">(</span><span class="n">a</span><span class="o">,</span> <span class="nc">Left</span> <span class="n">b</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="nc">Left</span> <span class="o">(</span><span class="n">a</span><span class="o">,</span> <span class="n">b</span><span class="o">)</span>
+    <span class="o">|</span> <span class="o">(</span><span class="n">a</span><span class="o">,</span> <span class="nc">Right</span> <span class="n">c</span><span class="o">)-&gt;</span> <span class="nc">Right</span> <span class="o">(</span><span class="n">a</span><span class="o">,</span> <span class="n">c</span><span class="o">)</span> <span class="o">;;</span>
+
+<span class="c">(* snart == trans backwards *)</span>
+<span class="k">let</span> <span class="n">snart</span> <span class="o">(</span><span class="n">f</span> <span class="o">:</span> <span class="o">(</span><span class="k">&#39;</span><span class="n">a</span><span class="o">,</span><span class="k">&#39;</span><span class="n">b</span><span class="o">,</span><span class="k">&#39;</span><span class="n">c</span><span class="o">)</span> <span class="n">sumpair</span><span class="o">)</span> <span class="o">:</span> <span class="o">(</span><span class="k">&#39;</span><span class="n">a</span><span class="o">,</span> <span class="k">&#39;</span><span class="n">b</span><span class="o">,</span> <span class="k">&#39;</span><span class="n">c</span><span class="o">)</span> <span class="n">pairsum</span> <span class="o">=</span> <span class="k">match</span> <span class="n">f</span> <span class="k">with</span>
+    <span class="o">|</span> <span class="nc">Left</span><span class="o">(</span><span class="n">a</span><span class="o">,</span> <span class="n">b</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="o">(</span><span class="n">a</span><span class="o">,</span> <span class="nc">Left</span> <span class="n">b</span><span class="o">)</span>
+    <span class="o">|</span> <span class="nc">Right</span><span class="o">(</span><span class="n">a</span><span class="o">,</span> <span class="n">c</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="o">(</span><span class="n">a</span><span class="o">,</span> <span class="nc">Right</span> <span class="n">c</span><span class="o">);;</span>
+</code></pre></div>
+<p><em>Exercise</em>: What do the following evaluate to?</p>
+<div class="highlight"><pre><code class="language-ocaml" data-lang="ocaml"><span class="n">trans</span> <span class="o">(</span><span class="n">snart</span> <span class="o">(</span><span class="nc">Left</span><span class="o">(</span><span class="mi">3</span><span class="o">,</span> <span class="bp">true</span><span class="o">)));;</span>
+<span class="n">trans</span> <span class="o">(</span><span class="n">snart</span> <span class="o">(</span><span class="nc">Right</span><span class="o">(</span><span class="s2">&quot;Hello&quot;</span><span class="o">,</span> <span class="k">fun</span> <span class="n">x</span> <span class="o">-&gt;</span> <span class="n">x</span><span class="o">)));;</span>
+
+<span class="n">snart</span> <span class="o">(</span><span class="n">trans</span> <span class="o">(</span><span class="mi">3</span><span class="o">,</span> <span class="nc">Left</span><span class="o">(</span><span class="bp">true</span><span class="o">)));;</span>
+<span class="n">snart</span> <span class="o">(</span><span class="n">trans</span> <span class="o">(</span><span class="s2">&quot;Hello&quot;</span><span class="o">,</span> <span class="nc">Right</span><span class="o">(</span><span class="k">fun</span> <span class="n">x</span> <span class="o">-&gt;</span> <span class="n">x</span><span class="o">)));;</span>
+</code></pre></div>
+<p>So, there we have it. I&#39;ve described type isomorphisms: why you might want to
+know about/use them, what they are, and how you know if you&#39;ve got one.</p>
+
+</article>
+
+        </main>
+        <div class="divider"></div>
+        <footer> 
+            Owen Stephens 2015
+        </footer>
+    </body>
+</html>

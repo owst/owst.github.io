@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+  <meta charset="UTF-8">
+
+  <title>
+    
+      Scala Patience Diff &middot; Owen Stephens' Website
+    
+  </title>
+
+  <link rel="stylesheet" href="/assets/css/style.css">
+  <link rel="stylesheet" href="/assets/css/pygments.css">
+  <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,600|Droid+Sans+Mono' rel='stylesheet' type='text/css'>
+</head>
+
+    <body>
+        <header>
+            <div id="name_tagline">
+                <span id="name"> 
+                    Owen Stephens
+                </span>
+                <span id="tagline">
+                    London-based Polyglot Programmer
+                </span>
+            </div>
+            <ul id="nav">
+              
+              
+                <li> 
+                    
+                    <a  href="/index.html">Home</a>
+                </li>
+                -
+              
+                <li> 
+                    
+                    <a  href="/blog.html">Blog</a>
+                </li>
+                -
+              
+                <li> 
+                    
+                    <a id="active-nav" href="/programming.html">Programming</a>
+                </li>
+                
+              
+            </ul>
+        </header>
+        <main>
+        <article class="post">
+  <h1 class="post-title">Scala Patience Diff</h1>
+  <time datetime="2010-12-24T00:00:00+00:00" class="page-date">24 Dec 2010</time>
+  <p>Consider <a href="http://en.wikipedia.org/wiki/Diff">diffing</a> the following two files:</p>
+
+<div style="width: 49%; float: left;">
+
+
+</div>
+<div class="highlight"><pre><code class="language-text" data-lang="text">&lt;div style=&quot;width: 49%; float: right;&quot;&gt;
+
+
+&lt;/div&gt;
+</code></pre></div>
+<div style="width: 100%; clear: both;"> </div>
+
+<p>It&#39;s easy to see that the call to the &quot;fib&quot; function has been added instead of
+the &quot;fact&quot; function call. The &quot;fact&quot; function was removed, with the &quot;fib&quot;
+function being added a few lines below.  Let&#39;s examine how a typical diff tool
+presents these changes.</p>
+
+<div style="width: 49%; float: left;">
+
+
+</div>
+<div class="highlight"><pre><code class="language-text" data-lang="text">&lt;div style=&quot;width: 49%; float: right;&quot;&gt;
+
+
+&lt;/div&gt;
+</code></pre></div>
+<div style="width: 100%; clear: both;"></div>
+
+<p>It&#39;s clear for this example that the patience diff has produced a superior diff
+output; it represents something closer to how one would describe the changes
+verbally.</p>
+
+<p>The reason that the patience diff algorithm (whose name comes from the fact
+that a <a href="http://en.wikipedia.org/wiki/Patience_sorting">patience sort</a> is used to calculate the LCS) produces more
+readable diff outputs is because it only considers common lines that are unique
+within each file. What this means practically, is that lines that are blank, or
+contain a single brace are not considered as forming part of the common
+subsequence; the diff algorithm will not focus on trying to match braces (the
+GNU <code>diff</code> output shown above does this) but instead, focusses on unique lines
+(e.g.  function definitions).</p>
+
+<p>My Scala implementation can be found on <a href="https://github.com/owst/Scala-Patience-Diff">Github, here</a>. An example
+usage (which takes the two filenames to diff on stdin and prints the diff) is
+shown below. Patience diff is used by the <a href="http://bazaar.canonical.com/en/">Bazaar</a> version control
+system, whose implementation I consulted for ideas whilst coding my Scala
+version.</p>
+<div class="highlight"><pre><code class="language-scala" data-lang="scala"><span class="k">import</span> <span class="nn">scala.io.Source._</span>
+<span class="k">import</span> <span class="nn">OwenDiff._</span>
+<span class="k">object</span> <span class="nc">Main</span> <span class="o">{</span>
+    <span class="k">def</span> <span class="n">main</span><span class="o">(</span><span class="n">args</span> <span class="k">:</span> <span class="kt">Array</span><span class="o">[</span><span class="kt">String</span><span class="o">])</span> <span class="k">:</span> <span class="kt">Unit</span> <span class="o">=</span> <span class="o">{</span>
+        <span class="k">val</span> <span class="n">file1</span> <span class="k">=</span> <span class="n">fromFile</span><span class="o">(</span><span class="n">args</span><span class="o">(</span><span class="mi">0</span><span class="o">)).</span><span class="n">getLines</span><span class="o">.</span><span class="n">toList</span>
+        <span class="k">val</span> <span class="n">file2</span> <span class="k">=</span> <span class="n">fromFile</span><span class="o">(</span><span class="n">args</span><span class="o">(</span><span class="mi">1</span><span class="o">)).</span><span class="n">getLines</span><span class="o">.</span><span class="n">toList</span>
+
+        <span class="k">val</span> <span class="n">diffList</span> <span class="k">=</span> <span class="nc">Diff</span><span class="o">.</span><span class="n">diff</span><span class="o">(</span><span class="n">file1</span><span class="o">,</span> <span class="n">file2</span><span class="o">)</span>
+
+        <span class="n">println</span><span class="o">(</span><span class="n">diffList</span><span class="o">.</span><span class="n">mkString</span><span class="o">)</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div>
+<p>The main diff method is fairly simple; it recursively creates a list of pairs
+of matching line indices between the two files and coalesces them into
+contiguous blocks if possible, which are used to calculate the list of line
+insertion/deletion/changes required to go from file1-&gt;file2, as per <code>diff</code>. </p>
+
+<p>A slight modification of my <a href="/programming/2010/11/29/scala-patience-sort.html">patience sort</a> code, with the
+inclusion of a bisect method implementation gives the code that calculates the
+longest increasing subsequence (LIS) of its argument. The LIS code is used to
+determine the LCS of the line pairs. </p>
+
+</article>
+
+        </main>
+        <div class="divider"></div>
+        <footer> 
+            Owen Stephens 2015
+        </footer>
+    </body>
+</html>
