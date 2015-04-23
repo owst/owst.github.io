@@ -73,7 +73,7 @@ li {
 }
 
 main {
-    margin-top: 20px;
+    margin-top: 30px;
 }
 
 #name_tagline {
@@ -93,6 +93,10 @@ main {
 
 .post-title {
     margin-bottom: 0;
+}
+
+#post-header {
+    margin-bottom: 30px;
 }
 
 h1 {
