@@ -1,21 +1,27 @@
 ---
 title: JavaScript Game of Life
 sub_title: Conway's Game of Life Cellular Automaton, created using JavaScript
+scripts:
+  - http://ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.min.js
+  - http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.9/jquery-ui.min.js
+  - https://raw.githubusercontent.com/owst/JS-Game-of-Life/master/CA.js
 ---
-<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.min.js"></script>
-<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.9/jquery-ui.min.js"></script>
-<script src="{{site.static_dir}}{{page.categories}}/{{page.date | date: '%Y-%m-%d'}}/CA.js"></script>
+
+{% for link in page.scripts %}
+<script type="text/javascript" src="{{link}}"></script>
+{% endfor %}
 
 <script>
     $(function () {
         var jCanvas = $('#world');
         var canvas = jCanvas.get(0);
         var ctx = canvas.getContext('2d');
-        var width = canvas.width;
-        var height = canvas.height;
+        var pixelSize = 6;
+        var width = canvas.width / pixelSize;
+        var height = canvas.height / pixelSize;
         var startTimeout = 30;
 
-        var ca = new CA(ctx, width, height, startTimeout);
+        var ca = new CA(ctx, width, height, pixelSize, startTimeout);
 
         startStopHandler = function () {
             var button = $('#startStop');
@@ -79,8 +85,8 @@ sub_title: Conway's Game of Life Cellular Automaton, created using JavaScript
         $('#timeout').val(startTimeout);
 
 
-        ca.initGliderGun(10, 300);
-        ca.initGliderGun(250, 10);
+        ca.initGliderGun(10, 40);
+        ca.initGliderGun(60, 10);
     });
 
 </script>
@@ -119,9 +125,8 @@ world using a toroidal array, so both sides of the world "wrap around". This
 means gliders can pass from one side to the other, rather than simply dying at
 the edges.
 
-<canvas style="border: 1px solid black;" id="world" width="400" height="360">
+<canvas style="display: block; margin:0 auto; border: 1px solid black;" id="world" width="600" height="420">
 </canvas>
-
 <button id="startStop" type="button"
     onclick="startStopHandler()">Start</button>
 <button id="clear" type="button" onclick="clearCtx()">Clear</button>
