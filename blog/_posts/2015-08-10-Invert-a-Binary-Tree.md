@@ -10,7 +10,7 @@ data Tree a = Node a (Tree a) (Tree a)
             deriving (Show, Eq)
 ```
 
-We can write an `invert` operation:
+We can write an [`invert` operation][invert]:
 
 ```haskell
 invert :: Tree a -> Tree a
@@ -49,3 +49,5 @@ main = mapM_ tester tests
 ```
 
 Neat!
+
+[invert]: https://leetcode.com/problems/invert-binary-tree/
