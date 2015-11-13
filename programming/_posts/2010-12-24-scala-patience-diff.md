@@ -4,10 +4,7 @@ sub_title: An implementation of the patience diff algorithm, as found in several
 ---
 Consider [diffing][diff] the following two files:
 
-<div style="width: 49%; float: left;">
-{% capture left-float %}
-File1
-
+{% capture leftfloat %}
 ```c
 #include <stdio.h>
 
@@ -35,15 +32,10 @@ int main(int argc, char **argv)
 {
     frobnitz(fact(10));
 }
-{% endcapture %}
-{{ left-float }}
-</div>
 ```
+{% endcapture %}
 
-<div style="width: 49%; float: right;">
-{% capture right-float %}
-File2
-
+{% capture rightfloat %}
 ```c
 #include <stdio.h>
 
@@ -70,20 +62,28 @@ int main(int argc, char **argv)
 {
     frobnitz(fib(10));
 }                        
-{% endcapture %}
-{{ right-float  }}
-</div>
 ```
+{% endcapture %}
 
-<div style="width: 100%; clear: both;"> </div>
+<div style="width: 49%; float: left;" markdown="1">
+File1
+{{ leftfloat | markdownify }}
+</div>
+
+<div style="width: 49%; float: right;" markdown="1">
+File2
+
+{{ rightfloat | markdownify }}
+</div>
+
+<div style="width: 100%; clear: both;"></div>
 
 It's easy to see that the call to the "fib" function has been added instead of
 the "fact" function call. The "fact" function was removed, with the "fib"
 function being added a few lines below.  Let's examine how a typical diff tool
 presents these changes.
 
-<div style="width: 49%; float: left;">
-{% capture left-float2 -%}
+{% capture leftfloat %}
 First compare the result of diffing file1 and file2 using GNU diff:  
 
 `diff -u file1.txt file2.txt`  
@@ -125,17 +125,13 @@ First compare the result of diffing file1 and file2 using GNU diff:
 -    frobnitz(fact(10));
 +    frobnitz(fib(10));
  }
-{% endcapture %}
-{{ left-float2  }}
-</div>
 ```
-
-<div style="width: 49%; float: right;">
-{% capture right-float2 -%}
+{% endcapture %}
+{% capture rightfloat %}
 And now, the result using the patience diff algorithm (as described
 [here][diff1] and [here][diff2]):  
 
-`scala -classpath <path_to_class_files> Main file1.txt file2.txt`
+`scala -classpath . Main file1.txt file2.txt`
 
 ```diff
  #include <stdio.h>
@@ -174,12 +170,18 @@ And now, the result using the patience diff algorithm (as described
 -    frobnitz(fact(10));
 +    frobnitz(fib(10));
  }
+```
 [diff1]: http://bramcohen.livejournal.com/73318.html
 [diff2]: http://alfedenzo.livejournal.com/170301.html
 {% endcapture %}
-{{ right-float2  }}
+
+<div style="width: 49%; float: left;" markdown="1">
+{{ leftfloat | markdownify }}
 </div>
-```
+
+<div style="width: 49%; float: right;" markdown="1">
+{{ rightfloat | markdownify }}
+</div>
 
 <div style="width: 100%; clear: both;"></div>
 

@@ -127,6 +127,7 @@ the edges.
 
 <canvas style="display: block; margin:0 auto; border: 1px solid black;" id="world" width="600" height="420">
 </canvas>
+<div>
 <button id="startStop" type="button"
     onclick="startStopHandler()">Start</button>
 <button id="clear" type="button" onclick="clearCtx()">Clear</button>
@@ -134,9 +135,10 @@ the edges.
     onclick="randomise()">Randomise</button>
 <button id="clearAndRandomise" type="button"
     onclick="clearAndRandomise()">Clear and Randomise</button>  
+<br/>
 <label for="timeout">Timeout period (ms):</label>
-<input type="text" id="timeout" disabled="true" style="width : 35px"/>
-<div id="slider" style="width : 500px"></div>
+<input type="text" id="timeout" disabled="true" style="width: 35px"/> <div id="slider" style="display: inline-block; width: 500px"></div>
+</div>
 
 [github_link]: https://github.com/owst/JS-Game-of-Life
 [glider]: http://en.wikipedia.org/wiki/Gun_(cellular_automaton)
