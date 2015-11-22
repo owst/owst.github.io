@@ -1,6 +1,6 @@
 ---
 title: "Programming"
-weight: 3
+weight: 4
 ---
 A list of code projects/snippets that I want to show the world:
 
@@ -14,7 +14,7 @@ be able to remember them:
   library, in the [google code issue][dpkt-headers]
 - I improved certain error messages of the Haskell packaging tool
   cabal, [the merged pull request is on github][cabal-errs]
-- Boolean algebras are closed under pairing; I added an instance to a 
+- Boolean algebras are closed under pairing; I added an instance to a
   Haskell Boolean algebra library cond to recognise this [on github][cond]
 
 [darcs]: http://www.darcs.net
@@ -22,4 +22,4 @@ be able to remember them:
 [dpkt]: http://code.google.com/p/dpkt
 [dpkt-headers]: http://code.google.com/p/dpkt/issues/detail?id=31
 [cond]: https://github.com/kallisti-dev/cond/commit/aeb9313babef18aab15e7771baae795cc7a1d5bb
-[cabal-errs]: https://github.com/haskell/cabal/pull/1824 
+[cabal-errs]: https://github.com/haskell/cabal/pull/1824

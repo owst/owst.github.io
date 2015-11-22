@@ -53,16 +53,6 @@ footer {
     font-size: 0.65rem;
 }
 
-pre asdfasdfcode {
-    padding: 10px;
-    margin: 0 auto;
-}
-
-asdfasdfcode {
-    border: 1px dashed gray;
-    background: #EEE;
-}
-
 .entry-description {
     padding-left: 5px;
     font-style: italic;
@@ -73,20 +63,22 @@ li {
 }
 
 main {
-    margin-top: 30px;
+    padding: 10px 0px 0px 10px;
 }
 
-#name_tagline {
-    display: inline-block;
-    width: 67%;
+header {
+    position: relative;
 }
 
 #name {
+    float: left;
     font-weight: 600;
-    font-size: 2rem;
+    font-size: 2.5rem;
 }
 
 #tagline {
+    padding-left: 5px;
+    font-style: italic;
     font-size: 1rem;
     color: #444;
 }
@@ -116,6 +108,9 @@ time {
 }
 
 ul#nav {
+    position: absolute;
+    top: 20px;
+    right: 0px;
     list-style-type: none;
     margin: 0;
     padding: 0;
@@ -129,6 +124,10 @@ ul#nav li {
 
 div.highlight {
     border: dashed 2px #eee;
-    padding: 5px;
+    padding: 10px;
     background-color: #f9f9f9;
+}
+
+div.highlight pre {
+    margin: 0;
 }
