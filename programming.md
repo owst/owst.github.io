@@ -9,13 +9,17 @@ A list of code projects/snippets that I want to show the world:
 A list of OSS contributions I've made; some are small, but it's nice to
 be able to remember them:
 
-- I was a core member of the [Darcs][darcs] VCS team, contributing [many patches][darcs-patches]
+- I was a core member of the [Darcs][darcs] VCS team, contributing [many patches][darcs-patches],
 - I added support for IPv6 extension headers to the [dpkt][dpkt] Python
-  library, in the [google code issue][dpkt-headers]
+  library, in the [google code issue][dpkt-headers],
 - I improved certain error messages of the Haskell packaging tool
-  cabal, [the merged pull request is on github][cabal-errs]
+  cabal, [the merged pull request is on github][cabal-errs],
 - Boolean algebras are closed under pairing; I added an instance to a
   Haskell Boolean algebra library cond to recognise this [on github][cond]
+- I improved two linters of the popular RuboCop Ruby code checking tool: [avoiding nested
+  method definition warnings][rubocop-nested-method-defs] and [treating loops as conditionally
+  executed to avoid potentially-incorrect useless variable assignment
+  warnings][rubocop-loop-assignments].
 
 [darcs]: http://www.darcs.net
 [darcs-patches]: http://bugs.darcs.net/patch?@sort0=activity&@sortdir0=on&@group=status&@filter=status,creator&@columns=id,activity,title,assignedto,status,&status=-1,16,17,1,2,3,13,14,15,12&creator=2035
@@ -23,3 +27,5 @@ be able to remember them:
 [dpkt-headers]: http://code.google.com/p/dpkt/issues/detail?id=31
 [cond]: https://github.com/kallisti-dev/cond/commit/aeb9313babef18aab15e7771baae795cc7a1d5bb
 [cabal-errs]: https://github.com/haskell/cabal/pull/1824
+[rubocop-nested-method-defs]: https://github.com/bbatsov/rubocop/pull/2708
+[rubocop-loop-assignments]: https://github.com/bbatsov/rubocop/pull/2702
