@@ -3,14 +3,14 @@ title: "Open Source"
 weight: 5
 ---
 
-A list of OSS contributions I've made; some are small, but it's nice to
+A list of open source contributions I've made; some are small, but it's nice to
 be able to remember them:
 
-- *Clojure, Elixir, NodeJS, PHP, Python, Ruby*: [I fixed a bug, normalised
+- *Clojure, Elixir, NodeJS, PHP, Python, Ruby:* [I fixed a bug, normalised
   multi-language implementations and improved test coverage][mailchecker-pr] of
   the [Mailchecker][mailchecker] project that rejects invalid/throwaway email
   addresses,
-- *Ruby*: I improved linters of the popular [Rubocop][rubocop] code
+- *Ruby:* I improved linters of the popular [Rubocop][rubocop] code
   checking tool:
     1. [avoiding nested method definition warnings][rubocop-nested-method-defs]
     2. [treating loops as conditionally executed to avoid potentially-incorrect
@@ -19,13 +19,14 @@ be able to remember them:
        spaces][rubocop-optkwarg-spaces],
     4. [removing duplicate warnings regarding spacing around general and
        ternary operators][rubocop-duplicates],
+- *Haskell:* I was a core member of the [Darcs][darcs] VCS team, contributing
   [many patches][darcs-patches],
-- *Python*: I added support for IPv6 extension headers to the [dpkt][dpkt]
+- *Python:* I added support for IPv6 extension headers to the [dpkt][dpkt]
   library, the [google code issue][dpkt-headers] no longer exists, but the
   changelog (now on GitHub) [bears my name][dpkt-changelog],
-- *Haskell*: [I improved certain error messages][cabal-errs] of the
+- *Haskell:* [I improved certain error messages][cabal-errs] of the
   [Cabal][cabal] packaging tool,
-- *Haskell*: [I added an instance][cond-pr] to the Boolean algebra library
+- *Haskell:* [I added an instance][cond-pr] to the Boolean algebra library
   [Cond][cond] to recognise that Boolean algebras are closed under pairing.
 
 [darcs]: http://www.darcs.net
