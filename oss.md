@@ -10,12 +10,15 @@ be able to remember them:
   multi-language implementations and improved test coverage][mailchecker-pr] of
   the [Mailchecker][mailchecker] project that rejects invalid/throwaway email
   addresses,
-- *Ruby*: I improved two linters of the popular [Rubocop][rubocop] code
+- *Ruby*: I improved linters of the popular [Rubocop][rubocop] code
   checking tool:
     1. [avoiding nested method definition warnings][rubocop-nested-method-defs]
     2. [treating loops as conditionally executed to avoid potentially-incorrect
       useless variable assignment warnings][rubocop-loop-assignments],
-- *Haskell*: I was a core member of the [Darcs][darcs] VCS team, contributing
+    3. [ensure colons in optional keyword arguments are followed by
+       spaces][rubocop-optkwarg-spaces],
+    4. [removing duplicate warnings regarding spacing around general and
+       ternary operators][rubocop-duplicates],
   [many patches][darcs-patches],
 - *Python*: I added support for IPv6 extension headers to the [dpkt][dpkt]
   library, the [google code issue][dpkt-headers] no longer exists, but the
@@ -39,3 +42,5 @@ be able to remember them:
 [rubocop-loop-assignments]: https://github.com/bbatsov/rubocop/pull/2702
 [mailchecker]: https://github.com/FGRibreau/mailchecker
 [mailchecker-pr]: https://github.com/FGRibreau/mailchecker/pull/54
+[rubocop-optkwarg-spaces]: https://github.com/bbatsov/rubocop/pull/2994
+[rubocop-duplicates]: https://github.com/bbatsov/rubocop/pull/3011
