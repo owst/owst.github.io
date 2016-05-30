@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+  <meta charset="UTF-8">
+
+  <title>
+    
+      Elegant combinations in Haskell, with sequenceA &middot; Owen Stephens' Website
+    
+  </title>
+
+  <link rel="stylesheet" href="/assets/css/style.css">
+  <link rel="stylesheet" href="/assets/css/pygments.css">
+  <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,600|Droid+Sans+Mono' rel='stylesheet' type='text/css'>
+</head>
+
+    <body>
+        <header>
+            <span id="name">
+                Owen Stephens
+            </span>
+            <ul id="nav">
+              
+              
+                <li>
+                    
+                    <a  href="/">Home</a>
+                </li>
+                -
+              
+                <li>
+                    
+                    <a id="active-nav" href="/blog.html">Blog</a>
+                </li>
+                -
+              
+                <li>
+                    
+                    <a  href="/research.html">Research</a>
+                </li>
+                -
+              
+                <li>
+                    
+                    <a  href="/programming.html">Programming</a>
+                </li>
+                -
+              
+                <li>
+                    
+                    <a  href="/oss.html">Open Source</a>
+                </li>
+                
+              
+            </ul>
+            <div style="clear: both"></div>
+            <span id="tagline">
+                London-based Polyglot Programmer
+            </span>
+        </header>
+        <main>
+        <article class="post">
+  <div id="post-header">
+      <h1 class="post-title">Elegant combinations in Haskell, with sequenceA</h1>
+      <time datetime="2010-08-28T00:00:00+01:00" class="page-date">28 Aug 2010</time>
+  </div>
+  <p>I&#39;ve been reading the excellent <a href="http://learnyouahaskell.com">&quot;Learn You a Haskell for Great
+Good!&quot;</a> tutorial recently, and it&#39;s definitely
+helped me with some of the not-immediately-clear concepts in Haskell.</p>
+
+<p>When I was pointed to <a href="http://mojoai.blogspot.com/2010/08/learning-to-see-patterns-in-my-own.html">this blog
+post</a>,
+which discusses this <a href="http://stackoverflow.com/questions/3510586/algorithm-to-calculate-the-number-of-combinations-to-form-100">stackoverflow.com
+question</a>
+I couldn&#39;t help but feel that there had to be a more elegant way to do it.</p>
+
+<p>I remembered the Applicative Functors section of LYAH and put it to good use.
+This was the perfect <em>cough</em> application:</p>
+<div class="highlight"><pre><code class="language-haskell" data-lang="haskell"><span class="nf">make_lists</span> <span class="n">xs</span> <span class="n">n</span> <span class="ow">=</span> <span class="n">sequenceA</span> <span class="o">$</span> <span class="n">replicate</span> <span class="n">n</span> <span class="n">xs</span>
+</code></pre></div>
+<p>Neat, isn&#39;t it!</p>
+
+<p>So, <code>make_lists</code> takes a list and a number and returns a list of lists whose
+lengths = <code>n</code> and whose contents are the permutations of the input list.
+For example:</p>
+<div class="highlight"><pre><code class="language-haskell" data-lang="haskell"><span class="nf">make_lists</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">]</span> <span class="mi">2</span> <span class="o">==</span> <span class="p">[[</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">],[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">],[</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">],[</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">]]</span>
+</code></pre></div>
+<p>Describing the individual steps:
+<code>replicate n xs</code> returns a list, containing <code>xs</code>, <code>n</code> times e.g.</p>
+<div class="highlight"><pre><code class="language-haskell" data-lang="haskell"><span class="nf">replicate</span> <span class="mi">3</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">]</span> <span class="o">==</span> <span class="p">[[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">],[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">],[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">]]</span>
+</code></pre></div>
+<p>When applied to a list of lists, <code>sequenceA</code> behaves like a list comprehension
+of the following form </p>
+<div class="highlight"><pre><code class="language-haskell" data-lang="haskell"><span class="p">[</span><span class="n">x</span> <span class="kt">:</span> <span class="n">y</span> <span class="kt">:</span> <span class="n">z</span> <span class="kt">:</span> <span class="kt">[]</span> <span class="o">|</span> <span class="n">x</span> <span class="ow">&lt;-</span> <span class="n">xs</span><span class="p">,</span> <span class="n">y</span> <span class="ow">&lt;-</span> <span class="n">ys</span><span class="p">,</span> <span class="n">z</span> <span class="ow">&lt;-</span> <span class="n">zs</span><span class="p">]</span>
+</code></pre></div>
+<p>(assuming the <code>sequenceA</code> was passed a list containing 3 lists: <code>[xs, ys, zs]</code>)
+which gives us all the possible permutations of the lists&#39; elements.
+Nifty!</p>
+
+</article>
+
+        </main>
+        <div class="divider"></div>
+        <footer>
+            Owen Stephens 2016
+        </footer>
+    </body>
+</html>

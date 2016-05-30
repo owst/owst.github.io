@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+  <meta charset="UTF-8">
+
+  <title>
+    
+      Haskell boundedSpan function &middot; Owen Stephens' Website
+    
+  </title>
+
+  <link rel="stylesheet" href="/assets/css/style.css">
+  <link rel="stylesheet" href="/assets/css/pygments.css">
+  <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,600|Droid+Sans+Mono' rel='stylesheet' type='text/css'>
+</head>
+
+    <body>
+        <header>
+            <span id="name">
+                Owen Stephens
+            </span>
+            <ul id="nav">
+              
+              
+                <li>
+                    
+                    <a  href="/">Home</a>
+                </li>
+                -
+              
+                <li>
+                    
+                    <a id="active-nav" href="/blog.html">Blog</a>
+                </li>
+                -
+              
+                <li>
+                    
+                    <a  href="/research.html">Research</a>
+                </li>
+                -
+              
+                <li>
+                    
+                    <a  href="/programming.html">Programming</a>
+                </li>
+                -
+              
+                <li>
+                    
+                    <a  href="/oss.html">Open Source</a>
+                </li>
+                
+              
+            </ul>
+            <div style="clear: both"></div>
+            <span id="tagline">
+                London-based Polyglot Programmer
+            </span>
+        </header>
+        <main>
+        <article class="post">
+  <div id="post-header">
+      <h1 class="post-title">Haskell boundedSpan function</h1>
+      <time datetime="2011-01-17T00:00:00+00:00" class="page-date">17 Jan 2011</time>
+  </div>
+  <p>I was recently playing with an interesting toy problem: Given a string, return
+a list of strings, where each element is a grouping of consecutive equal
+characters in the string of maximum length 9.</p>
+
+<p>As an example, given <code>&quot;aaaaaaaaaaaabb&quot;</code> I wanted to obtain <code>[&quot;aaaaaaaaa&quot;,
+&quot;aaa&quot;, &quot;bb&quot;].</code></p>
+
+<p>To help me do this, I wanted a function that was almost the same as the &#39;group&#39;
+function in Data.List, but with the added size bound of 9, on the groups.</p>
+
+<p>Initially, I used span followed by a &quot;wrapping&quot; function, to correctly wrap my
+results to &lt;= 9 in length:</p>
+<div class="highlight"><pre><code class="language-haskell" data-lang="haskell"><span class="nf">runs</span> <span class="ow">::</span> <span class="p">(</span><span class="kt">Eq</span> <span class="n">a</span><span class="p">)</span> <span class="ow">=&gt;</span> <span class="p">[</span><span class="n">a</span><span class="p">]</span> <span class="ow">-&gt;</span> <span class="p">[[</span><span class="n">a</span><span class="p">]]</span>
+<span class="nf">runs</span> <span class="kt">[]</span> <span class="ow">=</span> <span class="kt">[]</span>
+<span class="nf">runs</span> <span class="n">xs</span> <span class="ow">=</span> <span class="kr">let</span> <span class="p">(</span><span class="n">eqs</span><span class="p">,</span> <span class="n">rest</span><span class="p">)</span> <span class="ow">=</span> <span class="n">chomp</span> <span class="n">xs</span> <span class="kr">in</span> <span class="p">(</span><span class="n">wrap</span> <span class="n">eqs</span><span class="p">)</span> <span class="o">++</span> <span class="p">(</span><span class="n">runs</span> <span class="n">rest</span><span class="p">)</span>
+
+<span class="nf">chomp</span> <span class="ow">::</span> <span class="p">(</span><span class="kt">Eq</span> <span class="n">a</span><span class="p">)</span> <span class="ow">=&gt;</span> <span class="p">[</span><span class="n">a</span><span class="p">]</span> <span class="ow">-&gt;</span> <span class="p">([</span><span class="n">a</span><span class="p">],</span> <span class="p">[</span><span class="n">a</span><span class="p">])</span>
+<span class="nf">chomp</span> <span class="n">xs</span><span class="o">@</span><span class="kt">[]</span>    <span class="ow">=</span> <span class="p">(</span><span class="n">xs</span><span class="p">,</span><span class="n">xs</span><span class="p">)</span>
+<span class="nf">chomp</span> <span class="n">xs</span><span class="o">@</span><span class="p">(</span><span class="n">x</span><span class="kt">:</span><span class="kr">_</span><span class="p">)</span> <span class="ow">=</span> <span class="n">span</span> <span class="p">(</span><span class="o">==</span> <span class="n">x</span><span class="p">)</span> <span class="n">xs</span>
+
+<span class="nf">wrap</span> <span class="ow">::</span> <span class="p">[</span><span class="n">a</span><span class="p">]</span> <span class="ow">-&gt;</span> <span class="p">[[</span><span class="n">a</span><span class="p">]]</span>
+<span class="nf">wrap</span> <span class="n">xs</span> <span class="o">|</span> <span class="n">length</span> <span class="n">xs</span> <span class="o">&lt;=</span> <span class="mi">9</span> <span class="ow">=</span> <span class="p">[</span><span class="n">xs</span><span class="p">]</span>
+        <span class="o">|</span> <span class="n">otherwise</span>      <span class="ow">=</span> <span class="n">before</span> <span class="kt">:</span> <span class="p">(</span><span class="n">wrap</span> <span class="n">after</span><span class="p">)</span>
+    <span class="kr">where</span> <span class="p">(</span><span class="n">before</span><span class="p">,</span> <span class="n">after</span><span class="p">)</span> <span class="ow">=</span> <span class="n">splitAt</span> <span class="mi">9</span> <span class="n">xs</span>
+</code></pre></div>
+<p>This seemed somewhat inefficient, as I was having to use append to flatten the
+list of &quot;wrapped&quot; strings. I thought that if could fuse the wrap and span
+functions, I&#39;d have a more efficient implementation.</p>
+
+<p>Using the Prelude definition of span for guidance, I was able to create the
+following function:</p>
+<div class="highlight"><pre><code class="language-haskell" data-lang="haskell"><span class="c1">-- | The &#39;boundedSpan&#39; function takes an integer @n@, predicate </span>
+<span class="c1">-- @f@ and list @xs@, and returns a tuple containing the longest </span>
+<span class="c1">-- prefix (possibly empty) of size &lt;= @n@ of @xs@, of elements </span>
+<span class="c1">-- that satisfy @p@, and the remaining elements of @xs@.</span>
+<span class="nf">boundedSpan</span> <span class="ow">::</span> <span class="kt">Int</span> <span class="ow">-&gt;</span> <span class="p">(</span><span class="n">a</span> <span class="ow">-&gt;</span> <span class="kt">Bool</span><span class="p">)</span> <span class="ow">-&gt;</span> <span class="p">[</span><span class="n">a</span><span class="p">]</span> <span class="ow">-&gt;</span> <span class="p">([</span><span class="n">a</span><span class="p">],</span> <span class="p">[</span><span class="n">a</span><span class="p">])</span>
+<span class="nf">boundedSpan</span> <span class="kr">_</span> <span class="kr">_</span> <span class="n">xs</span><span class="o">@</span><span class="kt">[]</span>   <span class="ow">=</span> <span class="p">(</span><span class="n">xs</span><span class="p">,</span> <span class="n">xs</span><span class="p">)</span>
+<span class="nf">boundedSpan</span> <span class="mi">0</span> <span class="kr">_</span> <span class="n">xs</span>      <span class="ow">=</span> <span class="p">(</span><span class="kt">[]</span><span class="p">,</span> <span class="n">xs</span><span class="p">)</span>
+<span class="nf">boundedSpan</span> <span class="n">n</span> <span class="n">p</span> <span class="n">xs</span><span class="o">@</span><span class="p">(</span><span class="n">x</span><span class="kt">:</span><span class="n">xs&#39;</span><span class="p">)</span>
+    <span class="o">|</span> <span class="n">p</span> <span class="n">x</span>               <span class="ow">=</span> <span class="kr">let</span> <span class="p">(</span><span class="n">ys</span><span class="p">,</span> <span class="n">zs</span><span class="p">)</span> <span class="ow">=</span> <span class="n">boundedSpan</span> <span class="p">(</span><span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="n">p</span> <span class="n">xs&#39;</span> <span class="kr">in</span> <span class="p">(</span><span class="n">x</span><span class="kt">:</span><span class="n">ys</span><span class="p">,</span> <span class="n">zs</span><span class="p">)</span>
+    <span class="o">|</span> <span class="n">otherwise</span>         <span class="ow">=</span> <span class="p">(</span><span class="kt">[]</span><span class="p">,</span> <span class="n">xs</span><span class="p">)</span>
+</code></pre></div>
+<p>Using this function allowed me to simply cons together a list of strings,
+rather than using append:</p>
+<div class="highlight"><pre><code class="language-haskell" data-lang="haskell"><span class="nf">chomp9</span> <span class="ow">::</span> <span class="p">(</span><span class="kt">Eq</span> <span class="n">a</span><span class="p">)</span> <span class="ow">=&gt;</span> <span class="p">[</span><span class="n">a</span><span class="p">]</span> <span class="ow">-&gt;</span> <span class="p">([</span><span class="n">a</span><span class="p">],</span> <span class="p">[</span><span class="n">a</span><span class="p">])</span>
+<span class="nf">chomp9</span> <span class="n">xs</span><span class="o">@</span><span class="kt">[]</span>      <span class="ow">=</span> <span class="p">(</span><span class="n">xs</span><span class="p">,</span> <span class="n">xs</span><span class="p">)</span>
+<span class="nf">chomp9</span> <span class="n">xs</span><span class="o">@</span><span class="p">(</span><span class="n">x</span><span class="kt">:</span><span class="n">xs&#39;</span><span class="p">)</span> <span class="ow">=</span> <span class="n">boundedSpan</span> <span class="mi">9</span> <span class="p">(</span><span class="o">==</span> <span class="n">x</span><span class="p">)</span> <span class="n">xs</span>
+
+<span class="nf">runs2</span> <span class="ow">::</span> <span class="p">(</span><span class="kt">Eq</span> <span class="n">a</span><span class="p">)</span> <span class="ow">=&gt;</span> <span class="p">[</span><span class="n">a</span><span class="p">]</span> <span class="ow">-&gt;</span> <span class="p">[[</span><span class="n">a</span><span class="p">]]</span>
+<span class="nf">runs2</span> <span class="kt">[]</span> <span class="ow">=</span> <span class="kt">[]</span>
+<span class="nf">runs2</span> <span class="n">xs</span> <span class="ow">=</span> <span class="kr">let</span> <span class="p">(</span><span class="n">chomped</span><span class="p">,</span> <span class="n">rest</span><span class="p">)</span> <span class="ow">=</span> <span class="n">chomp9</span> <span class="n">xs</span> <span class="kr">in</span> <span class="n">chomped</span> <span class="kt">:</span> <span class="n">runs2</span> <span class="n">rest</span>
+</code></pre></div>
+<p>Nice!</p>
+
+</article>
+
+        </main>
+        <div class="divider"></div>
+        <footer>
+            Owen Stephens 2016
+        </footer>
+    </body>
+</html>

@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+  <meta charset="UTF-8">
+
+  <title>
+    
+      Inverting a binary tree (in Haskell) &middot; Owen Stephens' Website
+    
+  </title>
+
+  <link rel="stylesheet" href="/assets/css/style.css">
+  <link rel="stylesheet" href="/assets/css/pygments.css">
+  <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,600|Droid+Sans+Mono' rel='stylesheet' type='text/css'>
+</head>
+
+    <body>
+        <header>
+            <span id="name">
+                Owen Stephens
+            </span>
+            <ul id="nav">
+              
+              
+                <li>
+                    
+                    <a  href="/">Home</a>
+                </li>
+                -
+              
+                <li>
+                    
+                    <a id="active-nav" href="/blog.html">Blog</a>
+                </li>
+                -
+              
+                <li>
+                    
+                    <a  href="/research.html">Research</a>
+                </li>
+                -
+              
+                <li>
+                    
+                    <a  href="/programming.html">Programming</a>
+                </li>
+                -
+              
+                <li>
+                    
+                    <a  href="/oss.html">Open Source</a>
+                </li>
+                
+              
+            </ul>
+            <div style="clear: both"></div>
+            <span id="tagline">
+                London-based Polyglot Programmer
+            </span>
+        </header>
+        <main>
+        <article class="post">
+  <div id="post-header">
+      <h1 class="post-title">Inverting a binary tree (in Haskell)</h1>
+      <time datetime="2015-08-10T00:00:00+01:00" class="page-date">10 Aug 2015</time>
+  </div>
+  <p>Given the following definition of (node-labelled) binary trees:</p>
+<div class="highlight"><pre><code class="language-haskell" data-lang="haskell"><span class="kr">data</span> <span class="kt">Tree</span> <span class="n">a</span> <span class="ow">=</span> <span class="kt">Node</span> <span class="n">a</span> <span class="p">(</span><span class="kt">Tree</span> <span class="n">a</span><span class="p">)</span> <span class="p">(</span><span class="kt">Tree</span> <span class="n">a</span><span class="p">)</span>
+            <span class="o">|</span> <span class="kt">Leaf</span> <span class="n">a</span>
+            <span class="kr">deriving</span> <span class="p">(</span><span class="kt">Show</span><span class="p">,</span> <span class="kt">Eq</span><span class="p">)</span>
+</code></pre></div>
+<p>We can write an <a href="https://leetcode.com/problems/invert-binary-tree/"><code>invert</code> operation</a>:</p>
+<div class="highlight"><pre><code class="language-haskell" data-lang="haskell"><span class="nf">invert</span> <span class="ow">::</span> <span class="kt">Tree</span> <span class="n">a</span> <span class="ow">-&gt;</span> <span class="kt">Tree</span> <span class="n">a</span>
+<span class="nf">invert</span> <span class="n">t</span><span class="o">@</span><span class="p">(</span><span class="kt">Leaf</span> <span class="kr">_</span><span class="p">)</span> <span class="ow">=</span> <span class="n">t</span>
+<span class="nf">invert</span> <span class="p">(</span><span class="kt">Node</span> <span class="n">v</span> <span class="n">l</span> <span class="n">r</span><span class="p">)</span> <span class="ow">=</span> <span class="kt">Node</span> <span class="n">v</span> <span class="p">(</span><span class="n">invert</span> <span class="n">r</span><span class="p">)</span> <span class="p">(</span><span class="n">invert</span> <span class="n">l</span><span class="p">)</span>
+</code></pre></div>
+<p>Which passes a couple of simple tests:</p>
+<div class="highlight"><pre><code class="language-haskell" data-lang="haskell"><span class="nf">tests</span> <span class="ow">::</span> <span class="p">[(</span><span class="kt">Tree</span> <span class="kt">Int</span><span class="p">,</span> <span class="kt">Tree</span> <span class="kt">Int</span><span class="p">)]</span>
+<span class="nf">tests</span> <span class="ow">=</span> <span class="p">[</span>
+    <span class="n">l</span> <span class="mi">1</span> <span class="o">==&gt;</span> <span class="n">l</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="n">n</span> <span class="mi">2</span> <span class="p">(</span><span class="n">l</span> <span class="mi">1</span><span class="p">)</span> <span class="p">(</span><span class="n">l</span> <span class="mi">3</span><span class="p">)</span> <span class="o">==&gt;</span> <span class="n">n</span> <span class="mi">2</span> <span class="p">(</span><span class="n">l</span> <span class="mi">3</span><span class="p">)</span> <span class="p">(</span><span class="n">l</span> <span class="mi">1</span><span class="p">),</span>
+    <span class="n">n</span> <span class="mi">4</span> <span class="p">(</span><span class="n">n</span> <span class="mi">2</span> <span class="p">(</span><span class="n">l</span> <span class="mi">1</span><span class="p">)</span> <span class="p">(</span><span class="n">l</span> <span class="mi">3</span><span class="p">))</span> <span class="p">(</span><span class="n">n</span> <span class="mi">7</span> <span class="p">(</span><span class="n">l</span> <span class="mi">6</span><span class="p">)</span> <span class="p">(</span><span class="n">l</span> <span class="mi">9</span><span class="p">))</span> <span class="o">==&gt;</span> <span class="n">n</span> <span class="mi">4</span> <span class="p">(</span><span class="n">n</span> <span class="mi">7</span> <span class="p">(</span><span class="n">l</span> <span class="mi">9</span><span class="p">)</span> <span class="p">(</span><span class="n">l</span> <span class="mi">6</span><span class="p">))</span> <span class="p">(</span><span class="n">n</span> <span class="mi">2</span> <span class="p">(</span><span class="n">l</span> <span class="mi">3</span><span class="p">)</span> <span class="p">(</span><span class="n">l</span> <span class="mi">1</span><span class="p">)),</span>
+    <span class="n">n</span> <span class="mi">3</span> <span class="p">(</span><span class="n">l</span> <span class="mi">2</span><span class="p">)</span> <span class="p">(</span><span class="n">n</span> <span class="mi">4</span> <span class="p">(</span><span class="n">l</span> <span class="mi">1</span><span class="p">)</span> <span class="p">(</span><span class="n">l</span> <span class="mi">5</span><span class="p">))</span> <span class="o">==&gt;</span> <span class="n">n</span> <span class="mi">3</span> <span class="p">(</span><span class="n">n</span> <span class="mi">4</span> <span class="p">(</span><span class="n">l</span> <span class="mi">5</span><span class="p">)</span> <span class="p">(</span><span class="n">l</span> <span class="mi">1</span><span class="p">))</span> <span class="p">(</span><span class="n">l</span> <span class="mi">2</span><span class="p">)</span>
+  <span class="p">]</span>
+ <span class="kr">where</span>
+  <span class="p">(</span><span class="o">==&gt;</span><span class="p">)</span> <span class="ow">=</span> <span class="p">(,)</span>
+  <span class="n">l</span> <span class="ow">=</span> <span class="kt">Leaf</span>
+  <span class="n">n</span> <span class="ow">=</span> <span class="kt">Node</span>
+
+<span class="nf">tester</span> <span class="ow">::</span> <span class="p">(</span><span class="kt">Show</span> <span class="n">a</span><span class="p">,</span> <span class="kt">Eq</span> <span class="n">a</span><span class="p">)</span> <span class="ow">=&gt;</span> <span class="p">(</span><span class="kt">Tree</span> <span class="n">a</span><span class="p">,</span> <span class="kt">Tree</span> <span class="n">a</span><span class="p">)</span> <span class="ow">-&gt;</span> <span class="kt">IO</span> <span class="nb">()</span>
+<span class="nf">tester</span> <span class="p">(</span><span class="n">input</span><span class="p">,</span> <span class="n">expected</span><span class="p">)</span> <span class="ow">=</span> <span class="kr">if</span> <span class="n">actual</span> <span class="o">==</span> <span class="n">expected</span>
+                               <span class="kr">then</span> <span class="n">putStr</span> <span class="s">&quot;.&quot;</span>
+                               <span class="kr">else</span> <span class="kr">do</span>
+                                   <span class="n">putStrLn</span> <span class="s">&quot;Error! Got: &quot;</span>
+                                   <span class="n">print</span> <span class="n">actual</span>
+                                   <span class="n">putStrLn</span> <span class="s">&quot;Expected: &quot;</span>
+                                   <span class="n">print</span> <span class="n">expected</span>
+  <span class="kr">where</span>
+    <span class="n">actual</span> <span class="ow">=</span> <span class="n">invert</span> <span class="n">input</span>
+
+<span class="nf">main</span> <span class="ow">::</span> <span class="kt">IO</span> <span class="nb">()</span>
+<span class="nf">main</span> <span class="ow">=</span> <span class="n">mapM_</span> <span class="n">tester</span> <span class="n">tests</span>
+</code></pre></div>
+<p>Neat!</p>
+
+</article>
+
+        </main>
+        <div class="divider"></div>
+        <footer>
+            Owen Stephens 2016
+        </footer>
+    </body>
+</html>

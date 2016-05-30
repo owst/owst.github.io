@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+  <meta charset="UTF-8">
+
+  <title>
+    
+      Add accessed date to IEEEtran BibTeX style &middot; Owen Stephens' Website
+    
+  </title>
+
+  <link rel="stylesheet" href="/assets/css/style.css">
+  <link rel="stylesheet" href="/assets/css/pygments.css">
+  <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,600|Droid+Sans+Mono' rel='stylesheet' type='text/css'>
+</head>
+
+    <body>
+        <header>
+            <span id="name">
+                Owen Stephens
+            </span>
+            <ul id="nav">
+              
+              
+                <li>
+                    
+                    <a  href="/">Home</a>
+                </li>
+                -
+              
+                <li>
+                    
+                    <a id="active-nav" href="/blog.html">Blog</a>
+                </li>
+                -
+              
+                <li>
+                    
+                    <a  href="/research.html">Research</a>
+                </li>
+                -
+              
+                <li>
+                    
+                    <a  href="/programming.html">Programming</a>
+                </li>
+                -
+              
+                <li>
+                    
+                    <a  href="/oss.html">Open Source</a>
+                </li>
+                
+              
+            </ul>
+            <div style="clear: both"></div>
+            <span id="tagline">
+                London-based Polyglot Programmer
+            </span>
+        </header>
+        <main>
+        <article class="post">
+  <div id="post-header">
+      <h1 class="post-title">Add accessed date to IEEEtran BibTeX style</h1>
+      <time datetime="2010-03-28T00:00:00+00:00" class="page-date">28 Mar 2010</time>
+  </div>
+  <p><a href="http://wwwlib.murdoch.edu.au/find/citation/ieee.html">IEEE referencing style</a>
+requires showing the date of access for online documents. I&#39;ve borrowed the
+changes made to the <a href="http://michael.tyson.id.au/2006/11/02/adding-url-accessed-date-field-to-harvard-bibtex-style/">Harvard BibTex style by Michael
+Tyson</a>
+and applied them to the IEEE style.</p>
+
+<p>To add the changes, you need to edit the IEEEtran.bst file; the location of
+which depends on your installation, but for me, the file was located at
+bibtex/bst/IEEEtran/IEEEtran.bst, in my installation folder.</p>
+
+<p>The changes necessary are:</p>
+
+<p>Find the section that starts (~line 292):</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">%%%%%%%%%%%%%%%%%%
+%% ENTRY FIELDS %%
+%%%%%%%%%%%%%%%%%%
+
+ENTRY
+  { address
+    assignee
+    author
+</code></pre></div>
+<p>Look for url and add a new attribute, &#39;urldate&#39; beneath it.</p>
+
+<p>Then find the function that looks like this:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">FUNCTION {format.url}
+{ url empty$
+    { &quot;&quot; }
+    { this.to.prev.status
+      this.status.std
+      cap.yes &#39;status.cap :=
+      name.url.prefix &quot; &quot; *
+      &quot;\url{&quot; * url * &quot;}&quot; *
+      punct.no &#39;this.status.punct :=
+      punct.period &#39;prev.status.punct :=
+      space.normal &#39;this.status.space :=
+      space.normal &#39;prev.status.space :=
+      quote.no &#39;this.status.quote :=
+    }
+  if$
+}
+</code></pre></div>
+<p>And change it, so that it looks like this:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">FUNCTION {format.url}
+{ url empty$
+    { &quot;&quot; }
+    { this.to.prev.status
+      this.status.std
+      cap.yes &#39;status.cap :=
+      name.url.prefix &quot; &quot; *
+      &quot;\url{&quot; * url * &quot;}&quot; *
+      punct.no &#39;this.status.punct :=
+      punct.period &#39;prev.status.punct :=
+      space.normal &#39;this.status.space :=
+      space.normal &#39;prev.status.space :=
+      quote.no &#39;this.status.quote :=
+      urldate empty$
+       { &quot;there is url but no urldate in &quot; cite$ * warning$ }
+       { &quot; [Accessed: &quot; * urldate * &quot;]&quot; * }
+      if$
+    }
+  if$
+}
+</code></pre></div>
+<p>that is, add these lines, at the appropriate offset:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">urldate empty$
+ { &quot;there is url but no urldate in &quot; cite$ * warning$ }
+ { &quot; [Accessed: &quot; * urldate * &quot;]&quot; * }
+if$
+</code></pre></div>
+<p>The changes output a warning, if you&#39;ve added a url, but no urldate. Otherwise
+it appends [Accessed: &quot;your-date&quot;] to your reference entry - sweet!</p>
+
+<p>Save the file, and you&#39;re done!</p>
+
+<p>We can knock up a quick example .tex file to test whether things are working:</p>
+<div class="highlight"><pre><code class="language-tex" data-lang="tex"><span class="k">\documentclass</span><span class="nb">{</span>article<span class="nb">}</span>
+<span class="k">\begin</span><span class="nb">{</span>document<span class="nb">}</span>
+Hello world! <span class="k">\cite</span><span class="nb">{</span>wadler1992comprehending<span class="nb">}</span>
+<span class="k">\bibliographystyle</span><span class="nb">{</span>IEEEtran<span class="nb">}</span>
+<span class="k">\bibliography</span><span class="nb">{</span>example<span class="nb">}</span>
+<span class="k">\end</span><span class="nb">{</span>document<span class="nb">}</span>
+</code></pre></div>
+<p>and the corresponding example.bib:</p>
+<div class="highlight"><pre><code class="language-tex" data-lang="tex">@article<span class="nb">{</span>wadler1992comprehending,
+  title=<span class="nb">{</span>Comprehending monads<span class="nb">}</span>,
+  author=<span class="nb">{</span>Wadler, P.<span class="nb">}</span>,
+  journal=<span class="nb">{</span>Mathematical Structures in Computer Science<span class="nb">}</span>,
+  volume=<span class="nb">{</span>2<span class="nb">}</span>,
+  number=<span class="nb">{</span>04<span class="nb">}</span>,
+  pages=<span class="nb">{</span>461--493<span class="nb">}</span>,
+  year=<span class="nb">{</span>1992<span class="nb">}</span>,
+  publisher=<span class="nb">{</span>Cambridge Univ Press<span class="nb">}</span>,
+  url=<span class="nb">{</span>http://dx.doi.org/10.1017/S0960129500001560<span class="nb">}</span>,
+  urldate=<span class="nb">{</span>04/12/2012<span class="nb">}</span>
+<span class="nb">}</span>
+Delete the above urldate line to see the new warning.
+</code></pre></div>
+<p>Then, compile the .pdf with something like:</p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash">pdflatex example
+pdflatex example
+bibtex example
+pdflatex example
+</code></pre></div>
+</article>
+
+        </main>
+        <div class="divider"></div>
+        <footer>
+            Owen Stephens 2016
+        </footer>
+    </body>
+</html>

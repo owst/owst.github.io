@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+  <meta charset="UTF-8">
+
+  <title>
+    
+      JavaScript Game of Life &middot; Owen Stephens' Website
+    
+  </title>
+
+  <link rel="stylesheet" href="/assets/css/style.css">
+  <link rel="stylesheet" href="/assets/css/pygments.css">
+  <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,600|Droid+Sans+Mono' rel='stylesheet' type='text/css'>
+</head>
+
+    <body>
+        <header>
+            <span id="name">
+                Owen Stephens
+            </span>
+            <ul id="nav">
+              
+              
+                <li>
+                    
+                    <a  href="/">Home</a>
+                </li>
+                -
+              
+                <li>
+                    
+                    <a  href="/blog.html">Blog</a>
+                </li>
+                -
+              
+                <li>
+                    
+                    <a  href="/research.html">Research</a>
+                </li>
+                -
+              
+                <li>
+                    
+                    <a id="active-nav" href="/programming.html">Programming</a>
+                </li>
+                -
+              
+                <li>
+                    
+                    <a  href="/oss.html">Open Source</a>
+                </li>
+                
+              
+            </ul>
+            <div style="clear: both"></div>
+            <span id="tagline">
+                London-based Polyglot Programmer
+            </span>
+        </header>
+        <main>
+        <article class="post">
+  <div id="post-header">
+      <h1 class="post-title">JavaScript Game of Life</h1>
+      <time datetime="2011-01-28T00:00:00+00:00" class="page-date">28 Jan 2011</time>
+  </div>
+  <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.min.js"></script>
+
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.9/jquery-ui.min.js"></script>
+
+<script type="text/javascript" src="https://raw.githubusercontent.com/owst/JS-Game-of-Life/master/CA.js"></script>
+
+<script>
+    $(function () {
+        var jCanvas = $('#world');
+        var canvas = jCanvas.get(0);
+        var ctx = canvas.getContext('2d');
+        var pixelSize = 6;
+        var width = canvas.width / pixelSize;
+        var height = canvas.height / pixelSize;
+        var startTimeout = 30;
+
+        var ca = new CA(ctx, width, height, pixelSize, startTimeout);
+
+        startStopHandler = function () {
+            var button = $('#startStop');
+
+            if (button.html() === 'Stop') {
+                button.html('Start');
+
+                clearTimeout(ca.timeout);
+                ca.timeout = null;
+            } else {
+                button.html('Stop');
+
+                ca.setupTimeout();
+            }
+        };
+
+        randomise = function () {
+            ca.randomData();
+        };
+
+        clearCtx = function () {
+            ca.clear();
+        };
+
+        clearAndRandomise = function () {
+            clearCtx();
+            randomise();
+        };
+
+        jCanvas.mousedown(function (e) {
+            var x = Math.round(e.offsetX / ca.pixelSize) * ca.pixelSize;
+            var y = Math.round(e.offsetY / ca.pixelSize) * ca.pixelSize;
+
+            if (e.which === 1) {
+                ca.setPixelBlack(x, y);
+            } else if (e.which === 3) {
+                ca.clearPixel(x, y);
+            }
+       });
+
+       jCanvas.bind("contextmenu", function (e) {
+           return false;
+       });
+
+        $('#slider').slider({
+            value: startTimeout,
+            min: 10,
+            max: 500,
+            step: 10,
+            slide: function (event, ui) {
+                $('#timeout').val(ui.value);
+                ca.timeoutTime = ui.value;
+
+                if (ca.timeout) {
+                    clearTimeout(ca.timeout);
+                    ca.setupTimeout();
+                }
+            }
+        });
+
+        $('#timeout').val(startTimeout);
+
+
+        ca.initGliderGun(10, 40);
+        ca.initGliderGun(60, 10);
+    });
+
+</script>
+
+<p>I thought it&#39;d be interesting to code a JavaScript implementation of <a href="http://en.wikipedia.org/wiki/Conway&#x27;s_Game_of_Life">John
+Conway&#39;s Game of Life</a> <a href="http://en.wikipedia.org/wiki/Cellular_automaton">cellular automaton</a>.  The game of life is
+comprised of a set of cells (the world), where each cell can be either in the
+&quot;on&quot; or &quot;off&quot; state (usually represented by black or white pixels,
+respectively).</p>
+
+<p>The game is split into discrete time steps. At each step, all of the cells in
+the world are evaluated to calculate their liveness in the next step. Those
+that are live will change to the &quot;on&quot; state, whilst those who have died are
+changed to the &quot;off&quot; state.</p>
+
+<p>The liveness of a cell is determined by its state, and the state of its 9
+neighbours, using a simple set of rules. The number of live neighbours is
+counted, and the cell&#39;s state is calculated thus: </p>
+
+<ol>
+<li>A live cell with &lt; 2 <em>dies</em>.</li>
+<li>A live cell with 2 or 3 <em>lives</em>.</li>
+<li>A live cell with &gt; 3 <em>dies</em>.</li>
+<li>A dead cell with 3 <em>lives</em>.</li>
+</ol>
+
+<p>I&#39;ve uploaded my implementation to <a href="https://github.com/owst/JS-Game-of-Life">Github, here</a>. A demo is shown
+below. The world is initialised to contain 2 <a href="http://en.wikipedia.org/wiki/Gun_(cellular_automaton)">Gosper glider guns</a>,
+which are designed such that they emit a certain pattern of cells with a fixed
+period.</p>
+
+<p>The start/stop button pauses the timesteps, whose length is determined by the
+slider control. The clear button clears the world, whilst the randomise button
+adds a random set of &quot;on&quot; cells to the world. Individual cells can be switched
+on/off by clicking the left and right mouse buttons, respectively (pause the
+game first, else the new cells will immediately die). I chose to implement my
+world using a toroidal array, so both sides of the world &quot;wrap around&quot;. This
+means gliders can pass from one side to the other, rather than simply dying at
+the edges.</p>
+
+<canvas style="display: block; margin:0 auto; border: 1px solid black;" id="world" width="600" height="420">
+</canvas>
+
+<div>
+<button id="startStop" type="button"
+    onclick="startStopHandler()">Start</button>
+<button id="clear" type="button" onclick="clearCtx()">Clear</button>
+<button id="randomise" type="button"
+    onclick="randomise()">Randomise</button>
+<button id="clearAndRandomise" type="button"
+    onclick="clearAndRandomise()">Clear and Randomise</button>  
+<br/>
+<label for="timeout">Timeout period (ms):</label>
+<input type="text" id="timeout" disabled="true" style="width: 35px"/> <div id="slider" style="display: inline-block; width: 500px"></div>
+</div>
+
+<p><link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.9/themes/smoothness/jquery-ui.css" /></p>
+
+</article>
+
+        </main>
+        <div class="divider"></div>
+        <footer>
+            Owen Stephens 2016
+        </footer>
+    </body>
+</html>

@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+  <meta charset="UTF-8">
+
+  <title>
+    
+      Agda Patience Sort &middot; Owen Stephens' Website
+    
+  </title>
+
+  <link rel="stylesheet" href="/assets/css/style.css">
+  <link rel="stylesheet" href="/assets/css/pygments.css">
+  <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,600|Droid+Sans+Mono' rel='stylesheet' type='text/css'>
+</head>
+
+    <body>
+        <header>
+            <span id="name">
+                Owen Stephens
+            </span>
+            <ul id="nav">
+              
+              
+                <li>
+                    
+                    <a  href="/">Home</a>
+                </li>
+                -
+              
+                <li>
+                    
+                    <a  href="/blog.html">Blog</a>
+                </li>
+                -
+              
+                <li>
+                    
+                    <a  href="/research.html">Research</a>
+                </li>
+                -
+              
+                <li>
+                    
+                    <a id="active-nav" href="/programming.html">Programming</a>
+                </li>
+                -
+              
+                <li>
+                    
+                    <a  href="/oss.html">Open Source</a>
+                </li>
+                
+              
+            </ul>
+            <div style="clear: both"></div>
+            <span id="tagline">
+                London-based Polyglot Programmer
+            </span>
+        </header>
+        <main>
+        <article class="post">
+  <div id="post-header">
+      <h1 class="post-title">Agda Patience Sort</h1>
+      <time datetime="2015-07-06T00:00:00+01:00" class="page-date">06 Jul 2015</time>
+  </div>
+  <p>Having recently decided to <a href="http://learnyouanagda.liamoc.net/">learn myself an Agda</a>, I thought
+that implementing a <a href="https://en.wikipedia.org/wiki/Patience_sorting">Patience sort</a> would be a neat example to
+try and program.  Having <a href="/programming/2010/11/29/scala-patience-sort.html">already implemented</a> a
+<a href="http://www.scala-lang.org/">Scala</a> Patience sort, I was interested to see how I could tighten up
+the implementation by using a dependently-typed language such as <a href="http://wiki.portal.chalmers.se/agda/pmwiki.php">Agda</a>.</p>
+
+<p>I&#39;m going to go reasonably fast when describing my implementation, feel free to
+take a look at the same file <a href="https://github.com/owst/agda-patience-sort/blob/master/Patience.agda">on Github</a> if you&#39;d like to explore
+it using the excellent <a href="http://wiki.portal.chalmers.se/agda/pmwiki.php?n=Main.QuickGuideToEditingTypeCheckingAndCompilingAgdaCode">Emacs agda-mode</a>.</p>
+
+<p>First, let&#39;s define the module, and import a bunch of stuff from the 
+<a href="https://github.com/agda/agda-stdlib/">standard library</a>.</p>
+<div class="highlight"><pre><code class="language-agda" data-lang="agda"><span class="kr">module</span> <span class="n">Patience</span> <span class="kr">where</span>
+  <span class="kr">open</span> <span class="kr">import</span> <span class="n">Relation.Binary</span> <span class="kr">using</span> <span class="o">(</span>DecTotalOrder; <span class="kr">module</span> <span class="n">DecTotalOrder</span>;
+    IsDecTotalOrder; <span class="kr">module</span> <span class="n">IsDecTotalOrder</span>; Rel; <span class="kr">module</span> <span class="n">IsTotalOrder</span>;
+    <span class="kr">module</span> <span class="n">IsPartialOrder</span>; <span class="kr">module</span> <span class="n">IsPreorder</span><span class="o">)</span>
+  <span class="kr">open</span> <span class="kr">import</span> <span class="n">Relation.Binary.Core</span> <span class="kr">hiding</span> <span class="o">(</span>refl<span class="o">)</span>
+  <span class="kr">open</span> <span class="kr">import</span> <span class="n">Level</span> <span class="kr">hiding</span> <span class="o">(</span>_⊔_ ; suc<span class="o">)</span> renaming <span class="o">(</span>zero to lzero<span class="o">)</span>
+  <span class="kr">open</span> <span class="kr">import</span> <span class="n">Data.Nat</span> <span class="kr">using</span> <span class="o">(</span>ℕ; z≤n; s≤s; suc; _+_<span class="o">)</span>
+    renaming <span class="o">(</span>decTotalOrder to decTotalOrderℕ; _≤_ to _≤ℕ_<span class="o">)</span>
+  <span class="kr">open</span> <span class="kr">import</span> <span class="n">Data.List</span> <span class="kr">using</span> <span class="o">(</span>List; []; _∷_<span class="o">)</span>
+  <span class="kr">open</span> <span class="kr">import</span> <span class="n">Data.Product</span> <span class="kr">using</span> <span class="o">(</span>Σ; _,_; _×_<span class="o">)</span>
+  <span class="kr">open</span> <span class="kr">import</span> <span class="n">Function</span> <span class="kr">using</span> <span class="o">(</span>_∘_<span class="o">)</span>
+  <span class="kr">open</span> <span class="kr">import</span> <span class="n">Data.Sum</span> <span class="kr">using</span> <span class="o">(</span>inj₁; inj₂<span class="o">)</span>
+  <span class="kr">open</span> <span class="kr">import</span> <span class="n">Data.Nat.Properties.Simple</span> <span class="kr">using</span> <span class="o">(</span>+-suc; +-assoc; +-comm<span class="o">)</span>
+  <span class="kr">open</span> <span class="kr">import</span> <span class="n">Relation.Binary.PropositionalEquality</span> as PropEq
+    <span class="kr">using</span> <span class="o">(</span>_≡_; subst; cong; sym<span class="o">)</span>
+  <span class="kr">open</span> PropEq.≡-Reasoning <span class="kr">using</span> <span class="o">(</span>begin_; _≡⟨_⟩_; _∎<span class="o">)</span>
+</code></pre></div>
+<p>Now, using a total-ordered set, X, I create a &quot;lifted&quot; data-type that adds a
+maximum element to X. I create an ordering on the lifted type (i.e. that
+compares all elements as less than the maximum, and otherwise defers to the
+underlying ordering), and prove that it is transitive. I could prove other
+properties, but do not require them, so save space by not doing so.</p>
+<div class="highlight"><pre><code class="language-agda" data-lang="agda">  <span class="c1">-- A module that will contain a type of ordered &quot;piles&quot;, analogous</span>
+  <span class="c1">-- to piles of cards in Patience (though with the stronger</span>
+  <span class="c1">-- restriction that piles are ordered by the top element).</span>
+  <span class="kr">module</span> <span class="n">Piles</span> <span class="o">(</span>dto <span class="ow">:</span> DecTotalOrder lzero lzero lzero<span class="o">)</span> <span class="kr">where</span>
+    <span class="kr">open</span> DecTotalOrder dto public renaming <span class="o">(</span>Carrier to X<span class="o">)</span>
+
+    <span class="c1">-- Append maximum element to X</span>
+    <span class="kr">data</span> X⊤ <span class="ow">:</span> <span class="kt">Set</span> <span class="kr">where</span>
+      <span class="nf">⊤</span> <span class="ow">:</span> X⊤
+      <span class="nf">⟦_⟧</span> <span class="ow">:</span> <span class="o">(</span>x <span class="ow">:</span> X<span class="o">)</span> <span class="ow">→</span> X⊤ <span class="c1">-- lift an element of X</span>
+
+    <span class="c1">-- Define an ordering relation on the resulting type</span>
+    <span class="kr">data</span> _⟦≤⟧_ <span class="ow">:</span> Rel X⊤ Level.zero <span class="kr">where</span>
+      <span class="nf">x≤⊤</span> <span class="ow">:</span> <span class="ow">∀</span> <span class="o">{</span>x<span class="o">}</span> <span class="ow">→</span> x ⟦≤⟧ ⊤
+      <span class="nf">⟦_⟧</span> <span class="ow">:</span> <span class="ow">∀</span> <span class="o">{</span>x y<span class="o">}</span> <span class="ow">→</span> <span class="o">(</span>x ≤ y<span class="o">)</span> <span class="ow">→</span> ⟦ x ⟧ ⟦≤⟧ ⟦ y ⟧ <span class="c1">-- lift an ordering on X</span>
+
+    <span class="c1">-- Ensure the order is transitive</span>
+    <span class="nf">⟦≤⟧-trans</span> <span class="ow">:</span> Transitive _⟦≤⟧_
+    ⟦≤⟧-trans _ x≤⊤ <span class="ow">=</span> x≤⊤
+    ⟦≤⟧-trans ⟦ p ⟧ ⟦ q ⟧ <span class="ow">=</span>  ⟦ trans p q ⟧
+</code></pre></div>
+<p>We will want to use this lifted type to track the minimum element in a set of
+Piles, and we will therefore need to find the minimum of two elements of this
+type.</p>
+<div class="highlight"><pre><code class="language-agda" data-lang="agda">    <span class="c1">-- Minimum w.r.t. X⊤</span>
+    <span class="nf">min</span> <span class="ow">:</span> X⊤ <span class="ow">→</span> X⊤ <span class="ow">→</span> X⊤
+    min ⊤ x <span class="ow">=</span> x
+    min x ⊤ <span class="ow">=</span> x
+    min ⟦ x ⟧ ⟦ y ⟧ <span class="kr">with</span> total x y
+    <span class="ow">...</span> <span class="ow">|</span> inj₁ x≤y <span class="ow">=</span> ⟦ x ⟧
+    <span class="ow">...</span> <span class="ow">|</span> inj₂ y≤x <span class="ow">=</span> ⟦ y ⟧
+</code></pre></div>
+<p>We can now define a type of ordered vectors, which records the number of
+elements it contains. Notice how we leverage dependent types, taking a proof
+object argument that ensures that elements that are <code>cons</code>d onto the vector are
+indeed smaller than the existing head of the vector.</p>
+<div class="highlight"><pre><code class="language-agda" data-lang="agda">    <span class="c1">-- Define a type of bounded, ordered vectors</span>
+    <span class="kr">data</span> OVec <span class="ow">:</span> X⊤ <span class="ow">→</span> ℕ <span class="ow">→</span> <span class="kt">Set</span> <span class="kr">where</span>
+      <span class="nf">ε</span> <span class="ow">:</span> OVec ⊤ <span class="mi">0</span>
+      <span class="nf">cons</span> <span class="ow">:</span> <span class="ow">∀</span> <span class="o">{</span>t n<span class="o">}</span> <span class="ow">→</span> <span class="o">(</span>x <span class="ow">:</span> X<span class="o">)</span> <span class="ow">→</span> <span class="o">(</span>⟦ x ⟧ ⟦≤⟧ t<span class="o">)</span> <span class="ow">→</span> OVec t n <span class="ow">→</span> OVec ⟦ x ⟧ <span class="o">(</span>suc n<span class="o">)</span>
+</code></pre></div>
+<p>Now, using ordered vectors (individual piles), we can define a type representing
+a (ordered by top element) set of piles, again tracking the minimum element and
+the number of elements in the Piles.</p>
+<div class="highlight"><pre><code class="language-agda" data-lang="agda">    <span class="c1">-- Define a type of bounded, ordered (by head elem) vectors of</span>
+    <span class="c1">-- (non-empty) OVecs.</span>
+    <span class="kr">data</span> Piles <span class="ow">:</span> X⊤ <span class="ow">→</span> ℕ <span class="ow">→</span> <span class="kt">Set</span> <span class="kr">where</span>
+      <span class="nf">ε</span> <span class="ow">:</span> Piles ⊤ <span class="mi">0</span>
+      <span class="nf">consP</span> <span class="ow">:</span> <span class="ow">∀</span><span class="o">{</span>x t n m<span class="o">}</span> <span class="ow">→</span> OVec ⟦ x ⟧ <span class="o">(</span>suc n<span class="o">)</span> <span class="ow">→</span> <span class="o">(</span>⟦ x ⟧ ⟦≤⟧ t<span class="o">)</span> <span class="ow">→</span> Piles t m
+        <span class="ow">→</span> Piles ⟦ x ⟧ <span class="o">(</span>suc n + m<span class="o">)</span>
+</code></pre></div>
+<p>Later, we will require a couple of lemmas:</p>
+<div class="highlight"><pre><code class="language-agda" data-lang="agda">    <span class="c1">-- Given a proof of equivalence between two elements of ℕ, we can transform</span>
+    <span class="c1">-- Piles with one size to the other.</span>
+    <span class="nf">cong-Piles</span> <span class="ow">:</span> <span class="ow">∀</span> <span class="o">{</span>l<span class="o">}</span> <span class="o">{</span>n m <span class="ow">:</span> ℕ<span class="o">}</span> <span class="ow">→</span> <span class="o">(</span>n ≡ m<span class="o">)</span> <span class="ow">→</span> Piles l n  <span class="ow">→</span> Piles l m
+    cong-Piles <span class="o">{</span>l<span class="o">}</span> p fn <span class="ow">=</span> subst <span class="o">(</span>Piles l<span class="o">)</span> p fn
+
+    <span class="nf">⟦≤⟧-resp-min</span> <span class="ow">:</span> <span class="ow">∀</span> <span class="o">{</span>x y z<span class="o">}</span> <span class="ow">→</span> x ⟦≤⟧ y <span class="ow">→</span> x ⟦≤⟧ z <span class="ow">→</span> x ⟦≤⟧ <span class="o">(</span>min y z<span class="o">)</span>
+    ⟦≤⟧-resp-min x≤⊤ q <span class="ow">=</span> q
+    ⟦≤⟧-resp-min ⟦ p ⟧ x≤⊤ <span class="ow">=</span> ⟦ p ⟧
+    ⟦≤⟧-resp-min <span class="o">{</span>_<span class="o">}</span> <span class="o">{</span>⟦ y ⟧<span class="o">}</span> <span class="o">{</span>⟦ z ⟧<span class="o">}</span> p q <span class="kr">with</span> total y z
+    <span class="ow">...</span> <span class="ow">|</span> inj₁ y≤z <span class="ow">=</span> p
+    <span class="ow">...</span> <span class="ow">|</span> inj₂ z≤y <span class="ow">=</span> q
+</code></pre></div>
+<p>And now, we can move onto the meat of the implementation, inserting single
+elements, and complete piles into existing (possibly empty) <code>Piles</code>:</p>
+<div class="highlight"><pre><code class="language-agda" data-lang="agda">    <span class="c1">-- We can insert a single element into existing Piles...</span>
+    <span class="nf">insertElemPiles</span> <span class="ow">:</span> <span class="ow">∀</span> <span class="o">{</span>l n<span class="o">}</span> <span class="ow">→</span> <span class="o">(</span>x <span class="ow">:</span> X<span class="o">)</span> <span class="ow">→</span> Piles l n
+      <span class="ow">→</span> Piles <span class="o">(</span>min ⟦ x ⟧ l<span class="o">)</span> <span class="o">(</span>suc n<span class="o">)</span>
+    insertElemPiles x ε <span class="ow">=</span> consP <span class="o">(</span>cons x x≤⊤ ε<span class="o">)</span> x≤⊤ ε
+    insertElemPiles x <span class="o">(</span>consP <span class="o">{</span>x′<span class="o">}</span> <span class="o">{</span>t<span class="o">}</span> <span class="o">{</span>n<span class="o">}</span> <span class="o">{</span>m<span class="o">}</span> p x′≤t ps<span class="o">)</span> <span class="kr">with</span> total x x′
+    <span class="ow">...</span> <span class="ow">|</span> inj₁ x≤x′ <span class="ow">=</span> consP <span class="o">(</span>cons x ⟦x≤x′⟧ p<span class="o">)</span> <span class="o">(</span>⟦≤⟧-trans ⟦x≤x′⟧ x′≤t<span class="o">)</span> ps
+      <span class="kr">where</span>
+        ⟦x≤x′⟧ <span class="ow">=</span> ⟦ x≤x′ ⟧
+    <span class="ow">...</span> <span class="ow">|</span> inj₂ x′≤x <span class="ow">=</span> cong-Piles ≡ℕ <span class="o">(</span>consP p <span class="o">(</span>⟦≤⟧-resp-min ⟦ x′≤x ⟧ x′≤t<span class="o">)</span> rec<span class="o">)</span>
+      <span class="kr">where</span>
+        rec <span class="ow">=</span> insertElemPiles x ps
+
+        <span class="nf">≡ℕ</span> <span class="ow">:</span> suc <span class="o">(</span>n + suc m<span class="o">)</span> ≡ suc <span class="o">(</span>suc <span class="o">(</span>n + m<span class="o">))</span>
+        ≡ℕ <span class="ow">=</span> cong suc <span class="o">(</span>+-suc n m<span class="o">)</span>
+
+    <span class="c1">-- ...and insert a Pile into Piles.</span>
+    <span class="nf">insertPilePiles</span> <span class="ow">:</span> <span class="ow">∀</span> <span class="o">{</span>x t n m<span class="o">}</span> <span class="ow">→</span> OVec ⟦ x ⟧ <span class="o">(</span>suc n<span class="o">)</span>
+      <span class="ow">→</span> Piles t m <span class="ow">→</span> Piles <span class="o">(</span>min ⟦ x ⟧ t<span class="o">)</span> <span class="o">(</span>suc n + m<span class="o">)</span>
+    insertPilePiles <span class="o">{</span>t <span class="ow">=</span> ⊤<span class="o">}</span> p ε <span class="ow">=</span> consP p x≤⊤ ε
+    insertPilePiles <span class="o">{</span>x<span class="o">}</span> <span class="o">{</span>⟦ t ⟧<span class="o">}</span> <span class="o">{</span>n₁<span class="o">}</span> p <span class="o">(</span>consP <span class="o">{</span>n <span class="ow">=</span> n₂<span class="o">}</span> <span class="o">{</span>m <span class="ow">=</span> m₁<span class="o">}</span> q x≤t′ qs<span class="o">)</span>
+      <span class="kr">with</span> total x t
+    <span class="ow">...</span> <span class="ow">|</span> inj₁ x≤t <span class="ow">=</span> consP p ⟦ x≤t ⟧ <span class="o">(</span>consP q x≤t′ qs<span class="o">)</span>
+    <span class="ow">...</span> <span class="ow">|</span> inj₂ t≤x <span class="ow">=</span> cong-Piles ≡ℕ <span class="o">(</span>consP q <span class="o">(</span>⟦≤⟧-resp-min ⟦ t≤x ⟧ x≤t′<span class="o">)</span> rec<span class="o">)</span>
+      <span class="kr">where</span>
+       rec <span class="ow">=</span> insertPilePiles p qs
+
+       <span class="c1">-- Since we build the piles in two different ways, we need to</span>
+       <span class="c1">-- prove that the sizes are equivalent, using this lemma about ℕ.</span>
+       <span class="nf">permute-suc-xyz</span> <span class="ow">:</span> <span class="o">{</span>x y z <span class="ow">:</span> ℕ<span class="o">}</span> <span class="ow">→</span> x + suc <span class="o">(</span>y + z<span class="o">)</span> ≡ y + suc <span class="o">(</span>x + z<span class="o">)</span>
+       permute-suc-xyz <span class="o">{</span>x<span class="o">}</span> <span class="o">{</span>y<span class="o">}</span> <span class="o">{</span>z<span class="o">}</span> <span class="ow">=</span>
+         begin
+          x + suc <span class="o">(</span>y + z<span class="o">)</span>
+         ≡⟨ +-suc x <span class="o">(</span>y + z<span class="o">)</span> ⟩
+          suc <span class="o">(</span>x + <span class="o">(</span>y + z<span class="o">))</span>
+         ≡⟨ cong suc <span class="o">(</span>sym <span class="o">(</span>+-assoc x y z<span class="o">))</span> ⟩
+         suc <span class="o">((</span>x + y<span class="o">)</span> + z<span class="o">)</span>
+         ≡⟨ cong suc <span class="o">(</span>cong <span class="o">(</span>λ x <span class="ow">→</span> x + z<span class="o">)</span> <span class="o">(</span>+-comm x y<span class="o">))</span> ⟩
+         suc <span class="o">((</span>y + x<span class="o">)</span> + z<span class="o">)</span>
+         ≡⟨ cong suc <span class="o">(</span>+-assoc y x z<span class="o">)</span> ⟩
+         suc <span class="o">(</span>y + <span class="o">(</span>x + z<span class="o">))</span>
+         ≡⟨ sym <span class="o">(</span>+-suc y <span class="o">(</span>x + z<span class="o">))</span> ⟩
+         y + suc <span class="o">(</span>x + z<span class="o">)</span>
+         ∎
+
+       ≡ℕ <span class="ow">=</span> cong suc <span class="o">(</span>permute-suc-xyz <span class="o">{</span>n₂<span class="o">}</span> <span class="o">{</span>n₁<span class="o">}</span> <span class="o">{</span>m₁<span class="o">})</span>
+</code></pre></div>
+<p>It&#39;d be nice to use some of <a href="https://personal.cis.strath.ac.uk/conor.mcbride/Pivotal.pdf">Connor McBride&#39;s ideas</a> to avoid the 
+Green Slime<sup id="fnref1"><a href="#fn1" rel="footnote">1</a></sup> (i.e. the use of <code>min</code> in the return types). However, I seem to
+require the tight bounds, and didn&#39;t manage to effectively get rid of the calls
+to <code>min</code>. If you have any ideas or suggestions on this, please get in
+contact!</p>
+
+<p>Once we have inserted elements into <code>Piles</code>, we can remove elements one-by-one,
+to obtain an ordered <code>List</code> of elements. When removing a single element (to
+obtain the minimum element and a new <code>Piles</code>), we have to use a <a href="http://ncatlab.org/nlab/show/dependent+sum+type">dependent-sum
+type</a> to encode the fact that the lower bound of the resulting
+<code>Piles</code> is the removed element. We maintain the ordering by pushing any
+non-empty vectors back into the <code>Piles</code> to be consumed in-order.</p>
+<div class="highlight"><pre><code class="language-agda" data-lang="agda">    <span class="c1">-- From any non-empty Piles, we can remove the smallest element, to obtain</span>
+    <span class="c1">-- a pair of that element, and a one-smaller Piles.</span>
+    <span class="nf">removeOne</span> <span class="ow">:</span> <span class="ow">∀</span> <span class="o">{</span>l n<span class="o">}</span> <span class="ow">→</span> Piles l <span class="o">(</span>suc n<span class="o">)</span> <span class="ow">→</span> X × <span class="o">(</span>Σ X⊤ <span class="o">(</span>λ l&#39; <span class="ow">→</span> Piles l&#39; n<span class="o">))</span>
+    removeOne <span class="o">(</span>consP <span class="o">(</span>cons x _ xs<span class="o">)</span> _ ps<span class="o">)</span> <span class="kr">with</span> xs
+    <span class="ow">...</span> <span class="ow">|</span> ε <span class="ow">=</span> x , _ , ps
+    <span class="ow">...</span> <span class="ow">|</span> cons y q ys <span class="ow">=</span> x , _ , insertPilePiles <span class="o">(</span>cons y q ys<span class="o">)</span> ps
+
+    <span class="c1">-- By repeatedly removing a single element, we can convert Piles in a List.</span>
+    <span class="nf">pilesToList</span> <span class="ow">:</span> <span class="ow">∀</span> <span class="o">{</span>l n<span class="o">}</span> <span class="ow">→</span> Piles l n <span class="ow">→</span> List X
+    pilesToList ε <span class="ow">=</span> []
+    pilesToList <span class="o">{</span>n <span class="ow">=</span> suc m<span class="o">}</span> p <span class="kr">with</span> removeOne p
+    <span class="ow">...</span> <span class="ow">|</span> x , _ , ps <span class="ow">=</span> x ∷ pilesToList ps
+</code></pre></div>
+<p>When converting an arbitrary list of elements into <code>Piles</code>, we cannot up-front
+ know the lower bound or size of the <code>Piles</code>, thus we can use an existential
+ type to &quot;hide&quot; these values. To create a existential Piles, we repeatedly
+ insert the elements of the list, one-by-one:</p>
+<div class="highlight"><pre><code class="language-agda" data-lang="agda">    <span class="c1">-- We can existentially hide the bound and size of Piles...</span>
+    <span class="kr">data</span> ∃Piles <span class="ow">:</span> <span class="kt">Set</span> <span class="kr">where</span>
+      <span class="nf">∃&lt;_&gt;</span> <span class="ow">:</span> <span class="ow">∀</span> <span class="o">{</span>l n<span class="o">}</span> <span class="ow">→</span> Piles l n <span class="ow">→</span> ∃Piles
+
+    <span class="c1">-- ...and can convert an arbitrary List into a Piles with unknown bound and</span>
+    <span class="c1">-- size, by repeatedly inserting one element at a time.</span>
+    <span class="nf">listToPiles</span> <span class="ow">:</span> List X <span class="ow">→</span> ∃Piles
+    listToPiles [] <span class="ow">=</span> ∃&lt; ε &gt;
+    listToPiles <span class="o">(</span>x ∷ xs<span class="o">)</span> <span class="kr">with</span> listToPiles xs
+    <span class="ow">...</span> <span class="ow">|</span> ∃&lt; ps &gt; <span class="ow">=</span> ∃&lt; insertElemPiles x ps &gt;
+</code></pre></div>
+<p>Now, Patience sorting is simply defined:</p>
+<div class="highlight"><pre><code class="language-agda" data-lang="agda">    <span class="c1">-- Finally, patience sort is simply creating Piles from an arbitrary List,</span>
+    <span class="c1">-- before converting back to an (ordered) List.</span>
+    <span class="nf">patienceSort</span> <span class="ow">:</span> List X <span class="ow">→</span> List X
+    patienceSort ls <span class="kr">with</span> listToPiles ls
+    <span class="ow">...</span> <span class="ow">|</span> ∃&lt; ps &gt; <span class="ow">=</span> pilesToList ps
+</code></pre></div>
+<p>And all that remains is to demonstrate some example sortings of natural
+numbers. Recall that Piles are parameterised by the (totally-ordered) elements
+they contain.</p>
+<div class="highlight"><pre><code class="language-agda" data-lang="agda">  <span class="c1">-- Let&#39;s create Piles of ℕ</span>
+  <span class="kr">module</span> <span class="n">Piles</span>ℕ <span class="ow">=</span> Piles decTotalOrderℕ
+
+  <span class="c1">-- and some test lists.</span>
+  xs <span class="ow">=</span> Pilesℕ.patienceSort <span class="o">(</span><span class="mi">5</span> ∷ <span class="mi">4</span> ∷ <span class="mi">3</span> ∷ <span class="mi">2</span> ∷ <span class="mi">1</span> ∷ []<span class="o">)</span>
+  ys <span class="ow">=</span> Pilesℕ.patienceSort []
+  zs <span class="ow">=</span> Pilesℕ.patienceSort <span class="o">(</span><span class="mi">4</span> ∷ <span class="mi">4</span> ∷ <span class="mi">1</span> ∷ <span class="mi">5</span> ∷ <span class="mi">3</span> ∷ []<span class="o">)</span>
+
+  sortedXs sortedYs sortedZs <span class="ow">:</span> List ℕ
+  sortedXs <span class="ow">=</span> <span class="mi">1</span> ∷ <span class="mi">2</span> ∷ <span class="mi">3</span> ∷ <span class="mi">4</span> ∷ <span class="mi">5</span> ∷ []
+  sortedYs <span class="ow">=</span> []
+  sortedZs <span class="ow">=</span> <span class="mi">1</span> ∷ <span class="mi">3</span> ∷ <span class="mi">4</span> ∷ <span class="mi">4</span> ∷ <span class="mi">5</span> ∷ []
+
+  <span class="c1">-- And check that sorting via patience does the right thing.</span>
+  <span class="nf">xsOk</span> <span class="ow">:</span> xs ≡ sortedXs
+  xsOk <span class="ow">=</span> PropEq.refl
+
+  <span class="nf">ysOk</span> <span class="ow">:</span> ys ≡ sortedYs
+  ysOk <span class="ow">=</span> PropEq.refl
+
+  <span class="nf">zsOk</span> <span class="ow">:</span> zs ≡ sortedZs
+  zsOk <span class="ow">=</span> PropEq.refl
+</code></pre></div>
+<div class="footnotes">
+<hr>
+<ol>
+
+<li id="fn1">
+<p>Functions are highlighted in Green in Agda. Such functions are &quot;opaque&quot; to Agda when performing unification, and are discouraged from being used in data type indices such as here, hence the term &quot;Green Slime&quot;.&nbsp;<a href="#fnref1" rev="footnote">&#8617;</a></p>
+</li>
+
+</ol>
+</div>
+
+</article>
+
+        </main>
+        <div class="divider"></div>
+        <footer>
+            Owen Stephens 2016
+        </footer>
+    </body>
+</html>

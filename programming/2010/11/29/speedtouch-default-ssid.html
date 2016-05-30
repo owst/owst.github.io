@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+  <meta charset="UTF-8">
+
+  <title>
+    
+      C#/LINQ to find Thompson/Speedtouch router's default SSID/Access keys &middot; Owen Stephens' Website
+    
+  </title>
+
+  <link rel="stylesheet" href="/assets/css/style.css">
+  <link rel="stylesheet" href="/assets/css/pygments.css">
+  <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,600|Droid+Sans+Mono' rel='stylesheet' type='text/css'>
+</head>
+
+    <body>
+        <header>
+            <span id="name">
+                Owen Stephens
+            </span>
+            <ul id="nav">
+              
+              
+                <li>
+                    
+                    <a  href="/">Home</a>
+                </li>
+                -
+              
+                <li>
+                    
+                    <a  href="/blog.html">Blog</a>
+                </li>
+                -
+              
+                <li>
+                    
+                    <a  href="/research.html">Research</a>
+                </li>
+                -
+              
+                <li>
+                    
+                    <a id="active-nav" href="/programming.html">Programming</a>
+                </li>
+                -
+              
+                <li>
+                    
+                    <a  href="/oss.html">Open Source</a>
+                </li>
+                
+              
+            </ul>
+            <div style="clear: both"></div>
+            <span id="tagline">
+                London-based Polyglot Programmer
+            </span>
+        </header>
+        <main>
+        <article class="post">
+  <div id="post-header">
+      <h1 class="post-title">C#/LINQ to find Thompson/Speedtouch router's default SSID/Access keys</h1>
+      <time datetime="2010-11-29T00:00:00+00:00" class="page-date">29 Nov 2010</time>
+  </div>
+  <p>Whilst researching content for a wireless security presentation for university,
+I came across <a href="http://flash.i.ph/blogs/flash/2009/09/12/default-key-algorithm-in-thomson-most-popular-dsl-router-in-the-pt-meo/">this page (now dead, unfortunately)</a>. It details the
+algorithm used to calculate the default password for some O2/BE/BT routers.</p>
+
+<p>I thought it would provide an interesting exercise to convert the algorithm to
+C#, using LINQ. Here it is:</p>
+<div class="highlight"><pre><code class="language-csharp" data-lang="csharp"><span class="k">using</span> <span class="nn">System</span><span class="p">;</span>
+<span class="k">using</span> <span class="nn">System.Linq</span><span class="p">;</span>
+<span class="k">using</span> <span class="nn">System.Security.Cryptography</span><span class="p">;</span>
+<span class="k">using</span> <span class="nn">System.Text</span><span class="p">;</span>
+
+<span class="k">class</span> <span class="nc">Program</span>
+<span class="p">{</span>
+    <span class="k">static</span> <span class="k">void</span> <span class="nf">Main</span><span class="p">(</span><span class="kt">string</span><span class="p">[]</span> <span class="n">args</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">args</span><span class="p">.</span><span class="n">Length</span> <span class="p">&lt;</span> <span class="m">4</span><span class="p">)</span>
+        <span class="p">{</span>
+            <span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(</span><span class="s">&quot;Need 4 args: SSID, year, monthFrom, monthTo&quot;</span><span class="p">);</span>
+            <span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(</span><span class="s">&quot;SSID = Hex part of SSID&quot;</span><span class="p">);</span>
+            <span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(</span><span class="s">&quot;Year = 2 digit year e.g. 08&quot;</span><span class="p">);</span>
+            <span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(</span><span class="s">&quot;monthFrom and monthTo = 0-indexed month numbers&quot;</span><span class="p">);</span>
+            <span class="n">Environment</span><span class="p">.</span><span class="n">Exit</span><span class="p">(</span><span class="m">1</span><span class="p">);</span>
+        <span class="p">}</span>
+
+        <span class="kt">string</span> <span class="n">ssid</span> <span class="p">=</span> <span class="n">args</span><span class="p">[</span><span class="m">0</span><span class="p">].</span><span class="n">ToUpper</span><span class="p">();</span>
+        <span class="kt">string</span> <span class="n">year</span> <span class="p">=</span> <span class="n">args</span><span class="p">[</span><span class="m">1</span><span class="p">];</span>
+        <span class="kt">int</span> <span class="n">monthFrom</span> <span class="p">=</span> <span class="kt">int</span><span class="p">.</span><span class="n">Parse</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="m">2</span><span class="p">]);</span>
+        <span class="kt">int</span> <span class="n">monthTo</span> <span class="p">=</span> <span class="kt">int</span><span class="p">.</span><span class="n">Parse</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="m">3</span><span class="p">]);</span>
+
+        <span class="kt">string</span> <span class="n">key</span> <span class="p">=</span> <span class="n">FindKey</span><span class="p">(</span><span class="n">ssid</span><span class="p">,</span> <span class="n">year</span><span class="p">,</span> <span class="n">monthFrom</span><span class="p">,</span> <span class="n">monthTo</span><span class="p">)</span> <span class="p">??</span> <span class="s">&quot;No key found!&quot;</span><span class="p">;</span>
+
+        <span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(</span><span class="s">&quot;Key is: &quot;</span> <span class="p">+</span> <span class="n">key</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="k">static</span> <span class="kt">string</span> <span class="nf">FindKey</span><span class="p">(</span><span class="kt">string</span> <span class="n">ssid</span><span class="p">,</span> <span class="kt">string</span> <span class="n">year</span><span class="p">,</span> <span class="kt">int</span> <span class="n">mFrom</span><span class="p">,</span> <span class="kt">int</span> <span class="n">mTo</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="kt">int</span> <span class="n">SSIDlen</span> <span class="p">=</span> <span class="n">ssid</span><span class="p">.</span><span class="n">Length</span><span class="p">;</span>
+        <span class="kt">var</span> <span class="n">sha1</span> <span class="p">=</span> <span class="n">SHA1</span><span class="p">.</span><span class="n">Create</span><span class="p">();</span>
+
+        <span class="kt">var</span> <span class="n">digitChars</span> <span class="p">=</span> <span class="n">Enumerable</span><span class="p">.</span><span class="n">Range</span><span class="p">((</span><span class="kt">int</span><span class="p">)</span><span class="sc">&#39;0&#39;</span><span class="p">,</span> <span class="m">10</span><span class="p">);</span>
+        <span class="kt">var</span> <span class="n">letterChars</span> <span class="p">=</span> <span class="n">Enumerable</span><span class="p">.</span><span class="n">Range</span><span class="p">((</span><span class="kt">int</span><span class="p">)</span><span class="sc">&#39;A&#39;</span><span class="p">,</span> <span class="m">26</span><span class="p">);</span>
+
+        <span class="c1">// Create hex strings of 0-9 and A-Z.</span>
+        <span class="kt">var</span> <span class="n">chars</span> <span class="p">=</span> <span class="n">digitChars</span><span class="p">.</span><span class="n">Concat</span><span class="p">(</span><span class="n">letterChars</span><span class="p">).</span><span class="n">Select</span><span class="p">(</span><span class="n">i</span> <span class="p">=&gt;</span> <span class="n">i</span><span class="p">.</span><span class="n">ToString</span><span class="p">(</span><span class="s">&quot;X&quot;</span><span class="p">));</span>
+
+        <span class="kt">var</span> <span class="n">charTuples</span> <span class="p">=</span> <span class="k">from</span> <span class="n">c1</span> <span class="k">in</span> <span class="n">chars</span>
+                         <span class="k">from</span> <span class="n">c2</span> <span class="k">in</span> <span class="n">chars</span>
+                         <span class="k">from</span> <span class="n">c3</span> <span class="k">in</span> <span class="n">chars</span>
+                         <span class="k">from</span> <span class="n">month</span> <span class="k">in</span> <span class="n">Enumerable</span><span class="p">.</span><span class="n">Range</span><span class="p">(</span><span class="n">mFrom</span><span class="p">,</span> <span class="n">mTo</span> <span class="p">-</span> <span class="n">mFrom</span><span class="p">)</span>
+                         <span class="k">select</span> <span class="n">Tuple</span><span class="p">.</span><span class="n">Create</span><span class="p">(</span><span class="n">month</span><span class="p">,</span> <span class="n">c1</span><span class="p">,</span> <span class="n">c2</span><span class="p">,</span> <span class="n">c3</span><span class="p">);</span>
+
+        <span class="k">return</span> <span class="n">charTuples</span><span class="p">.</span><span class="n">Select</span><span class="p">(</span><span class="n">t</span> <span class="p">=&gt;</span>
+        <span class="p">{</span>
+            <span class="c1">// Make a correctly-formed serial.</span>
+            <span class="kt">var</span> <span class="n">serial</span> <span class="p">=</span> <span class="s">&quot;CP&quot;</span> <span class="p">+</span> <span class="n">year</span> <span class="p">+</span> <span class="p">(</span><span class="n">t</span><span class="p">.</span><span class="n">Item1</span> <span class="p">&lt;</span> <span class="m">10</span> <span class="p">?</span> <span class="s">&quot;0&quot;</span> <span class="p">:</span> <span class="s">&quot;&quot;</span><span class="p">)</span> <span class="p">+</span> 
+                <span class="n">t</span><span class="p">.</span><span class="n">Item1</span> <span class="p">+</span> <span class="n">t</span><span class="p">.</span><span class="n">Item2</span> <span class="p">+</span> <span class="n">t</span><span class="p">.</span><span class="n">Item3</span> <span class="p">+</span> <span class="n">t</span><span class="p">.</span><span class="n">Item4</span><span class="p">;</span>
+
+            <span class="kt">var</span> <span class="n">serialBytes</span> <span class="p">=</span> <span class="n">Encoding</span><span class="p">.</span><span class="n">UTF8</span><span class="p">.</span><span class="n">GetBytes</span><span class="p">(</span><span class="n">serial</span><span class="p">);</span>
+            <span class="kt">var</span> <span class="n">sha1Bytes</span> <span class="p">=</span> <span class="n">sha1</span><span class="p">.</span><span class="n">ComputeHash</span><span class="p">(</span><span class="n">serialBytes</span><span class="p">);</span>
+
+            <span class="kt">var</span> <span class="n">hash</span> <span class="p">=</span> <span class="n">String</span><span class="p">.</span><span class="n">Join</span><span class="p">(</span><span class="s">&quot;&quot;</span><span class="p">,</span> <span class="n">sha1Bytes</span><span class="p">.</span><span class="n">Select</span><span class="p">(</span><span class="n">b</span> <span class="p">=&gt;</span> <span class="n">b</span><span class="p">.</span><span class="n">ToString</span><span class="p">(</span><span class="s">&quot;X&quot;</span><span class="p">)));</span>
+
+            <span class="c1">// Last 3 bytes are the SSID (</span>
+            <span class="kt">var</span> <span class="n">testSSID</span> <span class="p">=</span> <span class="n">hash</span><span class="p">.</span><span class="n">Substring</span><span class="p">(</span><span class="n">hash</span><span class="p">.</span><span class="n">Length</span> <span class="p">-</span> <span class="n">SSIDlen</span><span class="p">);</span>
+
+            <span class="c1">// If we&#39;ve got a match, the first 5 bytes are the default access key.</span>
+            <span class="k">return</span> <span class="n">testSSID</span> <span class="p">==</span> <span class="n">ssid</span> <span class="p">?</span> <span class="n">hash</span><span class="p">.</span><span class="n">Substring</span><span class="p">(</span><span class="m">0</span><span class="p">,</span> <span class="m">10</span><span class="p">)</span> <span class="p">:</span> <span class="s">&quot;&quot;</span><span class="p">;</span>
+        <span class="p">}).</span><span class="n">FirstOrDefault</span><span class="p">(</span><span class="n">s</span> <span class="p">=&gt;</span> <span class="n">s</span> <span class="p">!=</span> <span class="s">&quot;&quot;</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+</article>
+
+        </main>
+        <div class="divider"></div>
+        <footer>
+            Owen Stephens 2016
+        </footer>
+    </body>
+</html>
