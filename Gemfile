@@ -1,3 +1,5 @@
 source 'https://rubygems.org'
 
-gem 'github-pages'
+gem 'jekyll', '~> 3.1'
+gem 'redcarpet', '~> 3.3'
+gem 'pygments.rb', '~> 0.6'
