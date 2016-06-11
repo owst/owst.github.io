@@ -3,18 +3,25 @@ languages:
     - Ruby
 ---
 
-I improved linters of the popular [Rubocop][rubocop] code checking tool:
+I improved several linters of the popular [Rubocop][rubocop] code checking
+tool:
 
-1. [avoiding nested method definition warnings][rubocop-nested-method-defs]
-2. [treating loops as conditionally executed to avoid potentially-incorrect
-  useless variable assignment warnings][rubocop-loop-assignments],
-3. [ensure colons in optional keyword arguments are followed by
-   spaces][rubocop-optkwarg-spaces],
-4. [removing duplicate warnings regarding spacing around general and
-   ternary operators][rubocop-duplicates],
+1. [Avoiding nested method definition warnings][2708]
+2. [Treating loops as conditionally executed to avoid potentially-incorrect
+  useless variable assignment warnings][2702],
+3. [Ensuring colons in optional keyword arguments are followed by
+   spaces][2994],
+4. [Removing duplicate warnings regarding spacing around general and
+   ternary operators][3011],
+5. [Catching case statements with empty conditions][3044],
+6. [Improving useless access modifier warnings][3060],
+7. [Recognising useless array splats][3072]
 
 [rubocop]: http://batsov.com/rubocop/
-[rubocop-nested-method-defs]: https://github.com/bbatsov/rubocop/pull/2708
-[rubocop-loop-assignments]: https://github.com/bbatsov/rubocop/pull/2702
-[rubocop-optkwarg-spaces]: https://github.com/bbatsov/rubocop/pull/2994
-[rubocop-duplicates]: https://github.com/bbatsov/rubocop/pull/3011
+[2708]: https://github.com/bbatsov/rubocop/pull/2708
+[2702]: https://github.com/bbatsov/rubocop/pull/2702
+[2994]: https://github.com/bbatsov/rubocop/pull/2994
+[3011]: https://github.com/bbatsov/rubocop/pull/3011
+[3044]: https://github.com/bbatsov/rubocop/pull/3044
+[3060]: https://github.com/bbatsov/rubocop/pull/3060
+[3072]: https://github.com/bbatsov/rubocop/pull/3072
