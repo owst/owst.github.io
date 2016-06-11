@@ -1,6 +1,5 @@
 ---
 title: Agda Patience Sort
-sub_title: A dependently-typed implementation of patience sorting, using Agda
 ---
 
 Having recently decided to [learn myself an Agda][learn you an agda], I thought

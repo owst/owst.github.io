@@ -1,6 +1,5 @@
 ---
 title: Haskell "Weasel Program" Genetic Algorithm
-sub_title: A Haskell implementation of the "Weasel Program" genetic algorithm.
 ---
 As part of a university coursework, I had to create an implementation of a
 variant of the [Weasel Program][weasel_wiki].

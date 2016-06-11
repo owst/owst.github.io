@@ -1,6 +1,5 @@
 ---
 title: C# Pushdown Automaton
-sub_title: A C# implementation of a pushdown automaton
 ---
 I needed to write a [Pushdown Automaton (PDA)][pda] implementation as part of a
 genetic algorithm, used to evolve PDA, for a university project.

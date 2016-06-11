@@ -1,6 +1,5 @@
 ---
 title: Scala Patience Diff
-sub_title: An implementation of the patience diff algorithm, as found in several modern VCS programs
 ---
 Consider [diffing][diff] the following two files:
 
@@ -233,4 +232,4 @@ determine the LCS of the line pairs.
 [patience]: http://en.wikipedia.org/wiki/Patience_sorting
 [github_link]: https://github.com/owst/Scala-Patience-Diff
 [bazaar]: http://bazaar.canonical.com/en/
-[patience_impl]: /programming/2010/11/29/scala-patience-sort.html
+[patience_impl]: /blog/2010/11/29/scala-patience-sort.html

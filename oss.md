@@ -1,6 +1,6 @@
 ---
 title: "Open Source"
-weight: 5
+weight: 4
 ---
 
 A list of open source contributions I've made; some are small, but it's nice to

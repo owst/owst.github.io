@@ -1,6 +1,5 @@
 ---
 title: Scala implementation of Patience sort
-sub_title: A simple Scala implementation of the patience sort algorithm
 ---
 Here's a simple Scala implementation of [Patience Sort][patience_sort], that I
 wrote as a precursor to implementing the patience diff algorithm.

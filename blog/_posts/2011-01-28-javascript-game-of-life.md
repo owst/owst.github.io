@@ -1,6 +1,5 @@
 ---
 title: JavaScript Game of Life
-sub_title: Conway's Game of Life Cellular Automaton, created using JavaScript
 scripts:
   - http://ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.min.js
   - http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.9/jquery-ui.min.js

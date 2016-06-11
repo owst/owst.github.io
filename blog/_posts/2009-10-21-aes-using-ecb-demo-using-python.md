@@ -1,6 +1,5 @@
 ---
 title: AES using ECB Demo using Python
-sub_title: A comparison between ECB and CBC in the AES algorithm using Python
 ---
 Here's a little python program that I've knocked together inspired by
 [this][inspired_by] article, to demonstrate the serious gotcha involved with

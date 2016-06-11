@@ -1,6 +1,5 @@
 ---
 title: C#/LINQ to find Thompson/Speedtouch router's default SSID/Access keys
-sub_title: A C#/LINQ implementation of the Thompson/Speedtouch default SSID/password generator.
 ---
 Whilst researching content for a wireless security presentation for university,
 I came across [this page (now dead, unfortunately)][orig_link]. It details the
