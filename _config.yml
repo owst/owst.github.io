@@ -9,7 +9,16 @@ redcarpet:
       extensions: ["fenced_code_blocks", "autolink", "tables", "with_toc_data", "footnotes"]
 
 highlighter: pygments
+collections:
+    - oss_contributions
 defaults:
+  -
+    scope:
+        path: ""
+    values:
+        global_cloudflare_js_includes:
+          - underscore.js/1.8.3/underscore-min.js
+          - jquery/3.0.0/jquery.slim.min.js
   -
     scope:
       path: ""

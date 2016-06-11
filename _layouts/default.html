@@ -29,4 +29,12 @@
             {{ site.name }} {{ site.time | date: '%Y' }}
         </footer>
     </body>
+    {% for lib in page.global_cloudflare_js_includes %}
+        <script type='text/javascript' src='https://cdnjs.cloudflare.com/ajax/libs/{{lib}}'></script>
+    {% endfor %}
+    {% if layout.js_includes %}
+        {% for js_file in layout.js_includes %}
+            <script type='text/javascript' src='{{js_file}}'></script>
+        {% endfor %}
+    {% endif %}
 </html>
