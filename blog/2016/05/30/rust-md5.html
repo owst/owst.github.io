@@ -5,7 +5,7 @@
 
   <title>
     
-      Using an external diff viewer with Darcs &middot; Owen Stephens' Website
+      Rust MD5 &middot; Owen Stephens' Website
     
   </title>
 
@@ -55,18 +55,28 @@
         <main>
         <article class="post">
   <div id="post-header">
-      <h1 class="post-title">Using an external diff viewer with Darcs</h1>
-      <time datetime="2010-11-15T00:00:00+00:00" class="page-date">
-          15 Nov 2010
+      <h1 class="post-title">Rust MD5</h1>
+      <time datetime="2016-05-30T00:00:00+01:00" class="page-date">
+          30 May 2016
       </time>
   </div>
-  <p>Use the following command to show differences between the working and pristine
-copies of a darcs repo, using an external diff viewer.</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash">darcs diff --diff-command <span class="s1">&#39;kdiff3 %1 %2&#39;</span>
+  <p>As a little project to get started with learning <a href="https://www.rust-lang.org/">Rust</a>, I knocked
+together a simple implementation of <a href="https://www.ietf.org/rfc/rfc1321.txt">MD5</a>. Since this is a toy project,
+I made no attempt to obtain high-performance. For example, I simply read all
+input data before starting processing, rather than streaming.</p>
+
+<p>The usage should be familiar from <code>md5sum</code>: </p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash">&gt; <span class="nb">echo</span> <span class="s1">&#39;hi there&#39;</span> <span class="p">|</span> ./target/debug/rust_md5
+12f6bb1941df66b8f138a446d4e8670c -
 </code></pre></div>
-<p>This will create two temporary folders containing the two versions of the repo,
-and will pass the folder names as parameters to the diff program specified.
-Once the diff program has exited, the temporary folders are deleted.</p>
+<p>or</p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash">&gt; <span class="nb">echo</span> <span class="s1">&#39;unicode, ok ✔&#39;</span> &gt; file.txt
+&gt; ./target/debug/rust_md5 file.txt
+34a7fafe48ccb9d3f18f09949cbfa96f file.txt
+</code></pre></div>
+<p>Take a look at the implementation available on <a href="https://github.com/owst/rust_md5">GitHub, here</a>. One part
+that I think is quite cool is the <a href="https://github.com/owst/rust_md5/blob/61ef6b3fe89c309a88c41be1b4b3ce7d5d6ed0ae/src/md5.rs#L145-L170">usage of macros</a> to make the
+specification of the <a href="https://github.com/owst/rust_md5/blob/61ef6b3fe89c309a88c41be1b4b3ce7d5d6ed0ae/src/md5.rs#L186-L264">operations of each round</a> quite a bit neater.</p>
 
 </article>
 
