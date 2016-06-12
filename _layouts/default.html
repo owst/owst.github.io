@@ -3,24 +3,25 @@
     {% include head.html %}
     <body>
         <header>
-            <span id="name">
+            <span class="name">
                 {{site.name}}
             </span>
-            <ul id="nav">
+            <ul class="nav">
               {% assign pages = site.pages | sort:"weight"  %}
               {% for p in pages %}
                 <li>
                     {% capture down_title %}{{ p.title | downcase }}{% endcapture%}
-                    <a {% if p.url == page.url or page.categories.first == down_title%}id="active-nav"{% endif %} href="{{ p.url }}">{{ p.title }}</a>
+                    <a {% if p.url == page.url or page.categories.first == down_title%}class="active-nav"{% endif %} href="{{ p.url }}">{{ p.title }}</a>
                 </li>
                 {% if forloop.last %}{%else%}-{% endif %}
               {% endfor %}
             </ul>
             <div style="clear: both"></div>
-            <span id="tagline">
+            <span class="tagline">
                 {{site.tagline}}
             </span>
         </header>
+        <div class="divider"></div>
         <main>
         {{ content }}
         </main>

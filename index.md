@@ -16,4 +16,4 @@ playing the electric guitar, and watching MotoGP &amp; F1.
 If you'd like to say hi, feel free to do so via email:
 <a href="mailto: owen@owenstephens.co.uk">owen@owenstephens.co.uk</a>.
 
-<img src="{{site.img_dir}}owenstephens.png" id="mugshot" alt="A mugshot"/>
+<img src="{{site.img_dir}}owenstephens.png" class="mugshot" alt="A mugshot"/>

@@ -1,12 +1,20 @@
 body {
-    font-size: 11pt;
     font-family: 'Open Sans', sans-serif;
     color: #000;
     width: 850px;
     margin: 0 auto;
 }
 
-#mugshot {
+main {
+    font-size: 1em;
+    padding: 0 0 0 1rem;
+}
+
+header {
+    position: relative;
+}
+
+.mugshot {
     margin: 0 auto;
     width: 325px;
     display: block;
@@ -15,10 +23,7 @@ body {
 
 .divider {
     border-bottom: 1px solid #CCC;
-}
-
-div.divider {
-    margin: 5px auto;
+    margin: 1em auto;
     width: 50%;
 }
 
@@ -47,96 +52,63 @@ nav {
 }
 
 footer {
-    margin: 5px 0;
+    margin: 1rem 0;
     text-align: center;
-    font-size: 0.65rem;
+    font-size: 0.65em;
 }
 
-.entry {
-    margin-top: 15px;
-}
-
-.entry-description {
-    margin-left: 5px;
-    margin-top: 5px;
-    font-style: italic;
-}
-
-main {
-    padding: 10px 0px 0px 10px;
-}
-
-header {
-    position: relative;
-}
-
-#name {
+.name {
     float: left;
     font-weight: 600;
-    font-size: 3rem;
+    font-size: 3em;
 }
 
-#tagline {
-    padding-left: 10px;
+.tagline {
+    padding-left: 1rem;
     font-style: italic;
-    font-size: 1.1rem;
+    font-size: 1.1em;
     color: #444;
-}
-
-.post-title {
-    margin-bottom: 0;
-}
-
-#post-header {
-    margin-bottom: 30px;
-}
-
-h1 {
-    font-size: 1.2rem;
-}
-
-h2 {
-    font-size: 1.05rem;
 }
 
 time {
     font-family: 'Droid Sans Mono', monospace;
 }
 
-#active-nav {
+.active-nav {
     text-decoration: underline;
 }
 
-ul#nav {
+.nav {
     position: absolute;
-    top: 20px;
-    right: 0px;
+    top: 1.5rem;
+    right: 0;
     list-style-type: none;
     margin: 0;
     padding: 0;
     display: inline-block;
-    font-size: 1.3rem;
+    font-size: 1.3em;
 }
 
-ul#nav li {
+.nav li {
     display: inline;
 }
 
-div.highlight {
+.highlight {
     border: dashed 2px #eee;
-    padding: 10px;
+    padding: 0.75rem;
     background-color: #f9f9f9;
+    font-size: 1.2em;
 }
 
-div.highlight pre {
+.highlight pre {
     margin: 0;
 }
 
 .block_label {
     background-color: #909090;
     display: inline-block;
-    padding: 3px 4px;
-    font-size: 13px;
+    padding: 0.15em 0.2em;
+    font-size: 0.85em;
     font-weight: bold;
     line-height: 1;
     color: #fff;
@@ -145,12 +117,12 @@ div.highlight pre {
 }
 
 .block_labels {
-    margin-left: -20px;
+    margin-left: -1rem;
 }
 
 .oss_contribution {
-    margin-bottom: 20px;
-    padding-left: 20px;
+    margin-bottom: 1rem;
+    padding-left: 1rem;
 }
 
 .oss_contribution p {
