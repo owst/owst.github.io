@@ -129,3 +129,7 @@ time {
 .oss_contribution p {
     display: inline;
 }
+
+.post-title {
+    margin-bottom: 0;
+}
