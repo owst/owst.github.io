@@ -38,4 +38,9 @@
             <script type='text/javascript' src='{{js_file}}'></script>
         {% endfor %}
     {% endif %}
+    {% if page.js_includes %}
+        {% for js_file in page.js_includes %}
+            <script type='text/javascript' src='{{js_file}}'></script>
+        {% endfor %}
+    {% endif %}
 </html>

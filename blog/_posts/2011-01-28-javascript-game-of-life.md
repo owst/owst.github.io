@@ -1,93 +1,92 @@
 ---
 title: JavaScript Game of Life
-scripts:
-  - http://ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.min.js
-  - http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.9/jquery-ui.min.js
-  - https://raw.githubusercontent.com/owst/JS-Game-of-Life/master/CA.js
+js_includes:
+  - https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js
+  - https://cdn.rawgit.com/owst/JS-Game-of-Life/2d78ba8a37d12ac7b2329a205622ccd85a1ee626/CA.js
 ---
 
-{% for link in page.scripts %}
-<script type="text/javascript" src="{{link}}"></script>
-{% endfor %}
-
 <script>
-    $(function () {
-        var jCanvas = $('#world');
-        var canvas = jCanvas.get(0);
-        var ctx = canvas.getContext('2d');
-        var pixelSize = 6;
-        var width = canvas.width / pixelSize;
-        var height = canvas.height / pixelSize;
-        var startTimeout = 30;
+/* 
+  A bit yucky, but Github has made it not possible to link to hosted js files
+  so we can't stick this in an external file and into js_includes above. We
+  also can't rely on jQuery being loaded here because it is only linked in the
+  footer, so we use the load event to be sure everything has loaded.
+*/
+window.addEventListener("load", function() {
+    var jCanvas = $('#world');
+    var canvas = jCanvas.get(0);
+    var ctx = canvas.getContext('2d');
+    var pixelSize = 6;
+    var width = canvas.width / pixelSize;
+    var height = canvas.height / pixelSize;
+    var startTimeout = 30;
 
-        var ca = new CA(ctx, width, height, pixelSize, startTimeout);
+    var ca = new CA(ctx, width, height, pixelSize, startTimeout);
 
-        startStopHandler = function () {
-            var button = $('#startStop');
+    startStopHandler = function () {
+        var button = $('#startStop');
 
-            if (button.html() === 'Stop') {
-                button.html('Start');
+        if (button.html() === 'Stop') {
+            button.html('Start');
 
-                clearTimeout(ca.timeout);
-                ca.timeout = null;
-            } else {
-                button.html('Stop');
+            clearTimeout(ca.timeout);
+            ca.timeout = null;
+        } else {
+            button.html('Stop');
 
-                ca.setupTimeout();
-            }
-        };
+            ca.setupTimeout();
+        }
+    };
 
-        randomise = function () {
-            ca.randomData();
-        };
+    randomise = function () {
+        ca.randomData();
+    };
 
-        clearCtx = function () {
-            ca.clear();
-        };
+    clearCtx = function () {
+        ca.clear();
+    };
 
-        clearAndRandomise = function () {
-            clearCtx();
-            randomise();
-        };
+    clearAndRandomise = function () {
+        clearCtx();
+        randomise();
+    };
 
-        jCanvas.mousedown(function (e) {
-            var x = Math.round(e.offsetX / ca.pixelSize) * ca.pixelSize;
-            var y = Math.round(e.offsetY / ca.pixelSize) * ca.pixelSize;
+    jCanvas.mousedown(function (e) {
+        var x = Math.round(e.offsetX / ca.pixelSize) * ca.pixelSize;
+        var y = Math.round(e.offsetY / ca.pixelSize) * ca.pixelSize;
 
-            if (e.which === 1) {
-                ca.setPixelBlack(x, y);
-            } else if (e.which === 3) {
-                ca.clearPixel(x, y);
-            }
-       });
-
-       jCanvas.bind("contextmenu", function (e) {
-           return false;
-       });
-
-        $('#slider').slider({
-            value: startTimeout,
-            min: 10,
-            max: 500,
-            step: 10,
-            slide: function (event, ui) {
-                $('#timeout').val(ui.value);
-                ca.timeoutTime = ui.value;
-
-                if (ca.timeout) {
-                    clearTimeout(ca.timeout);
-                    ca.setupTimeout();
-                }
-            }
-        });
-
-        $('#timeout').val(startTimeout);
-
-
-        ca.initGliderGun(10, 40);
-        ca.initGliderGun(60, 10);
+        if (e.which === 1) {
+            ca.setPixelBlack(x, y);
+        } else if (e.which === 3) {
+            ca.clearPixel(x, y);
+        }
     });
 
+    jCanvas.contextmenu(function () {
+        return false;
+    });
+
+    $('#slider').slider({
+        value: startTimeout,
+        min: 10,
+        max: 500,
+        step: 10,
+        slide: function (event, ui) {
+            $('#timeout').val(ui.value);
+            ca.timeoutTime = ui.value;
+
+            if (ca.timeout) {
+                clearTimeout(ca.timeout);
+                ca.setupTimeout();
+            }
+        }
+    });
+
+    $('#timeout').val(startTimeout);
+
+    ca.initGliderGun(10, 40);
+    ca.initGliderGun(60, 10);
+});
 </script>
 
 I thought it'd be interesting to code a JavaScript implementation of [John
@@ -103,7 +102,7 @@ changed to the "off" state.
 
 The liveness of a cell is determined by its state, and the state of its 9
 neighbours, using a simple set of rules. The number of live neighbours is
-counted, and the cell's state is calculated thus: 
+counted, and the cell's state is calculated thus:
 
 1. A live cell with < 2 *dies*.
 1. A live cell with 2 or 3 *lives*.
@@ -130,10 +129,8 @@ the edges.
 <button id="startStop" type="button"
     onclick="startStopHandler()">Start</button>
 <button id="clear" type="button" onclick="clearCtx()">Clear</button>
-<button id="randomise" type="button"
-    onclick="randomise()">Randomise</button>
-<button id="clearAndRandomise" type="button"
-    onclick="clearAndRandomise()">Clear and Randomise</button>  
+<button id="randomise" type="button" onclick="randomise()">Randomise</button>
+<button id="clearAndRandomise" type="button" onclick="clearAndRandomise()">Clear and Randomise</button>
 <br/>
 <label for="timeout">Timeout period (ms):</label>
 <input type="text" id="timeout" disabled="true" style="width: 35px"/> <div id="slider" style="display: inline-block; width: 500px"></div>
