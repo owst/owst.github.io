@@ -61,90 +61,88 @@
           28 Jan 2011
       </time>
   </div>
-  <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.min.js"></script>
+  <script>
+/* 
+  A bit yucky, but Github has made it not possible to link to hosted js files
+  so we can't stick this in an external file and into js_includes above. We
+  also can't rely on jQuery being loaded here because it is only linked in the
+  footer, so we use the load event to be sure everything has loaded.
+*/
+window.addEventListener("load", function() {
+    var jCanvas = $('#world');
+    var canvas = jCanvas.get(0);
+    var ctx = canvas.getContext('2d');
+    var pixelSize = 6;
+    var width = canvas.width / pixelSize;
+    var height = canvas.height / pixelSize;
+    var startTimeout = 30;
 
-<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.9/jquery-ui.min.js"></script>
+    var ca = new CA(ctx, width, height, pixelSize, startTimeout);
 
-<script type="text/javascript" src="https://raw.githubusercontent.com/owst/JS-Game-of-Life/master/CA.js"></script>
+    startStopHandler = function () {
+        var button = $('#startStop');
 
-<script>
-    $(function () {
-        var jCanvas = $('#world');
-        var canvas = jCanvas.get(0);
-        var ctx = canvas.getContext('2d');
-        var pixelSize = 6;
-        var width = canvas.width / pixelSize;
-        var height = canvas.height / pixelSize;
-        var startTimeout = 30;
+        if (button.html() === 'Stop') {
+            button.html('Start');
 
-        var ca = new CA(ctx, width, height, pixelSize, startTimeout);
+            clearTimeout(ca.timeout);
+            ca.timeout = null;
+        } else {
+            button.html('Stop');
 
-        startStopHandler = function () {
-            var button = $('#startStop');
+            ca.setupTimeout();
+        }
+    };
 
-            if (button.html() === 'Stop') {
-                button.html('Start');
+    randomise = function () {
+        ca.randomData();
+    };
 
-                clearTimeout(ca.timeout);
-                ca.timeout = null;
-            } else {
-                button.html('Stop');
+    clearCtx = function () {
+        ca.clear();
+    };
 
-                ca.setupTimeout();
-            }
-        };
+    clearAndRandomise = function () {
+        clearCtx();
+        randomise();
+    };
 
-        randomise = function () {
-            ca.randomData();
-        };
+    jCanvas.mousedown(function (e) {
+        var x = Math.round(e.offsetX / ca.pixelSize) * ca.pixelSize;
+        var y = Math.round(e.offsetY / ca.pixelSize) * ca.pixelSize;
 
-        clearCtx = function () {
-            ca.clear();
-        };
-
-        clearAndRandomise = function () {
-            clearCtx();
-            randomise();
-        };
-
-        jCanvas.mousedown(function (e) {
-            var x = Math.round(e.offsetX / ca.pixelSize) * ca.pixelSize;
-            var y = Math.round(e.offsetY / ca.pixelSize) * ca.pixelSize;
-
-            if (e.which === 1) {
-                ca.setPixelBlack(x, y);
-            } else if (e.which === 3) {
-                ca.clearPixel(x, y);
-            }
-       });
-
-       jCanvas.bind("contextmenu", function (e) {
-           return false;
-       });
-
-        $('#slider').slider({
-            value: startTimeout,
-            min: 10,
-            max: 500,
-            step: 10,
-            slide: function (event, ui) {
-                $('#timeout').val(ui.value);
-                ca.timeoutTime = ui.value;
-
-                if (ca.timeout) {
-                    clearTimeout(ca.timeout);
-                    ca.setupTimeout();
-                }
-            }
-        });
-
-        $('#timeout').val(startTimeout);
-
-
-        ca.initGliderGun(10, 40);
-        ca.initGliderGun(60, 10);
+        if (e.which === 1) {
+            ca.setPixelBlack(x, y);
+        } else if (e.which === 3) {
+            ca.clearPixel(x, y);
+        }
     });
 
+    jCanvas.contextmenu(function () {
+        return false;
+    });
+
+    $('#slider').slider({
+        value: startTimeout,
+        min: 10,
+        max: 500,
+        step: 10,
+        slide: function (event, ui) {
+            $('#timeout').val(ui.value);
+            ca.timeoutTime = ui.value;
+
+            if (ca.timeout) {
+                clearTimeout(ca.timeout);
+                ca.setupTimeout();
+            }
+        }
+    });
+
+    $('#timeout').val(startTimeout);
+
+    ca.initGliderGun(10, 40);
+    ca.initGliderGun(60, 10);
+});
 </script>
 
 <p>I thought it&#39;d be interesting to code a JavaScript implementation of <a href="http://en.wikipedia.org/wiki/Conway&#x27;s_Game_of_Life">John
@@ -160,7 +158,7 @@ changed to the &quot;off&quot; state.</p>
 
 <p>The liveness of a cell is determined by its state, and the state of its 9
 neighbours, using a simple set of rules. The number of live neighbours is
-counted, and the cell&#39;s state is calculated thus: </p>
+counted, and the cell&#39;s state is calculated thus:</p>
 
 <ol>
 <li>A live cell with &lt; 2 <em>dies</em>.</li>
@@ -190,10 +188,8 @@ the edges.</p>
 <button id="startStop" type="button"
     onclick="startStopHandler()">Start</button>
 <button id="clear" type="button" onclick="clearCtx()">Clear</button>
-<button id="randomise" type="button"
-    onclick="randomise()">Randomise</button>
-<button id="clearAndRandomise" type="button"
-    onclick="clearAndRandomise()">Clear and Randomise</button>  
+<button id="randomise" type="button" onclick="randomise()">Randomise</button>
+<button id="clearAndRandomise" type="button" onclick="clearAndRandomise()">Clear and Randomise</button>
 <br/>
 <label for="timeout">Timeout period (ms):</label>
 <input type="text" id="timeout" disabled="true" style="width: 35px"/> <div id="slider" style="display: inline-block; width: 500px"></div>
@@ -212,13 +208,20 @@ the edges.</p>
     
         <script type='text/javascript' src='https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js'></script>
     
-        <script type='text/javascript' src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0/jquery.slim.min.js'></script>
+        <script type='text/javascript' src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0/jquery.min.js'></script>
     
     
         
             <script type='text/javascript' src='https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.13.0/moment.min.js'></script>
         
             <script type='text/javascript' src='/assets/js/time.js'></script>
+        
+    
+    
+        
+            <script type='text/javascript' src='https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js'></script>
+        
+            <script type='text/javascript' src='https://cdn.rawgit.com/owst/JS-Game-of-Life/2d78ba8a37d12ac7b2329a205622ccd85a1ee626/CA.js'></script>
         
     
 </html>
