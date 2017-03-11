@@ -5,7 +5,7 @@
 
   <title>
     
-      Rust MD5 &middot; Owen Stephens' Website
+      gziprb - Gzip implemented in Ruby &middot; Owen Stephens' Website
     
   </title>
 
@@ -56,28 +56,30 @@
         <main>
         <article class="post">
   <div id="post-header">
-      <h1 class="post-title">Rust MD5</h1>
-      <time datetime="2016-05-30T00:00:00+01:00" class="page-date">
-          30 May 2016
+      <h1 class="post-title">gziprb - Gzip implemented in Ruby</h1>
+      <time datetime="2017-03-11T00:00:00+00:00" class="page-date">
+          11 Mar 2017
       </time>
   </div>
-  <p>As a little project to get started with learning <a href="https://www.rust-lang.org/">Rust</a>, I knocked
-together a simple implementation of <a href="https://www.ietf.org/rfc/rfc1321.txt">MD5</a>. Since this is a toy project,
-I made no attempt to obtain high-performance. For example, I simply read all
-input data before starting processing, rather than streaming.</p>
+  <p>Over the last few months, I have created <a href="https://github.com/owst/gziprb"><code>gziprb</code></a>, a pure-Ruby
+implementation of the famous <a href="https://tools.ietf.org/html/rfc1951">GZIP</a>/<a href="https://tools.ietf.org/html/rfc1952">DEFLATE</a> format. It is (definitely!)
+not optimised for performance, but was instead created as a learning exercise
+to try and understand the gzip format. It was certainly interesting to
+understand the bit-packing, storage-optimisation and low-level deflate
+algorithm that go together to create gzip.</p>
 
-<p>The usage should be familiar from <code>md5sum</code>: </p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash">&gt; <span class="nb">echo</span> <span class="s1">&#39;hi there&#39;</span> <span class="p">|</span> ./target/debug/rust_md5
-12f6bb1941df66b8f138a446d4e8670c -
+<p>We can run some very simple tests to make sure the basics are working (the
+<a href="https://github.com/owst/gziprb/blob/master/spec/gziprb/deflate_spec.rb">project specs</a> contain many more-involved examples than this!).</p>
+
+<p>Compressing:</p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash">&gt; <span class="nb">echo</span> <span class="s1">&#39;ABCabcabcXYZ11111ABC&#39;</span> <span class="p">|</span> bundle <span class="nb">exec </span>exe/gziprb <span class="p">|</span> gunzip
+ABCabcabcXYZ11111ABC
 </code></pre></div>
-<p>or</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash">&gt; <span class="nb">echo</span> <span class="s1">&#39;unicode, ok ✔&#39;</span> &gt; file.txt
-&gt; ./target/debug/rust_md5 file.txt
-34a7fafe48ccb9d3f18f09949cbfa96f file.txt
+<p>Decompressing:</p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash">&gt; <span class="nb">echo</span> <span class="s1">&#39;ABCabcabcXYZ11111ABC&#39;</span> <span class="p">|</span> gzip <span class="p">|</span> bundle <span class="nb">exec </span>exe/gunziprb
+ABCabcabcXYZ11111ABC
 </code></pre></div>
-<p>Take a look at the implementation available on <a href="https://github.com/owst/rust_md5">GitHub, here</a>. One part
-that I think is quite cool is the <a href="https://github.com/owst/rust_md5/blob/61ef6b3fe89c309a88c41be1b4b3ce7d5d6ed0ae/src/md5.rs#L145-L170">usage of macros</a> to make the
-specification of the <a href="https://github.com/owst/rust_md5/blob/61ef6b3fe89c309a88c41be1b4b3ce7d5d6ed0ae/src/md5.rs#L186-L264">operations of each round</a> quite a bit neater.</p>
+<p>Please <a href="https://github.com/owst/gziprb">take a look</a> and maybe give <code>gziprb</code> a try!</p>
 
 </article>
 
