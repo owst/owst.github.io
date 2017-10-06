@@ -1,6 +1,7 @@
 ---
 languages:
     - Python
+weight: 60
 ---
 
 I added support for IPv6 extension headers to the [dpkt][dpkt] library, the

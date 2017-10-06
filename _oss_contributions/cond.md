@@ -1,6 +1,7 @@
 ---
-languages: 
+languages:
     - Haskell
+weight: 100
 ---
 
 [I added an instance][cond-pr] to the Boolean algebra library [Cond][cond] to

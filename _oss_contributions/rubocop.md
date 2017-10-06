@@ -1,6 +1,7 @@
 ---
 languages:
     - Ruby
+weight: 40
 ---
 
 I improved several linters of the popular [Rubocop][rubocop] code checking
