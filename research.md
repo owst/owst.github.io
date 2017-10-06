@@ -7,7 +7,7 @@ My research topics to date include functional programming languages (in particul
 
 **Compositional model checking of Petri Nets**:
 
-My PhD research focussed on compositionally checking reachability in systems modeled by Petri nets, as discussed in the following three papers:
+My PhD research focussed on compositionally checking reachability in systems modeled by Petri nets. My PhD thesis *Compositional specification and reachability checking of net systems* is [available online][thesis], and includes the work from three papers I co-authored:
 
 - *Compositional Reachability in Petri Nets*, [Reachability Problems '14][rp]
 
@@ -34,3 +34,4 @@ programming languages: [report (PDF)][report].
 [rp]: http://link.springer.com/chapter/10.1007%2F978-3-319-11439-2_18
 [rppaper]: {{site.static_dir}}research/rp14.pdf
 [report]: {{site.static_dir}}research/masters_report.pdf
+[thesis]: https://eprints.soton.ac.uk/385201/
