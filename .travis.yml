@@ -4,7 +4,7 @@ git:
   depth: 1
 cache: bundler
 script:
-  - bundle exec jekyll build
+  - bundle exec jekyll build --verbose
 after_success:
   - git fetch origin master:origin/master
   - git checkout -b travis_test_builds origin/master

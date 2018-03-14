@@ -5,7 +5,7 @@ tagline: "London-based Polyglot Programmer"
 img_dir: '/assets/images/'
 static_dir: '/assets/static/'
 markdown: redcarpet
-timezone: Europe/London
+timezone: "Europe/London"
 redcarpet:
       extensions: ["fenced_code_blocks", "autolink", "tables", "with_toc_data", "footnotes"]
 
