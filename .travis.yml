@@ -1,0 +1,19 @@
+lang: ruby
+env:
+  - BRANCH=travis_test_builds
+install:
+  - bundle install
+script:
+  - bundle exec jekyll build
+after_success:
+  - git checkout -b $BRANCH
+  - mkdir /tmp/_site
+  - mv CNAME .git _site/* /tmp/_site
+  - rm -r *
+  - mv /tmp/_site/* .
+  - git add .
+  - git config --global user.email "travis@travis-ci.org"
+  - git config --global user.name "Travis CI"
+  - git commit --all --message "Travis build: $TRAVIS_BUILD_NUMBER"
+  - git remote add github
+  - git push https://${GH_TOKEN}@github.com/owst/owst.github.io $BRANCH
