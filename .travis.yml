@@ -10,8 +10,8 @@ after_success:
   - find . -mindepth 1 -maxdepth 1 -not -name _site -exec rm -r {} \;
   - mv _site/* _site/.git .
   - rmdir _site
-  - git add .
   - git config --global user.email "travis@travis-ci.org"
   - git config --global user.name "Travis CI"
-  - git commit --all --message "Travis build: $TRAVIS_BUILD_NUMBER"
+  - git add .
+  - git commit --message "Travis build: $TRAVIS_BUILD_NUMBER"
   - git push https://${GH_TOKEN}@github.com/owst/owst.github.io
