@@ -8,7 +8,7 @@ script:
 after_success:
   - mv CNAME .git _site/
   - find . -mindepth 1 -maxdepth 1 -not -name _site -exec rm -r {} \;
-  - mv _site/* .
+  - mv _site/* _site/.git .
   - rmdir _site
   - git checkout -b $BRANCH
   - git add .
