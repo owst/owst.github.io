@@ -2,6 +2,8 @@ lang: ruby
 env:
   - BRANCH=travis_test_builds
 cache: bundler
+install:
+  - bundle install
 script:
   - bundle exec jekyll build
 after_success:
