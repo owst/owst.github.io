@@ -17,5 +17,4 @@ after_success:
   - git config --global user.name "Travis CI"
   - git add .
   - 'git commit --message "Travis build: $TRAVIS_BUILD_NUMBER"'
-  - git status
   - git push https://${GH_TOKEN}@github.com/owst/owst.github.io
