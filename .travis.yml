@@ -1,4 +1,4 @@
-lang: ruby
+language: ruby
 sudo: false
 git:
   depth: 1
