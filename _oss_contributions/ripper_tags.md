@@ -1,7 +1,7 @@
 ---
 languages:
     - Ruby
-weight: 30
+weight: 25
 ---
 
 I [added support][pr] for nested constant definitions to the [ripper-tags][rt]
