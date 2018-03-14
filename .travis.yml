@@ -9,6 +9,10 @@ after_success:
   - echo $TRAVIS_BUILD_NUMBER
   - echo "$TRAVIS_BUILD_NUMBER"
   - echo "build $TRAVIS_BUILD_NUMBER"
+  - echo "build:"
+  - echo "build: "
+  - echo "build: something"
+  - echo "build: $CI"
   - echo "build: $TRAVIS_BUILD_NUMBER"
   - git checkout -b travis_test_builds
   - mv CNAME .git _site/
