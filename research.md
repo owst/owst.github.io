@@ -9,16 +9,13 @@ My research topics to date include functional programming languages (in particul
 
 My PhD research focussed on compositionally checking reachability in systems modeled by Petri nets. My PhD thesis *Compositional specification and reachability checking of net systems* is [available online][thesis], and includes the work from three papers I co-authored:
 
-- *Compositional Reachability in Petri Nets*, [Reachability Problems '14][rp]
-
+- *Compositional Reachability in Petri Nets*, [Reachability Problems '14][rp]<br/>
     with Julian Rathke and Paweł Sobociński, [paper (PDF)][rppaper]
 
-- *A Programming Language for Spatial Distribution of Net Systems*, [Petri Nets '14][pn]
-
+- *A Programming Language for Spatial Distribution of Net Systems*, [Petri Nets '14][pn]<br/>
     with Paweł Sobociński, [paper (PDF)][pnpaper]
 
-- *Penrose: Putting Compositionality to Work for Petri Net Reachability*, [CALCO'13][calco]
-
+- *Penrose: Putting Compositionality to Work for Petri Net Reachability*, [CALCO'13][calco]<br/>
     with Paweł Sobociński, [paper (PDF)][calcopaper]
 
 **IO in functional programming languages**:
