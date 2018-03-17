@@ -17,8 +17,7 @@ Please have a look around; I very infrequently [blog][blog] about technical
 things, have linked to my [open source contributions][oss] and discussed my
 PhD/masters [research papers][research].
 
-If you'd like to say hi, feel free to do so via email:
-<a href="mailto: owen@owenstephens.co.uk">owen@owenstephens.co.uk</a>.
+If you'd like to say hi, feel free to do so via email: [{{site.email}}](mailto:{{site.email}}).
 
 <img src="{{site.img_dir}}owenstephens.png" class="mugshot" alt="A mugshot"/>
 
