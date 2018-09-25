@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+  <meta charset="UTF-8">
+
+  <title>
+    
+      Getting started with the (recent) LLVM C JIT API &middot; Owen Stephens' Website
+    
+  </title>
+
+  <link rel="stylesheet" href="/assets/css/style.css">
+  <link rel="stylesheet" href="/assets/css/pygments.css">
+  <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600|Droid+Sans+Mono' rel='stylesheet' type='text/css'>
+</head>
+
+    <body>
+        <header>
+            <span class="name">
+                Owen Stephens
+            </span>
+            <ul class="nav">
+              
+              
+                <li>
+                    
+                    <a  href="/">Home</a>
+                </li>
+                -
+              
+                <li>
+                    
+                    <a class="active-nav" href="/blog.html">Blog</a>
+                </li>
+                -
+              
+                <li>
+                    
+                    <a  href="/research.html">Research</a>
+                </li>
+                -
+              
+                <li>
+                    
+                    <a  href="/oss.html">Open Source</a>
+                </li>
+                
+              
+            </ul>
+            <div style="clear: both"></div>
+            <span class="tagline">
+                London-based Polyglot Programmer
+            </span>
+        </header>
+        <div class="divider"></div>
+        <main>
+        <article class="post">
+  <div id="post-header">
+      <h1 class="post-title">Getting started with the (recent) LLVM C JIT API</h1>
+      <time datetime="2018-09-25T00:00:00+01:00" class="page-date">
+          25 Sep 2018
+      </time>
+  </div>
+  <p>I&#39;ve been looking into using the <a href="https://llvm.org/">LLVM</a> C library to enable me to add a <a href="https://en.wikipedia.org/wiki/Just-in-time_compilation">JIT</a> compiler to a small project I&#39;m working on. I came across <a href="https://pauladamsmith.com/blog/2015/01/how-to-get-started-with-llvm-c-api.html">Paul Smith&#39;s</a> excellent blog post describing how to get started with the LLVM C API. In it, he describes how to JIT-compile a simple sum function, but unfortunately the code within doesn&#39;t work with recent versions of LLVM. I&#39;m using the version of LLVM as installed by <a href="https://brew.sh/">brew</a> (on macOS) as of the time of writing - 7.0.0 - I therefore thought I would update his code to work with this newer version of LLVM.</p>
+
+<p>Getting started, the error I was getting when trying to run <code>make</code> against Paul&#39;s Makefile was:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">$ make
+clang++ sum.o `llvm-config --cxxflags --ldflags --libs core executionengine jit interpreter analysis native bitwriter --system-libs` -o sum
+llvm-config: unknown component name: jit
+Undefined symbols for architecture x86_64:
+  &quot;_LLVMAddFunction&quot;, referenced from:
+      _main in sum.o
+  &quot;_LLVMAppendBasicBlock&quot;, referenced from:
+      _main in sum.o
+  &quot;_LLVMBuildAdd&quot;, referenced from:
+      _main in sum.o
+  &quot;_LLVMBuildRet&quot;, referenced from:
+      _main in sum.o
+  &quot;_LLVMCreateBuilder&quot;, referenced from:
+      _main in sum.o
+  &quot;_LLVMCreateExecutionEngineForModule&quot;, referenced from:
+      _main in sum.o
+  &quot;_LLVMCreateGenericValueOfInt&quot;, referenced from:
+      _main in sum.o
+  &quot;_LLVMDisposeBuilder&quot;, referenced from:
+      _main in sum.o
+  &quot;_LLVMDisposeExecutionEngine&quot;, referenced from:
+      _main in sum.o
+  &quot;_LLVMDisposeMessage&quot;, referenced from:
+      _main in sum.o
+  &quot;_LLVMFunctionType&quot;, referenced from:
+      _main in sum.o
+  &quot;_LLVMGenericValueToInt&quot;, referenced from:
+      _main in sum.o
+  &quot;_LLVMGetParam&quot;, referenced from:
+      _main in sum.o
+  &quot;_LLVMInitializeX86Target&quot;, referenced from:
+      _LLVMInitializeNativeTarget in sum.o
+  &quot;_LLVMInitializeX86TargetInfo&quot;, referenced from:
+      _LLVMInitializeNativeTarget in sum.o
+  &quot;_LLVMInitializeX86TargetMC&quot;, referenced from:
+      _LLVMInitializeNativeTarget in sum.o
+  &quot;_LLVMInt32Type&quot;, referenced from:
+      _main in sum.o
+  &quot;_LLVMLinkInJIT&quot;, referenced from:
+      _main in sum.o
+  &quot;_LLVMModuleCreateWithName&quot;, referenced from:
+      _main in sum.o
+  &quot;_LLVMPositionBuilderAtEnd&quot;, referenced from:
+      _main in sum.o
+  &quot;_LLVMRunFunction&quot;, referenced from:
+      _main in sum.o
+  &quot;_LLVMVerifyModule&quot;, referenced from:
+      _main in sum.o
+  &quot;_LLVMWriteBitcodeToFile&quot;, referenced from:
+      _main in sum.o
+ld: symbol(s) not found for architecture x86_64
+clang-7: error: linker command failed with exit code 1 (use -v to see invocation)
+make: *** [sum] Error 1
+</code></pre></div>
+<p>The main problem (hinted at in the line <code>llvm-config: unknown component name: jit</code>) is that the &quot;Legacy&quot; JIT interface has been removed from LLVM (for versions after 3.5, according to <a href="https://llvm.org/devmtg/2016-11/Slides/Hames-ORC.pdf">these slides</a>). Instead, we can use the newer <a href="https://llvm.org/docs/MCJITDesignAndImplementation.html">MCJIT</a> (Machine Code JIT) execution engine. To do this, we change the Makefile LDFLAGS line:</p>
+<div class="highlight"><pre><code class="language-diff" data-lang="diff"><span class="gh">diff --git a/Makefile b/Makefile</span>
+<span class="gh">index 90af0dd..16a1d2b 100644</span>
+<span class="gd">--- a/Makefile</span>
+<span class="gi">+++ b/Makefile</span>
+<span class="gu">@@ -4 +4 @@ LD=clang++</span>
+<span class="gd">-LDFLAGS=`llvm-config --cxxflags --ldflags --libs core executionengine jit interpreter analysis native bitwriter --system-libs`</span>
+<span class="gi">+LDFLAGS=`llvm-config --cxxflags --ldflags --libs core executionengine mcjit interpreter analysis native bitwriter --system-libs`</span>
+</code></pre></div>
+<p>After changing this, running <code>make</code> again gives a different error:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">$ make
+clang -g `llvm-config --cflags` -c sum.c
+sum.c:39:5: warning: implicit declaration of function &#39;LLVMLinkInJIT&#39; is invalid in C99 [-Wimplicit-function-declaration]
+    LLVMLinkInJIT();
+    ^
+1 warning generated.
+clang++ sum.o `llvm-config --cxxflags --ldflags --libs core executionengine mcjit orcjit interpreter analysis native bitwriter --system-libs` -o sum
+Undefined symbols for architecture x86_64:
+  &quot;_LLVMLinkInJIT&quot;, referenced from:
+      _main in sum.o
+ld: symbol(s) not found for architecture x86_64
+clang-7: error: linker command failed with exit code 1 (use -v to see invocation)
+make: *** [sum] Error 1
+</code></pre></div>
+<p>After web-searching for the error, I found reference to a new method, <code>LinkInMCJIT</code>, so I changed the <code>LinkINJIT</code> line:</p>
+<div class="highlight"><pre><code class="language-diff" data-lang="diff"><span class="gh">diff --git a/sum.c b/sum.c</span>
+<span class="gh">index 7fce959..1335741 100644</span>
+<span class="gd">--- a/sum.c</span>
+<span class="gi">+++ b/sum.c</span>
+<span class="gu">@@ -39 +39 @@ int main(int argc, char const *argv[]) {</span>
+<span class="gd">-    LLVMLinkInJIT();</span>
+<span class="gi">+    LLVMLinkInMCJIT();</span>
+</code></pre></div>
+<p>Now, <code>make</code> doesn&#39;t complain (minor success!), but trying to run the resulting sum executable fails at runtime:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">$ ./sum 10 20
+LLVM ERROR: Target does not support MC emission!
+</code></pre></div>
+<p>...back to searching for the error message. It appears we need to link in another module to help us emit code, <code>LLVMInitializeNativeAsmPrinter();</code> <a href="https://www.doof.me.uk/2017/05/11/using-orc-with-llvms-c-api/">apparently does the trick</a> - running again gets us further:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">$ ./sum 10 20
+LLVM ERROR: MCJIT::runFunction does not support full-featured argument passing. Please use ExecutionEngine::getFunctionAddress and cast the result to the desired function pointer type.
+</code></pre></div>
+<p>It turns out that we cannot call arbitrary functions from the engine interface; searching the errors <a href="https://stackoverflow.com/q/42703964">led me</a> to <a href="https://github.com/llvm-mirror/llvm/commit/3f8d4e3f67b67c245cebea3b7cda1efe21f01ee4">this commit</a> which helped me fix the problem: we should extract a function pointer and call it directly:</p>
+<div class="highlight"><pre><code class="language-diff" data-lang="diff"><span class="gh">diff --git a/sum.c b/sum.c</span>
+<span class="gh">index 6d1f73a..8a82d57 100644</span>
+<span class="gd">--- a/sum.c</span>
+<span class="gi">+++ b/sum.c</span>
+<span class="gu">@@ -59,6 +59,2 @@ int main(int argc, char const *argv[]) {</span>
+<span class="gd">-    LLVMGenericValueRef args[] = {</span>
+<span class="gd">-        LLVMCreateGenericValueOfInt(LLVMInt32Type(), x, 0),</span>
+<span class="gd">-        LLVMCreateGenericValueOfInt(LLVMInt32Type(), y, 0)</span>
+<span class="gd">-    };</span>
+<span class="gd">-    LLVMGenericValueRef res = LLVMRunFunction(engine, sum, 2, args);</span>
+<span class="gd">-    printf(&quot;%d\n&quot;, (int)LLVMGenericValueToInt(res, 0));</span>
+<span class="gi">+    int (*sum_func)(int, int) = (int (*)(int, int))LLVMGetFunctionAddress(engine, &quot;sum&quot;);</span>
+<span class="gi">+    printf(&quot;%d\n&quot;, sum_func(x, y));</span>
+</code></pre></div>
+<p>After re-compiling with this change finally, we can add numbers:
+<code>
+$ ./sum 10 20
+30
+</code></p>
+
+<p>success! For the full code, I&#39;ve pushed a fixed-up repo <a href="https://github.com/owst/getting-started-with-the-newer-llvm-c-api">to Github</a>.</p>
+
+<p>Thanks go to <a href="https://pauladamsmith.com">Paul</a> for his <a href="https://pauladamsmith.com/blog/2015/01/how-to-get-started-with-llvm-c-api.html">original article</a> and all the other linked (and unlinked!) pages that helped me fix the issue.</p>
+
+</article>
+
+        </main>
+        <div class="divider"></div>
+        <footer>
+            Owen Stephens 2018
+        </footer>
+    </body>
+    
+        <script type='text/javascript' src='https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js'></script>
+    
+        <script type='text/javascript' src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0/jquery.min.js'></script>
+    
+    
+        
+            <script type='text/javascript' src='https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.13.0/moment.min.js'></script>
+        
+            <script type='text/javascript' src='/assets/js/time.js'></script>
+        
+    
+    
+</html>
