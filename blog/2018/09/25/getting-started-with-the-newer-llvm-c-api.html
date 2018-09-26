@@ -174,12 +174,10 @@ LLVM ERROR: MCJIT::runFunction does not support full-featured argument passing. 
 <span class="gi">+    int (*sum_func)(int, int) = (int (*)(int, int))LLVMGetFunctionAddress(engine, &quot;sum&quot;);</span>
 <span class="gi">+    printf(&quot;%d\n&quot;, sum_func(x, y));</span>
 </code></pre></div>
-<p>After re-compiling with this change finally, we can add numbers:
-<code>
-$ ./sum 10 20
+<p>After re-compiling with this change finally, we can add numbers:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">$ ./sum 10 20
 30
-</code></p>
-
+</code></pre></div>
 <p>success! For the full code, I&#39;ve pushed a fixed-up repo <a href="https://github.com/owst/getting-started-with-the-newer-llvm-c-api">to Github</a>.</p>
 
 <p>Thanks go to <a href="https://pauladamsmith.com">Paul</a> for his <a href="https://pauladamsmith.com/blog/2015/01/how-to-get-started-with-llvm-c-api.html">original article</a> and all the other linked (and unlinked!) pages that helped me fix the issue.</p>
