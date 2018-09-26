@@ -137,6 +137,7 @@ index 6d1f73a..8a82d57 100644
 ```
 
 After re-compiling with this change finally, we can add numbers:
+
 ```
 $ ./sum 10 20
 30
