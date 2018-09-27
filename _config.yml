@@ -1,4 +1,9 @@
-exclude: [Gemfile, Gemfile.lock, CNAME, blog/generators, vendor]
+exclude:
+  - Gemfile
+  - Gemfile.lock
+  - CNAME
+  - blog/generators
+  - vendor
 name: "Owen Stephens"
 email: owen@owenstephens.co.uk
 title: "Owen Stephens' Website"
@@ -8,7 +13,12 @@ static_dir: '/assets/static/'
 markdown: redcarpet
 timezone: "Europe/London"
 redcarpet:
-      extensions: ["fenced_code_blocks", "autolink", "tables", "with_toc_data", "footnotes"]
+  extensions:
+    - fenced_code_blocks
+    - autolink
+    - tables
+    - with_toc_data
+    - footnotes
 highlighter: pygments
 collections:
     - oss_contributions
@@ -19,7 +29,7 @@ defaults:
     values:
         global_cloudflare_js_includes:
           - underscore.js/1.8.3/underscore-min.js
-          - jquery/3.0.0/jquery.min.js
+          - jquery/3.2.1/jquery.min.js
   -
     scope:
       path: ""

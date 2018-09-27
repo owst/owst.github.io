@@ -3,7 +3,7 @@ title: "Research"
 weight: 3
 ---
 
-My research topics to date include functional programming languages (in particular, methods of implementing IO) and model checking of Petri Nets (in particular, *compositional* reachability checking).
+My research topics to date include model checking of Petri Nets (in particular, *compositional* reachability checking) and functional programming languages (specifically, methods of implementing IO).
 
 **Compositional model checking of Petri Nets**:
 

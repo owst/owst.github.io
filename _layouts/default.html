@@ -2,33 +2,44 @@
 <html lang="en">
     {% include head.html %}
     <body>
-        <header>
-            <span class="name">
-                {{site.name}}
-            </span>
-            <ul class="nav">
-              {% assign pages = site.pages | sort:"weight"  %}
-              {% for p in pages %}
-                <li>
-                    {% capture down_title %}{{ p.title | downcase }}{% endcapture%}
-                    <a {% if p.url == page.url or page.categories.first == down_title%}class="active-nav"{% endif %} href="{{ p.url }}">{{ p.title }}</a>
-                </li>
-                {% if forloop.last %}{%else%}-{% endif %}
-              {% endfor %}
-            </ul>
-            <div style="clear: both"></div>
-            <span class="tagline">
-                {{site.tagline}}
-            </span>
-        </header>
-        <div class="divider"></div>
-        <main>
-        {{ content }}
-        </main>
-        <div class="divider"></div>
-        <footer>
-            {{ site.name }} {{ site.time | date: '%Y' }}
-        </footer>
+      <nav class="navbar navbar-expand-lg navbar-dark bg-dark static-top">
+          <div class="container col-lg-7">
+              <a class="navbar-brand" href="/"><h1>{{ site.name }}</h1><h5 class="text-muted pl-2">{{site.tagline}}</h5></a>
+              <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+                  <span class="navbar-toggler-icon"></span>
+              </button>
+              <div class="collapse navbar-collapse" id="navbarResponsive">
+                  <ul class="navbar-nav ml-auto">
+                      {% assign pages = site.pages | sort:"weight"  %}
+                      {% for p in pages %}
+                        {% capture down_title %}{{ p.title | downcase }}{% endcapture%}
+                        {% if p.url == page.url or page.categories.first == down_title %}
+                        {% assign active = true %}
+                        {% else %}
+                        {% assign active = false %}
+                        {% endif %}
+                        <li class="nav-item{% if active %} active{% endif %}">
+                            <a class="nav-link" href="{{ p.url }}">{{ p.title }}{% if active %}<span class="sr-only">(current)</span>{% endif %}</a>
+                        </li>
+                      {% endfor %}
+                  </ul>
+              </div>
+          </div>
+      </nav>
+      <div class="container">
+          <div class="row">
+              <div class="col-lg-2"></div>
+              <div class="col-lg-8 border-bottom border-grey">
+                  {{ content }}
+              </div>
+              <div class="col-lg-2"></div>
+          </div>
+      </div>
+      <footer class="footer mt-2">
+          <div class="container text-center">
+              <span class="text-muted">{{ site.name }} {{ site.time | date: '%Y' }}</span>
+          </div>
+      </footer>
     </body>
     {% for lib in page.global_cloudflare_js_includes %}
         <script type='text/javascript' src='https://cdnjs.cloudflare.com/ajax/libs/{{lib}}'></script>
@@ -41,6 +52,11 @@
     {% if page.js_includes %}
         {% for js_file in page.js_includes %}
             <script type='text/javascript' src='{{js_file}}'></script>
+        {% endfor %}
+    {% endif %}
+    {% if page.css_includes %}
+        {% for css_file in page.css_includes %}
+            <link href='{{css_file}}' rel='stylesheet' type='text/css'>
         {% endfor %}
     {% endif %}
 </html>

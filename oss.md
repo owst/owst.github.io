@@ -4,7 +4,7 @@ weight: 4
 ---
 
 A list of open source contributions I've made; some are small, but it's nice to
-be able to remember them:
+remember them:
 
 <ul class="oss_contributions">
     {% assign entries = site.oss_contributions | sort: "weight", 'last'  %}

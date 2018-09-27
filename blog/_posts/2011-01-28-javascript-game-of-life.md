@@ -1,18 +1,21 @@
 ---
 title: JavaScript Game of Life
 js_includes:
-  - https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js
   - https://cdn.rawgit.com/owst/JS-Game-of-Life/2d78ba8a37d12ac7b2329a205622ccd85a1ee626/CA.js
+  - https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js
+css_includes:
+  - https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css
 ---
 
 <script>
-/* 
+/*
   A bit yucky, but Github has made it not possible to link to hosted js files
   so we can't stick this in an external file and into js_includes above. We
   also can't rely on jQuery being loaded here because it is only linked in the
   footer, so we use the load event to be sure everything has loaded.
 */
 window.addEventListener("load", function() {
+setTimeout(function() {
     var jCanvas = $('#world');
     var canvas = jCanvas.get(0);
     var ctx = canvas.getContext('2d');
@@ -86,6 +89,7 @@ window.addEventListener("load", function() {
 
     ca.initGliderGun(10, 40);
     ca.initGliderGun(60, 10);
+}, 1000);
 });
 </script>
 

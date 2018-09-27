@@ -92,7 +92,7 @@ clang-7: error: linker command failed with exit code 1 (use -v to see invocation
 make: *** [sum] Error 1
 ```
 
-After web-searching for the error, I found reference to a new method, `LinkInMCJIT`, so I changed the `LinkINJIT` line:
+After web-searching for the error, I found reference to a new method, `LinkInMCJIT`, so I changed the `LinkInJIT` line:
 
 ```diff
 diff --git a/sum.c b/sum.c
