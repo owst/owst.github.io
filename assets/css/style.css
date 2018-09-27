@@ -1,21 +1,104 @@
-#mugshot {
-    width: 350px;
-    display: block;
+body {
+    font-family: 'Open Sans', sans-serif;
+    color: #000;
+    max-width: 55em;
+    margin: 0 auto;
 }
 
-.nav-item {
-    font-size: 1.25em;
+main {
+    font-size: 1em;
+    padding: 0 0 0 1rem;
+}
+
+header {
+    position: relative;
+    max-height: 100000000px; /* Prevent font-boosting */
+}
+
+.mugshot {
+    margin: 0 auto;
+    width: 350px;
+    display: block;
+    border: 1px solid black;
+}
+
+.divider {
+    border-bottom: 1px solid #CCC;
+    margin: 1em auto;
+    width: 50%;
+}
+
+a:link {
+    color: #36c;
+    text-decoration: none;
+}
+
+a:visited {
+    color: #36c;
+    text-decoration: none;
+}
+
+a:hover {
+    color: #168cf0;
+    text-decoration: underline;
+}
+
+a:active {
+    color: #36c;
+    text-decoration: none;
+}
+
+nav {
+    display: inline;
+}
+
+footer {
+    margin: 1rem 0;
+    text-align: center;
+    font-size: 0.65em;
+}
+
+.name {
+    float: left;
+    font-weight: 600;
+    font-size: 3em;
+}
+
+.tagline {
+    padding-left: 1rem;
+    font-style: italic;
+    font-size: 1.1em;
+    color: #444;
 }
 
 time {
     font-family: 'Droid Sans Mono', monospace;
 }
 
+.active-nav {
+    text-decoration: underline;
+}
+
+.nav {
+    position: absolute;
+    top: 1.5rem;
+    right: 0;
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    display: inline-block;
+    font-size: 1.5em;
+}
+
+.nav li {
+    display: inline;
+}
+
 .highlight {
     border: dashed 2px #eee;
-    padding: 0.5rem;
+    padding: 0.75rem;
     background-color: #f9f9f9;
-    margin: 1.5em 0;
+    font-size: 1.2em;
 }
 
 .highlight pre {
@@ -45,4 +128,8 @@ time {
 
 .oss_contribution p {
     display: inline;
+}
+
+.post-title {
+    margin-bottom: 0;
 }

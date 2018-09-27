@@ -2,7 +2,6 @@
 <html lang="en">
     <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
   <title>
     
@@ -10,58 +9,54 @@
     
   </title>
 
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-  <link rel="stylesheet" href="/assets/css/pygments.css">
   <link rel="stylesheet" href="/assets/css/style.css">
+  <link rel="stylesheet" href="/assets/css/pygments.css">
   <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600|Droid+Sans+Mono' rel='stylesheet' type='text/css'>
 </head>
 
     <body>
-      <nav class="navbar navbar-expand-lg navbar-dark bg-dark static-top">
-          <div class="container col-lg-7">
-              <a class="navbar-brand" href="/"><h1>Owen Stephens</h1><h5 class="text-muted pl-2">London-based Polyglot Programmer</h5></a>
-              <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
-                  <span class="navbar-toggler-icon"></span>
-              </button>
-              <div class="collapse navbar-collapse" id="navbarResponsive">
-                  <ul class="navbar-nav ml-auto">
-                      
-                      
-                        
-                        
-                        <li class="nav-item">
-                            <a class="nav-link" href="/">Home</a>
-                        </li>
-                      
-                        
-                        
-                        <li class="nav-item active">
-                            <a class="nav-link" href="/blog.html">Blog<span class="sr-only">(current)</span></a>
-                        </li>
-                      
-                        
-                        
-                        <li class="nav-item">
-                            <a class="nav-link" href="/research.html">Research</a>
-                        </li>
-                      
-                        
-                        
-                        <li class="nav-item">
-                            <a class="nav-link" href="/oss.html">Open Source</a>
-                        </li>
-                      
-                  </ul>
-              </div>
-          </div>
-      </nav>
-      <div class="container">
-          <div class="row">
-              <div class="col-lg-2"></div>
-              <div class="col-lg-8 border-bottom border-grey">
-                  <article class="post mt-3 pb-3">
-  <div id="post-header" class="pb-4">
-      <h2 class="post-title">Rust MD5</h1>
+        <header>
+            <span class="name">
+                Owen Stephens
+            </span>
+            <ul class="nav">
+              
+              
+                <li>
+                    
+                    <a  href="/">Home</a>
+                </li>
+                -
+              
+                <li>
+                    
+                    <a class="active-nav" href="/blog.html">Blog</a>
+                </li>
+                -
+              
+                <li>
+                    
+                    <a  href="/research.html">Research</a>
+                </li>
+                -
+              
+                <li>
+                    
+                    <a  href="/oss.html">Open Source</a>
+                </li>
+                
+              
+            </ul>
+            <div style="clear: both"></div>
+            <span class="tagline">
+                London-based Polyglot Programmer
+            </span>
+        </header>
+        <div class="divider"></div>
+        <main>
+        <article class="post">
+  <div id="post-header">
+      <h1 class="post-title">Rust MD5</h1>
       <time datetime="2016-05-30T00:00:00+01:00" class="page-date">
           30 May 2016
       </time>
@@ -71,7 +66,7 @@ together a simple implementation of <a href="https://www.ietf.org/rfc/rfc1321.tx
 I made no attempt to obtain high-performance. For example, I simply read all
 input data before starting processing, rather than streaming.</p>
 
-<p>The usage should be familiar from <code>md5sum</code>:</p>
+<p>The usage should be familiar from <code>md5sum</code>: </p>
 <div class="highlight"><pre><code class="language-bash" data-lang="bash">&gt; <span class="nb">echo</span> <span class="s1">&#39;hi there&#39;</span> <span class="p">|</span> ./target/debug/rust_md5
 12f6bb1941df66b8f138a446d4e8670c -
 </code></pre></div>
@@ -86,20 +81,16 @@ specification of the <a href="https://github.com/owst/rust_md5/blob/61ef6b3fe89c
 
 </article>
 
-              </div>
-              <div class="col-lg-2"></div>
-          </div>
-      </div>
-      <footer class="footer mt-2">
-          <div class="container text-center">
-              <span class="text-muted">Owen Stephens 2018</span>
-          </div>
-      </footer>
+        </main>
+        <div class="divider"></div>
+        <footer>
+            Owen Stephens 2018
+        </footer>
     </body>
     
         <script type='text/javascript' src='https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js'></script>
     
-        <script type='text/javascript' src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js'></script>
+        <script type='text/javascript' src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0/jquery.min.js'></script>
     
     
         
@@ -107,7 +98,6 @@ specification of the <a href="https://github.com/owst/rust_md5/blob/61ef6b3fe89c
         
             <script type='text/javascript' src='/assets/js/time.js'></script>
         
-    
     
     
 </html>
