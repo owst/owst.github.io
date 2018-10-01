@@ -17,7 +17,15 @@ PhD/masters [research papers][research].
 
 If you'd like to say hi, please send me an email: [{{site.email}}](mailto:{{site.email}}).
 
-<img id="mugshot" src="{{site.img_dir}}owenstephens.png" class="rounded mx-auto" alt="A mugshot of Owen Stephens"/>
+<div class="container">
+  <div class="row">
+    <div class="col-3"></div>
+    <div class="col-6">
+      <img src="{{site.img_dir}}owenstephens.png" class="rounded img-fluid" alt="A mugshot of Owen Stephens"/>
+    </div>
+    <div class="col-3"></div>
+  </div>
+</div>
 
 [blog]: /blog.html
 [oss]: /oss.html

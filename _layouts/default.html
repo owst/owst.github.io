@@ -3,13 +3,13 @@
     {% include head.html %}
     <body>
       <nav class="navbar navbar-expand-lg navbar-dark bg-dark static-top">
-          <div class="container col-lg-7">
-              <a class="navbar-brand" href="/"><h1>{{ site.name }}</h1><h5 class="text-muted pl-2">{{site.tagline}}</h5></a>
+          <div class="container">
+              <a class="navbar-brand" href="/"><h1>{{ site.name }}</h1><h6 class="text-muted pl-2">{{site.tagline}}</h6></a>
               <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
                   <span class="navbar-toggler-icon"></span>
               </button>
               <div class="collapse navbar-collapse" id="navbarResponsive">
-                  <ul class="navbar-nav ml-auto">
+                  <ul class="navbar-nav ml-auto align-items-end">
                       {% assign pages = site.pages | sort:"weight"  %}
                       {% for p in pages %}
                         {% capture down_title %}{{ p.title | downcase }}{% endcapture%}
@@ -18,8 +18,8 @@
                         {% else %}
                         {% assign active = false %}
                         {% endif %}
-                        <li class="nav-item{% if active %} active{% endif %}">
-                            <a class="nav-link" href="{{ p.url }}">{{ p.title }}{% if active %}<span class="sr-only">(current)</span>{% endif %}</a>
+                        <li class="nav-item{% if active %} active{% endif %} text-nowrap">
+                            <a class="nav-link" href="{{ p.url }}"><h5>{{ p.title }}</h5>{% if active %}<span class="sr-only">(current)</span>{% endif %}</a>
                         </li>
                       {% endfor %}
                   </ul>
@@ -35,7 +35,7 @@
               <div class="col-lg-2"></div>
           </div>
       </div>
-      <footer class="footer mt-2">
+      <footer class="footer mt-2 mb-4">
           <div class="container text-center">
               <span class="text-muted">{{ site.name }} {{ site.time | date: '%Y' }}</span>
           </div>
@@ -59,4 +59,5 @@
             <link href='{{css_file}}' rel='stylesheet' type='text/css'>
         {% endfor %}
     {% endif %}
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 </html>
