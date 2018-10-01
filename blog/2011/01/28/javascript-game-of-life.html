@@ -2,6 +2,7 @@
 <html lang="en">
     <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
   <title>
     
@@ -9,66 +10,71 @@
     
   </title>
 
-  <link rel="stylesheet" href="/assets/css/style.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
   <link rel="stylesheet" href="/assets/css/pygments.css">
+  <link rel="stylesheet" href="/assets/css/style.css">
   <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600|Droid+Sans+Mono' rel='stylesheet' type='text/css'>
 </head>
 
     <body>
-        <header>
-            <span class="name">
-                Owen Stephens
-            </span>
-            <ul class="nav">
-              
-              
-                <li>
-                    
-                    <a  href="/">Home</a>
-                </li>
-                -
-              
-                <li>
-                    
-                    <a class="active-nav" href="/blog.html">Blog</a>
-                </li>
-                -
-              
-                <li>
-                    
-                    <a  href="/research.html">Research</a>
-                </li>
-                -
-              
-                <li>
-                    
-                    <a  href="/oss.html">Open Source</a>
-                </li>
-                
-              
-            </ul>
-            <div style="clear: both"></div>
-            <span class="tagline">
-                London-based Polyglot Programmer
-            </span>
-        </header>
-        <div class="divider"></div>
-        <main>
-        <article class="post">
-  <div id="post-header">
-      <h1 class="post-title">JavaScript Game of Life</h1>
+      <nav class="navbar navbar-expand-lg navbar-dark bg-dark static-top">
+          <div class="container">
+              <a class="navbar-brand" href="/"><h1>Owen Stephens</h1><h6 class="text-muted pl-2">London-based Polyglot Programmer</h6></a>
+              <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+                  <span class="navbar-toggler-icon"></span>
+              </button>
+              <div class="collapse navbar-collapse" id="navbarResponsive">
+                  <ul class="navbar-nav ml-auto align-items-end">
+                      
+                      
+                        
+                        
+                        <li class="nav-item text-nowrap">
+                            <a class="nav-link" href="/"><h5>Home</h5></a>
+                        </li>
+                      
+                        
+                        
+                        <li class="nav-item active text-nowrap">
+                            <a class="nav-link" href="/blog.html"><h5>Blog</h5><span class="sr-only">(current)</span></a>
+                        </li>
+                      
+                        
+                        
+                        <li class="nav-item text-nowrap">
+                            <a class="nav-link" href="/research.html"><h5>Research</h5></a>
+                        </li>
+                      
+                        
+                        
+                        <li class="nav-item text-nowrap">
+                            <a class="nav-link" href="/oss.html"><h5>Open Source</h5></a>
+                        </li>
+                      
+                  </ul>
+              </div>
+          </div>
+      </nav>
+      <div class="container">
+          <div class="row">
+              <div class="col-lg-2"></div>
+              <div class="col-lg-8 border-bottom border-grey">
+                  <article class="post mt-3 pb-3">
+  <div id="post-header" class="pb-4">
+      <h2 class="post-title">JavaScript Game of Life</h1>
       <time datetime="2011-01-28T00:00:00+00:00" class="page-date">
           28 Jan 2011
       </time>
   </div>
   <script>
-/* 
+/*
   A bit yucky, but Github has made it not possible to link to hosted js files
   so we can't stick this in an external file and into js_includes above. We
   also can't rely on jQuery being loaded here because it is only linked in the
   footer, so we use the load event to be sure everything has loaded.
 */
 window.addEventListener("load", function() {
+setTimeout(function() {
     var jCanvas = $('#world');
     var canvas = jCanvas.get(0);
     var ctx = canvas.getContext('2d');
@@ -142,6 +148,7 @@ window.addEventListener("load", function() {
 
     ca.initGliderGun(10, 40);
     ca.initGliderGun(60, 10);
+}, 1000);
 });
 </script>
 
@@ -199,16 +206,22 @@ the edges.</p>
 
 </article>
 
-        </main>
-        <div class="divider"></div>
-        <footer>
-            Owen Stephens 2018
-        </footer>
+              </div>
+              <div class="col-lg-2"></div>
+          </div>
+      </div>
+      <footer class="footer mt-2 mb-4">
+          <div class="container text-center">
+              <span class="text-muted">Owen Stephens 2018</span>
+          </div>
+      </footer>
     </body>
     
         <script type='text/javascript' src='https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js'></script>
     
-        <script type='text/javascript' src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0/jquery.min.js'></script>
+        <script type='text/javascript' src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js'></script>
+    
+        <script type='text/javascript' src='https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js'></script>
     
     
         
@@ -219,9 +232,15 @@ the edges.</p>
     
     
         
-            <script type='text/javascript' src='https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js'></script>
-        
             <script type='text/javascript' src='https://cdn.rawgit.com/owst/JS-Game-of-Life/2d78ba8a37d12ac7b2329a205622ccd85a1ee626/CA.js'></script>
         
+            <script type='text/javascript' src='https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js'></script>
+        
     
+    
+        
+            <link href='https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css' rel='stylesheet' type='text/css'>
+        
+    
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 </html>
