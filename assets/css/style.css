@@ -3,7 +3,7 @@ time {
 }
 
 .highlight {
-    border: dashed 2px #eee;
+    border-left: solid 2px #aaa;
     padding: 0.5rem;
     background-color: #f9f9f9;
     margin: 1.5em 0;

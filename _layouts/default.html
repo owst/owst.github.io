@@ -1,29 +1,28 @@
 <!DOCTYPE html>
 <html lang="en">
     {% include head.html %}
-    <body>
-      <nav class="navbar navbar-expand-lg navbar-dark bg-dark static-top">
-          <div class="container">
-              <a class="navbar-brand" href="/"><h1>{{ site.name }}</h1><h6 class="text-muted pl-2">{{site.tagline}}</h6></a>
-              <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
-                  <span class="navbar-toggler-icon"></span>
-              </button>
-              <div class="collapse navbar-collapse" id="navbarResponsive">
-                  <ul class="navbar-nav ml-auto align-items-end">
-                      {% assign pages = site.pages | sort:"weight"  %}
-                      {% for p in pages %}
-                        {% capture down_title %}{{ p.title | downcase }}{% endcapture%}
-                        {% if p.url == page.url or page.categories.first == down_title %}
-                        {% assign active = true %}
-                        {% else %}
-                        {% assign active = false %}
-                        {% endif %}
-                        <li class="nav-item{% if active %} active{% endif %} text-nowrap">
-                            <a class="nav-link" href="{{ p.url }}"><h5>{{ p.title }}</h5>{% if active %}<span class="sr-only">(current)</span>{% endif %}</a>
-                        </li>
-                      {% endfor %}
-                  </ul>
-              </div>
+    <body class="mt-5 pt-3">
+      <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top py-0">
+          <a class="navbar-brand align-baseline" href="/"><h2>{{ site.name }}</h2><!--<h6
+          class="text-muted pl-2">{{site.tagline}}</h6>--></a>
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarResponsive">
+              <ul class="navbar-nav ml-auto">
+                  {% assign pages = site.pages | sort:"weight"  %}
+                  {% for p in pages %}
+                  {% capture down_title %}{{ p.title | downcase }}{% endcapture%}
+                  {% if p.url == page.url or page.categories.first == down_title %}
+                  {% assign active = true %}
+                  {% else %}
+                  {% assign active = false %}
+                  {% endif %}
+                  <li class="ml-auto nav-item{% if active %} active{% endif %} text-nowrap">
+                      <a class="nav-link py-0" href="{{ p.url }}"><h5>{{ p.title }}{% if active %}</h5><span class="sr-only">(current)</span>{% endif %}</a>
+                  </li>
+                  {% endfor %}
+              </ul>
           </div>
       </nav>
       <div class="container">

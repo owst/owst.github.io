@@ -60,7 +60,7 @@ int frobnitz(int foo)
 int main(int argc, char **argv)
 {
     frobnitz(fib(10));
-}                        
+}
 ```
 {% endcapture %}
 
@@ -83,13 +83,13 @@ function being added a few lines below.  Let's examine how a typical diff tool
 presents these changes.
 
 {% capture leftfloat %}
-First compare the result of diffing file1 and file2 using GNU diff:  
+First compare the result of diffing file1 and file2 using GNU diff:
 
-`diff -u file1.txt file2.txt`  
-    
+`diff -u file1.txt file2.txt`
+
 ```diff
  #include <stdio.h>
- 
+
 -// Frobs foo heartily
 -int frobnitz(int foo)
 +int fib(int n)
@@ -104,7 +104,7 @@ First compare the result of diffing file1 and file2 using GNU diff:
      }
 +    return 1;
  }
- 
+
 -int fact(int n)
 +// Frobs foo heartily
 +int frobnitz(int foo)
@@ -118,7 +118,7 @@ First compare the result of diffing file1 and file2 using GNU diff:
      }
 -    return 1;
  }
- 
+
  int main(int argc, char **argv)
  {
 -    frobnitz(fact(10));
@@ -128,13 +128,17 @@ First compare the result of diffing file1 and file2 using GNU diff:
 {% endcapture %}
 {% capture rightfloat %}
 And now, the result using the patience diff algorithm (as described
-[here][diff1] and [here][diff2]):  
+[here][diff1] and [here][diff2]):
 
-`scala -classpath . Main file1.txt file2.txt`
+<p>
+<code class="text-nowrap">
+scala -classpath . Main file1.txt file2.txt
+</code>
+</p>
 
 ```diff
  #include <stdio.h>
- 
+
 +int fib(int n)
 +{
 +    if(n > 2)
@@ -154,7 +158,7 @@ And now, the result using the patience diff algorithm (as described
          printf("%d\n", foo);
      }
  }
- 
+
 -int fact(int n)
 -{
 -    if(n > 1)
@@ -221,12 +225,12 @@ object Main {
 The main diff method is fairly simple; it recursively creates a list of pairs
 of matching line indices between the two files and coalesces them into
 contiguous blocks if possible, which are used to calculate the list of line
-insertion/deletion/changes required to go from file1->file2, as per `diff`. 
+insertion/deletion/changes required to go from file1->file2, as per `diff`.
 
 A slight modification of my [patience sort][patience_impl] code, with the
 inclusion of a bisect method implementation gives the code that calculates the
 longest increasing subsequence (LIS) of its argument. The LIS code is used to
-determine the LCS of the line pairs. 
+determine the LCS of the line pairs.
 
 [diff]: http://en.wikipedia.org/wiki/Diff
 [patience]: http://en.wikipedia.org/wiki/Patience_sorting
