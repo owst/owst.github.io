@@ -16,43 +16,42 @@
   <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600|Droid+Sans+Mono' rel='stylesheet' type='text/css'>
 </head>
 
-    <body>
-      <nav class="navbar navbar-expand-lg navbar-dark bg-dark static-top">
-          <div class="container">
-              <a class="navbar-brand" href="/"><h1>Owen Stephens</h1><h6 class="text-muted pl-2">London-based Polyglot Programmer</h6></a>
-              <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
-                  <span class="navbar-toggler-icon"></span>
-              </button>
-              <div class="collapse navbar-collapse" id="navbarResponsive">
-                  <ul class="navbar-nav ml-auto align-items-end">
-                      
-                      
-                        
-                        
-                        <li class="nav-item text-nowrap">
-                            <a class="nav-link" href="/"><h5>Home</h5></a>
-                        </li>
-                      
-                        
-                        
-                        <li class="nav-item active text-nowrap">
-                            <a class="nav-link" href="/blog.html"><h5>Blog</h5><span class="sr-only">(current)</span></a>
-                        </li>
-                      
-                        
-                        
-                        <li class="nav-item text-nowrap">
-                            <a class="nav-link" href="/research.html"><h5>Research</h5></a>
-                        </li>
-                      
-                        
-                        
-                        <li class="nav-item text-nowrap">
-                            <a class="nav-link" href="/oss.html"><h5>Open Source</h5></a>
-                        </li>
-                      
-                  </ul>
-              </div>
+    <body class="mt-5 pt-3">
+      <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top py-0">
+          <a class="navbar-brand align-baseline" href="/"><h2>Owen Stephens</h2><!--<h6
+          class="text-muted pl-2">London-based Polyglot Programmer</h6>--></a>
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarResponsive">
+              <ul class="navbar-nav ml-auto">
+                  
+                  
+                  
+                  
+                  <li class="ml-auto nav-item text-nowrap">
+                      <a class="nav-link py-0" href="/"><h5>Home</a>
+                  </li>
+                  
+                  
+                  
+                  <li class="ml-auto nav-item active text-nowrap">
+                      <a class="nav-link py-0" href="/blog.html"><h5>Blog</h5><span class="sr-only">(current)</span></a>
+                  </li>
+                  
+                  
+                  
+                  <li class="ml-auto nav-item text-nowrap">
+                      <a class="nav-link py-0" href="/research.html"><h5>Research</a>
+                  </li>
+                  
+                  
+                  
+                  <li class="ml-auto nav-item text-nowrap">
+                      <a class="nav-link py-0" href="/oss.html"><h5>Open Source</a>
+                  </li>
+                  
+              </ul>
           </div>
       </nav>
       <div class="container">
@@ -61,7 +60,7 @@
               <div class="col-lg-8 border-bottom border-grey">
                   <article class="post mt-3 pb-3">
   <div id="post-header" class="pb-4">
-      <h2 class="post-title">Scala Patience Diff</h1>
+      <h3 class="post-title">Scala Patience Diff</h3>
       <time datetime="2010-12-24T00:00:00+00:00" class="page-date">
           24 Dec 2010
       </time>
@@ -126,7 +125,7 @@ File2
 <span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="kt">char</span> <span class="o">**</span><span class="n">argv</span><span class="p">)</span>
 <span class="p">{</span>
     <span class="n">frobnitz</span><span class="p">(</span><span class="n">fib</span><span class="p">(</span><span class="mi">10</span><span class="p">));</span>
-<span class="p">}</span>                        
+<span class="p">}</span>
 </code></pre></div>
 </div>
 
@@ -138,9 +137,9 @@ function being added a few lines below.  Let&#39;s examine how a typical diff to
 presents these changes.</p>
 
 <div style="width: 49%; float: left;" markdown="1">
-<p>First compare the result of diffing file1 and file2 using GNU diff:  </p>
+<p>First compare the result of diffing file1 and file2 using GNU diff:</p>
 
-<p><code>diff -u file1.txt file2.txt</code>  </p>
+<p><code>diff -u file1.txt file2.txt</code></p>
 <div class="highlight"><pre><code class="language-diff" data-lang="diff"> #include &lt;stdio.h&gt;
 
 <span class="gd">-// Frobs foo heartily</span>
@@ -182,9 +181,13 @@ presents these changes.</p>
 
 <div style="width: 49%; float: right;" markdown="1">
 <p>And now, the result using the patience diff algorithm (as described
-<a href="http://bramcohen.livejournal.com/73318.html">here</a> and <a href="http://alfedenzo.livejournal.com/170301.html">here</a>):  </p>
+<a href="http://bramcohen.livejournal.com/73318.html">here</a> and <a href="http://alfedenzo.livejournal.com/170301.html">here</a>):</p>
 
-<p><code>scala -classpath . Main file1.txt file2.txt</code></p>
+<p>
+<code class="text-nowrap">
+scala -classpath . Main file1.txt file2.txt
+</code>
+</p>
 <div class="highlight"><pre><code class="language-diff" data-lang="diff"> #include &lt;stdio.h&gt;
 
 <span class="gi">+int fib(int n)</span>
@@ -260,12 +263,12 @@ version.</p>
 <p>The main diff method is fairly simple; it recursively creates a list of pairs
 of matching line indices between the two files and coalesces them into
 contiguous blocks if possible, which are used to calculate the list of line
-insertion/deletion/changes required to go from file1-&gt;file2, as per <code>diff</code>. </p>
+insertion/deletion/changes required to go from file1-&gt;file2, as per <code>diff</code>.</p>
 
 <p>A slight modification of my <a href="/blog/2010/11/29/scala-patience-sort.html">patience sort</a> code, with the
 inclusion of a bisect method implementation gives the code that calculates the
 longest increasing subsequence (LIS) of its argument. The LIS code is used to
-determine the LCS of the line pairs. </p>
+determine the LCS of the line pairs.</p>
 
 </article>
 
