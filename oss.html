@@ -73,6 +73,34 @@ remember them:</p>
             </span>
           
       </span>
+      <p>I <a href="https://github.com/ruby/ruby/commit/9ca738927293df1c7a2a1ed7e2d6cf89527b5438">extended the Range#cover? method</a> in the MRI Ruby standard library
+to accept other <code>Range</code> objects to allow easy checking for
+<a href="https://bugs.ruby-lang.org/issues/14473">sub-ranges</a>.</p>
+
+    </li>
+  
+    <li class="oss_contribution">
+      <span class='block_labels'>
+          
+            <span class="block_label">
+                Ruby
+            </span>
+          
+      </span>
+      <p>I <a href="https://github.com/pry/pry/issues/1789">diagnosed</a> and <a href="https://github.com/pry/pry/pull/1790">fixed</a> a crash-causing bug in the <a href="https://pryrepl.org/">pry</a> Ruby
+REPL when encountering NULL bytes, which included some MRI
+<a href="https://github.com/pry/pry/issues/1789#issuecomment-428708235">source-diving</a>.</p>
+
+    </li>
+  
+    <li class="oss_contribution">
+      <span class='block_labels'>
+          
+            <span class="block_label">
+                C
+            </span>
+          
+      </span>
       <p><a href="https://bugs.ruby-lang.org/issues/13753">I tracked down and proposed a fix</a> for a segfault in the MRI Ruby
 interpreter when using forked processes and the default psuedo random number
 generator, as <a href="https://github.com/stympy/faker/issues/982#issuecomment-317390797">triggered by the Faker</a> test data library.</p>
@@ -139,7 +167,7 @@ rejects invalid/throwaway email addresses</p>
           
       </span>
       <p>I <a href="https://github.com/tmm1/ripper-tags/pull/63">added support</a> for nested constant definitions to the <a href="https://github.com/tmm1/ripper-tags">ripper-tags</a>
-Ruby <a href="https://en.wikipedia.org/wiki/Ctags">ctags</a> generator.</p>
+Ruby <a href="https://en.wikipedia.org/wiki/Ctags">ctags</a> generator and later <a href="https://github.com/tmm1/ripper-tags/pull/86">gracefully handled unreadable directories</a>.</p>
 
     </li>
   
@@ -164,21 +192,8 @@ patches</a></p>
             </span>
           
       </span>
-      <p>I improved several linters of the popular <a href="http://batsov.com/rubocop/">Rubocop</a> code checking
-tool:</p>
-
-<ol>
-<li><a href="https://github.com/bbatsov/rubocop/pull/2708">Avoiding nested method definition warnings</a></li>
-<li><a href="https://github.com/bbatsov/rubocop/pull/2702">Treating loops as conditionally executed to avoid potentially-incorrect
-useless variable assignment warnings</a>,</li>
-<li><a href="https://github.com/bbatsov/rubocop/pull/2994">Ensuring colons in optional keyword arguments are followed by
-spaces</a>,</li>
-<li><a href="https://github.com/bbatsov/rubocop/pull/3011">Removing duplicate warnings regarding spacing around general and
-ternary operators</a>,</li>
-<li><a href="https://github.com/bbatsov/rubocop/pull/3044">Catching case statements with empty conditions</a>,</li>
-<li><a href="https://github.com/bbatsov/rubocop/pull/3060">Improving useless access modifier warnings</a>,</li>
-<li><a href="https://github.com/bbatsov/rubocop/pull/3072">Recognising useless array splats</a></li>
-</ol>
+      <p>I <a href="https://github.com/rubocop-hq/rubocop/pulls?q=is%3Apr+is%3Aclosed+author%3Aowst">added and improved</a> several linters of the popular <a href="http://batsov.com/rubocop/">Rubocop</a> code
+checking tool:</p>
 
     </li>
   
