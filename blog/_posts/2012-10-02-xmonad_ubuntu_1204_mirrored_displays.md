@@ -7,7 +7,7 @@ Ubuntu 12.04, so I thought I'd document it here.
 For my work machine, I use Ubuntu with a dual-screen setup (using Nvidia's
 TwinView), with a mixture of Gnome and Xmonad for my window manager/desktop
 requirements. A handy key-binding that I use frequently is Super-p (that's the
-"Windows" key followed by p) used to bring up a program-launch menu. 
+"Windows" key followed by p) used to bring up a program-launch menu.
 
 After upgrading from Ubuntu 11.10 to 12.04 I was annoyed to find that using
 this short-cut would cause the screen to flicker and the two displays to become
@@ -30,6 +30,6 @@ call to xrandr by disabling its plugin:
 1. Expand org.gnome.settings-daemon.plugins.xrandr
 1. Uncheck 'active'
 
-[1]: http://mjg59.livejournal.com/121851.html
+[1]: https://mjg59.livejournal.com/121851.html
 [2]: https://bugs.launchpad.net/ubuntu/+source/linux/+bug/539477
-[3]: http://xorg.freedesktop.org/wiki/Projects/XRandR
+[3]: https://xorg.freedesktop.org/wiki/Projects/XRandR

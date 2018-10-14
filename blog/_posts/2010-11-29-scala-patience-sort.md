@@ -13,7 +13,7 @@ def sort[A <% Ordered[A]](source : Traversable[A]) : Traversable[A] = {
     for (elem <- source) {
         count += 1
 
-        // Find leftmost "possible" pile 
+        // Find leftmost "possible" pile
         val toAddPile = piles.find(p => p.head >= elem)
 
         // If there isn't a pile available, add a new one.
@@ -48,4 +48,4 @@ def sort[A <% Ordered[A]](source : Traversable[A]) : Traversable[A] = {
 }
 ```
 
-[patience_sort]: http://en.wikipedia.org/wiki/Patience_sorting
+[patience_sort]: https://en.wikipedia.org/wiki/Patience_sorting

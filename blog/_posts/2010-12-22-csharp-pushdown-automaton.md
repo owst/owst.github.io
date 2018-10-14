@@ -44,5 +44,5 @@ namespace PDATesting
 }
 ```
 
-[pda]: http://en.wikipedia.org/wiki/Pushdown_automaton
+[pda]: https://en.wikipedia.org/wiki/Pushdown_automaton
 [github_link]: https://github.com/owst/CSharp-Pushdown-Automata

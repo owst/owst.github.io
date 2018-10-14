@@ -1,11 +1,11 @@
 ---
 title: 'Haskell composition operator fun: (.).(.)'
 ---
-I've been learning [Haskell](http://www.haskell.org) over the summer, and have
+I've been learning [Haskell](https://www.haskell.org) over the summer, and have
 definitely had my fair share of head-scratching moments!
 
 Having seen [this reddit
-thread](http://www.reddit.com/r/programming/comments/a9tb2/secret_haskell_operators/),
+thread](https://www.reddit.com/r/programming/comments/a9tb2/secret_haskell_operators/),
 I attempted to figure out the type of the expression `(.).(.)` which is the
 infix representation of `(.)(.)(.)` (the function composition operator, applied
 to itself twice).
@@ -31,14 +31,14 @@ type:
 (.)1 :: (b1 -> c1) -> (a1 -> b1) -> a1 -> c1
 ```
 
-When applying `(.)` to the single argument `(.)1` we are 'substituting' 
+When applying `(.)` to the single argument `(.)1` we are 'substituting'
 
 ```haskell
-(b -> c) 
+(b -> c)
 ```
 
-for 
-    
+for
+
 ```haskell
 (b1 -> c1) -> (a1 -> b1) -> a1 -> c1
 ```
@@ -54,7 +54,7 @@ Matching the types gives us the following 'mappings':
 b :: (b1 -> c1)
 ```
 
-and 
+and
 
 ```haskell
 c :: (a1 -> b1) -> a1 -> c1
@@ -73,14 +73,14 @@ Notice how we've replaced the original single parameter with two new
 parameters.
 
 We can then repeat for the second argument of `(.)`, which we shall name `(.)2`
-and has type: 
+and has type:
 
 ```haskell
 (b2 -> c2) -> (a2 -> b2) -> a2 -> c2
 ```
 
 N.B. `(.)(.)` takes 4 parameters, the first being a function of type `a -> (b1
--> c1)`. 
+-> c1)`.
 
 When we apply `(.)(.)` to `(.)` we are providing its first parameter, which
 gives us type mappings of:

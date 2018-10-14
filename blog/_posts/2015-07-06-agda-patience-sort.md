@@ -12,7 +12,7 @@ I'm going to go reasonably fast when describing my implementation, feel free to
 take a look at the same file [on Github][github link] if you'd like to explore
 it using the excellent [Emacs agda-mode][agda-mode].
 
-First, let's define the module, and import a bunch of stuff from the 
+First, let's define the module, and import a bunch of stuff from the
 [standard library][standard library].
 
 ```agda
@@ -169,7 +169,7 @@ elements, and complete piles into existing (possibly empty) `Piles`:
        ≡ℕ = cong suc (permute-suc-xyz {n₂} {n₁} {m₁})
    ```
 
-It'd be nice to use some of [Connor McBride's ideas][connor] to avoid the 
+It'd be nice to use some of [Connor McBride's ideas][connor] to avoid the
 Green Slime[^1] (i.e. the use of `min` in the return types). However, I seem to
 require the tight bounds, and didn't manage to effectively get rid of the calls
 to `min`. If you have any ideas or suggestions on this, please get in
@@ -256,7 +256,7 @@ they contain.
 
 [learn you an agda]: http://learnyouanagda.liamoc.net/
 [patience sort]: https://en.wikipedia.org/wiki/Patience_sorting
-[scala]: http://www.scala-lang.org/
+[scala]: https://www.scala-lang.org/
 [agda]: http://wiki.portal.chalmers.se/agda/pmwiki.php
 [scala patience sort]: {% post_url 2010-11-29-scala-patience-sort%}
 [github link]: https://github.com/owst/agda-patience-sort/blob/master/Patience.agda
@@ -264,4 +264,4 @@ they contain.
 [standard library]: https://github.com/agda/agda-stdlib/
 [connor]: https://personal.cis.strath.ac.uk/conor.mcbride/Pivotal.pdf
 [^1]: Functions are highlighted in Green in Agda. Such functions are "opaque" to Agda when performing unification, and are discouraged from being used in data type indices such as here, hence the term "Green Slime".
-[dependent sum]: http://ncatlab.org/nlab/show/dependent+sum+type
+[dependent sum]: https://ncatlab.org/nlab/show/dependent+sum+type

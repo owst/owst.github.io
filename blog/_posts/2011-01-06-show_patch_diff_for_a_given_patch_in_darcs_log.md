@@ -14,7 +14,7 @@ command:
 darcs log -n 4
 ```
 
-If you're a [git](http://git-scm.com/) user, the equivalent revision is
+If you're a [git](https://git-scm.com/) user, the equivalent revision is
 `HEAD~3` (the third-generation grandparent of the current branch). To show the
 patch details in a similar fashion to darcs, execute:
 

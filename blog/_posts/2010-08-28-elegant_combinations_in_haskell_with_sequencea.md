@@ -6,9 +6,9 @@ Good!"](http://learnyouahaskell.com) tutorial recently, and it's definitely
 helped me with some of the not-immediately-clear concepts in Haskell.
 
 When I was pointed to [this blog
-post](http://mojoai.blogspot.com/2010/08/learning-to-see-patterns-in-my-own.html),
+post](https://mojoai.blogspot.com/2010/08/learning-to-see-patterns-in-my-own.html),
 which discusses this [stackoverflow.com
-question](http://stackoverflow.com/questions/3510586/algorithm-to-calculate-the-number-of-combinations-to-form-100)
+question](https://stackoverflow.com/questions/3510586/algorithm-to-calculate-the-number-of-combinations-to-form-100)
 I couldn't help but feel that there had to be a more elegant way to do it.
 
 I remembered the Applicative Functors section of LYAH and put it to good use.
@@ -34,9 +34,9 @@ Describing the individual steps:
 ```haskell
 replicate 3 [1,2] == [[1,2],[1,2],[1,2]]
 ```
- 
+
 When applied to a list of lists, `sequenceA` behaves like a list comprehension
-of the following form 
+of the following form
 
 ```haskell
 [x : y : z : [] | x <- xs, y <- ys, z <- zs]

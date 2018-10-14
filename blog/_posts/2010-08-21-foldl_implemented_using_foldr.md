@@ -2,9 +2,9 @@
 title: foldl implemented using foldr
 ---
 I'm re-reading [Real World
-Haskell](http://www.amazon.co.uk/gp/product/0596514980?ie=UTF8&tag=reaworhas-21&linkCode=as2&camp=1634&creative=6738&creativeASIN=0596514980)
+Haskell](https://www.amazon.co.uk/gp/product/0596514980?ie=UTF8&tag=reaworhas-21&linkCode=as2&camp=1634&creative=6738&creativeASIN=0596514980)
 having spent time reading online material (such as the excellent [Haskell
-Wiki](http://www.haskell.org/haskellwiki)) to supplement the book, it's a much
+Wiki](https://wiki.haskell.org/Haskell)) to supplement the book, it's a much
 easier read the second time through!
 
 That said, I still found myself a little puzzled by the section that provides

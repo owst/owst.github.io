@@ -203,5 +203,5 @@ snart (trans ("Hello", Right(fun x -> x)));;
 So, there we have it. I've described type isomorphisms: why you might want to
 know about/use them, what they are, and how you know if you've got one.
 
-[0]: http://www.cis.upenn.edu/~bcpierce/tapl/
-[1]: http://en.wikipedia.org/wiki/Currying
+[0]: https://www.cis.upenn.edu/~bcpierce/tapl/
+[1]: https://en.wikipedia.org/wiki/Currying

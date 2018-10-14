@@ -92,9 +92,9 @@ feedback from the previous block's encryption into the next block, the
 equivalent input blocks are no longer encrypted to the same value, so we see
 noise.
 
-[inspired_by]: http://chargen.matasano.com/chargen/2009/7/22/if-youre-typing-the-letters-a-e-s-into-your-code-youre-doing.html
-[ecb]: http://en.wikipedia.org/wiki/Block_cipher_modes_of_operation#Electronic_codebook_.28ECB.29
-[cbc]: http://en.wikipedia.org/wiki/Block_cipher_modes_of_operation#Cipher-block_chaining_.28CBC.29
+[inspired_by]: https://www.nccgroup.trust/us/about-us/newsroom-and-events/blog/2009/july/if-youre-typing-the-letters-a-e-s-into-your-code-youre-doing-it-wrong/
+[ecb]: https://en.wikipedia.org/wiki/Block_cipher_modes_of_operation#Electronic_codebook_.28ECB.29
+[cbc]: https://en.wikipedia.org/wiki/Block_cipher_modes_of_operation#Cipher-block_chaining_.28CBC.29
 [pil]: http://www.pythonware.com/products/pil/
-[pycrypto]: http://www.dlitz.net/software/pycrypto/
+[pycrypto]: https://www.dlitz.net/software/pycrypto/
 [pycrypto_binary]: http://www.voidspace.org.uk/python/modules.shtml#pycrypto

@@ -57,7 +57,7 @@ class Program
         return charTuples.Select(t =>
         {
             // Make a correctly-formed serial.
-            var serial = "CP" + year + (t.Item1 < 10 ? "0" : "") + 
+            var serial = "CP" + year + (t.Item1 < 10 ? "0" : "") +
                 t.Item1 + t.Item2 + t.Item3 + t.Item4;
 
             var serialBytes = Encoding.UTF8.GetBytes(serial);
@@ -75,4 +75,4 @@ class Program
 }
 ```
 
-[orig_link]: http://flash.i.ph/blogs/flash/2009/09/12/default-key-algorithm-in-thomson-most-popular-dsl-router-in-the-pt-meo/
+[orig_link]: https://web.archive.org/web/20120404170642/http://flash.i.ph/blogs/flash/2009/09/12/default-key-algorithm-in-thomson-most-popular-dsl-router-in-the-pt-meo/

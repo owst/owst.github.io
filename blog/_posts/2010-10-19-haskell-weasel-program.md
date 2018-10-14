@@ -135,4 +135,4 @@ main = do
     print result3
 ```
 
-[weasel_wiki]: http://en.wikipedia.org/wiki/Weasel_program
+[weasel_wiki]: https://en.wikipedia.org/wiki/Weasel_program

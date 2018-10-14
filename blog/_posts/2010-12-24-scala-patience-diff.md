@@ -174,8 +174,8 @@ scala -classpath . Main file1.txt file2.txt
 +    frobnitz(fib(10));
  }
 ```
-[diff1]: http://bramcohen.livejournal.com/73318.html
-[diff2]: http://alfedenzo.livejournal.com/170301.html
+[diff1]: https://bramcohen.livejournal.com/73318.html
+[diff2]: https://alfedenzo.livejournal.com/170301.html
 {% endcapture %}
 
 <div style="width: 49%; float: left;" markdown="1">
@@ -232,8 +232,8 @@ inclusion of a bisect method implementation gives the code that calculates the
 longest increasing subsequence (LIS) of its argument. The LIS code is used to
 determine the LCS of the line pairs.
 
-[diff]: http://en.wikipedia.org/wiki/Diff
-[patience]: http://en.wikipedia.org/wiki/Patience_sorting
+[diff]: https://en.wikipedia.org/wiki/Diff
+[patience]: https://en.wikipedia.org/wiki/Patience_sorting
 [github_link]: https://github.com/owst/Scala-Patience-Diff
-[bazaar]: http://bazaar.canonical.com/en/
+[bazaar]: https://bazaar.canonical.com/en/
 [patience_impl]: /blog/2010/11/29/scala-patience-sort.html

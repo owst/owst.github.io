@@ -141,8 +141,8 @@ the edges.
 </div>
 
 [github_link]: https://github.com/owst/JS-Game-of-Life
-[glider]: http://en.wikipedia.org/wiki/Gun_(cellular_automaton)
-[gol]: http://en.wikipedia.org/wiki/Conway's_Game_of_Life
-[ca]: http://en.wikipedia.org/wiki/Cellular_automaton
+[glider]: https://en.wikipedia.org/wiki/Gun_(cellular_automaton)
+[gol]: https://en.wikipedia.org/wiki/Conway's_Game_of_Life
+[ca]: https://en.wikipedia.org/wiki/Cellular_automaton
 
-<link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.9/themes/smoothness/jquery-ui.css" />
+<link rel="stylesheet" type="text/css" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.9/themes/smoothness/jquery-ui.css" />
