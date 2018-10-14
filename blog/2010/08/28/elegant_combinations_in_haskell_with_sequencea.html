@@ -69,9 +69,9 @@
 Good!&quot;</a> tutorial recently, and it&#39;s definitely
 helped me with some of the not-immediately-clear concepts in Haskell.</p>
 
-<p>When I was pointed to <a href="http://mojoai.blogspot.com/2010/08/learning-to-see-patterns-in-my-own.html">this blog
+<p>When I was pointed to <a href="https://mojoai.blogspot.com/2010/08/learning-to-see-patterns-in-my-own.html">this blog
 post</a>,
-which discusses this <a href="http://stackoverflow.com/questions/3510586/algorithm-to-calculate-the-number-of-combinations-to-form-100">stackoverflow.com
+which discusses this <a href="https://stackoverflow.com/questions/3510586/algorithm-to-calculate-the-number-of-combinations-to-form-100">stackoverflow.com
 question</a>
 I couldn&#39;t help but feel that there had to be a more elegant way to do it.</p>
 
@@ -91,7 +91,7 @@ For example:</p>
 <div class="highlight"><pre><code class="language-haskell" data-lang="haskell"><span class="nf">replicate</span> <span class="mi">3</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">]</span> <span class="o">==</span> <span class="p">[[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">],[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">],[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">]]</span>
 </code></pre></div>
 <p>When applied to a list of lists, <code>sequenceA</code> behaves like a list comprehension
-of the following form </p>
+of the following form</p>
 <div class="highlight"><pre><code class="language-haskell" data-lang="haskell"><span class="p">[</span><span class="n">x</span> <span class="kt">:</span> <span class="n">y</span> <span class="kt">:</span> <span class="n">z</span> <span class="kt">:</span> <span class="kt">[]</span> <span class="o">|</span> <span class="n">x</span> <span class="ow">&lt;-</span> <span class="n">xs</span><span class="p">,</span> <span class="n">y</span> <span class="ow">&lt;-</span> <span class="n">ys</span><span class="p">,</span> <span class="n">z</span> <span class="ow">&lt;-</span> <span class="n">zs</span><span class="p">]</span>
 </code></pre></div>
 <p>(assuming the <code>sequenceA</code> was passed a list containing 3 lists: <code>[xs, ys, zs]</code>)

@@ -144,13 +144,13 @@ or more &#39;b&#39;s, or those beginning with &#39;a&#39; and ending with zero o
 
 <p>Now, why would we want to use a NFA instead of a DFA? The answer is
 &quot;compactness&quot;: we can use fewer states to recognise the same language. Indeed,
-NFAs and DFAs can recognise <a href="http://en.wikipedia.org/wiki/Nondeterministic_finite_automaton#Equivalence_to_DFA">exactly the same languages</a>.
+NFAs and DFAs can recognise <a href="https://en.wikipedia.org/wiki/Nondeterministic_finite_automaton#Equivalence_to_DFA">exactly the same languages</a>.
 The drawback is that the NFA is &quot;harder&quot; to match a string against: since we
 can have a choice of transitions to take, we must try each, accepting a string
 if <em>any</em> of our choices succeed (finish in an accepting state)<sup id="fnref1"><a href="#fn1" rel="footnote">1</a></sup>.</p>
 
 <p>So, to summarise, a DFA is more efficient to &quot;run&quot; on a string, but a NFA is
-more efficient to represent, a classic <a href="http://en.wikipedia.org/wiki/Space%E2%80%93time_tradeoff">time-vs-space tradeoff</a>!</p>
+more efficient to represent, a classic <a href="https://en.wikipedia.org/wiki/Space%E2%80%93time_tradeoff">time-vs-space tradeoff</a>!</p>
 
 <p>Now the question is, <em>how much</em> more compact is an NFA vs. a DFA. Or, put
 differently, how much bigger is a DFA compared to an NFA recognising the same
@@ -187,7 +187,7 @@ this language:</p>
 <p><img src="/assets/images/blog/2014-09-28/4d306b466f4a91d26cb0dec57205c5d8.svg" alt="NFA with hash 4d306b466f4a91d26cb0dec57205c5d8"></p>
 
 <p>Now, what does the DFA that accepts this language look like? To find out, we
-can perform the <a href="http://en.wikipedia.org/wiki/Powerset_construction">powerset construction</a> to &quot;determinise&quot;
+can perform the <a href="https://en.wikipedia.org/wiki/Powerset_construction">powerset construction</a> to &quot;determinise&quot;
 a NFA. We can easily (but tediously) perform the powerset construction,
 creating a table to record the possible <em>set</em> of states the NFA can be in
 (after starting in the set containing the initial state), and check how this
@@ -339,7 +339,7 @@ particular language.</p>
 <p>Assume that we have a DFA with fewer than <code>2<sup>3</sup></code> states
 and has language <code>(0|1)<sup>&#42;</sup>1(0|1)<sup>2</code>.</p>
 
-<p>Now, by the <a href="http://en.wikipedia.org/wiki/Pigeonhole_principle">pidgeonhole principle</a>, there must be 2
+<p>Now, by the <a href="https://en.wikipedia.org/wiki/Pigeonhole_principle">pidgeonhole principle</a>, there must be 2
 <em>distinct</em> strings in <code>(0|1)<sup>3</sup></code>, that lead to the same
 state of the DFA. Let us call these two strings <code>x</code> and <code>y</code>; since they are
 different, there must be a position, <code>i</code> (with <code>0 &lt; i &lt; |x|</code>) in <code>x</code> and

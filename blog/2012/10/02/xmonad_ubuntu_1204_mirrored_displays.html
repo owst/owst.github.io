@@ -71,7 +71,7 @@ Ubuntu 12.04, so I thought I&#39;d document it here.</p>
 <p>For my work machine, I use Ubuntu with a dual-screen setup (using Nvidia&#39;s
 TwinView), with a mixture of Gnome and Xmonad for my window manager/desktop
 requirements. A handy key-binding that I use frequently is Super-p (that&#39;s the
-&quot;Windows&quot; key followed by p) used to bring up a program-launch menu. </p>
+&quot;Windows&quot; key followed by p) used to bring up a program-launch menu.</p>
 
 <p>After upgrading from Ubuntu 11.10 to 12.04 I was annoyed to find that using
 this short-cut would cause the screen to flicker and the two displays to become
@@ -81,10 +81,10 @@ mirrored.</p>
 NVidia/Xorg settings, to no avail, I discovered that this is an intentional
 behaviour of Gnome (!).</p>
 
-<p><a href="http://mjg59.livejournal.com/121851.html">Apparently</a> this is due to a Microsoft recommendation that hardware
+<p><a href="https://mjg59.livejournal.com/121851.html">Apparently</a> this is due to a Microsoft recommendation that hardware
 manufacturers map the various ways of controlling projector/external displays
 onto a &quot;simple&quot; key-press of super-p! <a href="https://bugs.launchpad.net/ubuntu/+source/linux/+bug/539477">This has led</a> gnome-settings-daemon
-to implement super-p as a short-cut to <a href="http://xorg.freedesktop.org/wiki/Projects/XRandR">xrandr</a>, hence my display
+to implement super-p as a short-cut to <a href="https://xorg.freedesktop.org/wiki/Projects/XRandR">xrandr</a>, hence my display
 resizing/mirroring symptoms.</p>
 
 <p>The solution is simple - prevent gnome-settings-daemon from making the

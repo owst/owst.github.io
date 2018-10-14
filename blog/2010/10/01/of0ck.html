@@ -65,11 +65,7 @@
           01 Oct 2010
       </time>
   </div>
-  <script src="http://code.jquery.com/jquery-1.4.2.min.js"></script>
-
-<script src="/assets/static/blog/2010-10-01/of0ck.js"></script>
-
-<script>
+  <script>
     function go() {
         var input = $("#program").val();
         var stdin = $("#input").val();
@@ -94,7 +90,7 @@
 </script>
 
 <p>Here&#39;s a quick twist on the classic esoteric programming language
-<a href="http://esolangs.org/wiki/Brainfuck">Brainf*ck</a>.</p>
+<a href="https://esolangs.org/wiki/Brainfuck">Brainf*ck</a>.</p>
 
 <p>Of0ck uses modified input symbols:</p>
 <div class="highlight"><pre><code class="language-text" data-lang="text">oO == &gt; Increment the pointer.
@@ -112,23 +108,23 @@ insignificant.</p>
 <p>As an example, a program that reads its input, reverses it and prints to the
 output looks like: <code>OOO0oOOOo0ooO0Ooooo0</code> nice, eh? :)</p>
 
-<p>Program:<br>
+<p>Program:
 <textarea id="program">OOO0oOOOo0ooO0Ooooo0</textarea></p>
 
-<p>Input:<br>
+<p>Input:
 <textarea id="input">Hit go!</textarea></p>
 
-<p><input type="submit" value="Go!" onclick="go()"/><br>
+<p><input type="submit" value="Go!" onclick="go()"/>
 <span id="info"></span></p>
 
-<p>Output:<br>
+<p>Output:
 <textarea id="output"></textarea></p>
 
 <p>Got a BF program, but want to execute it using Of0ck? No problem:
 paste the BF into the field below, hit translate and equivalent
 Of0ck will appear!</p>
 
-<p>Translate BF to Of0ck:<br>
+<p>Translate BF to Of0ck:
 <textarea id="toTranslate"></textarea></p>
 
 <p><input type="submit" value="Translate" onclick="doTranslate()"/></p>
@@ -161,6 +157,10 @@ Of0ck will appear!</p>
             <script type='text/javascript' src='/assets/js/time.js'></script>
         
     
+    
+        
+            <script type='text/javascript' src='https://cdn.jsdelivr.net/gh/owst/of0ck@d0918490dff5262de5edc57dc6d1be97e58d3856/of0ck.js'></script>
+        
     
     
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>

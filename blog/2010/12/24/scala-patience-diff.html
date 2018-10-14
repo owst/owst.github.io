@@ -65,7 +65,7 @@
           24 Dec 2010
       </time>
   </div>
-  <p>Consider <a href="http://en.wikipedia.org/wiki/Diff">diffing</a> the following two files:</p>
+  <p>Consider <a href="https://en.wikipedia.org/wiki/Diff">diffing</a> the following two files:</p>
 
 <div style="width: 49%; float: left;" markdown="1">
 File1
@@ -181,7 +181,7 @@ presents these changes.</p>
 
 <div style="width: 49%; float: right;" markdown="1">
 <p>And now, the result using the patience diff algorithm (as described
-<a href="http://bramcohen.livejournal.com/73318.html">here</a> and <a href="http://alfedenzo.livejournal.com/170301.html">here</a>):</p>
+<a href="https://bramcohen.livejournal.com/73318.html">here</a> and <a href="https://alfedenzo.livejournal.com/170301.html">here</a>):</p>
 
 <p>
 <code class="text-nowrap">
@@ -234,7 +234,7 @@ output; it represents something closer to how one would describe the changes
 verbally.</p>
 
 <p>The reason that the patience diff algorithm (whose name comes from the fact
-that a <a href="http://en.wikipedia.org/wiki/Patience_sorting">patience sort</a> is used to calculate the LCS) produces more
+that a <a href="https://en.wikipedia.org/wiki/Patience_sorting">patience sort</a> is used to calculate the LCS) produces more
 readable diff outputs is because it only considers common lines that are unique
 within each file. What this means practically, is that lines that are blank, or
 contain a single brace are not considered as forming part of the common
@@ -244,7 +244,7 @@ GNU <code>diff</code> output shown above does this) but instead, focusses on uni
 
 <p>My Scala implementation can be found on <a href="https://github.com/owst/Scala-Patience-Diff">Github, here</a>. An example
 usage (which takes the two filenames to diff on stdin and prints the diff) is
-shown below. Patience diff is used by the <a href="http://bazaar.canonical.com/en/">Bazaar</a> version control
+shown below. Patience diff is used by the <a href="https://bazaar.canonical.com/en/">Bazaar</a> version control
 system, whose implementation I consulted for ideas whilst coding my Scala
 version.</p>
 <div class="highlight"><pre><code class="language-scala" data-lang="scala"><span class="k">import</span> <span class="nn">scala.io.Source._</span>

@@ -68,14 +68,14 @@
   <p>Having recently decided to <a href="http://learnyouanagda.liamoc.net/">learn myself an Agda</a>, I thought
 that implementing a <a href="https://en.wikipedia.org/wiki/Patience_sorting">Patience sort</a> would be a neat example to
 try and program.  Having <a href="/blog/2010/11/29/scala-patience-sort.html">already implemented</a> a
-<a href="http://www.scala-lang.org/">Scala</a> Patience sort, I was interested to see how I could tighten up
+<a href="https://www.scala-lang.org/">Scala</a> Patience sort, I was interested to see how I could tighten up
 the implementation by using a dependently-typed language such as <a href="http://wiki.portal.chalmers.se/agda/pmwiki.php">Agda</a>.</p>
 
 <p>I&#39;m going to go reasonably fast when describing my implementation, feel free to
 take a look at the same file <a href="https://github.com/owst/agda-patience-sort/blob/master/Patience.agda">on Github</a> if you&#39;d like to explore
 it using the excellent <a href="http://wiki.portal.chalmers.se/agda/pmwiki.php?n=Main.QuickGuideToEditingTypeCheckingAndCompilingAgdaCode">Emacs agda-mode</a>.</p>
 
-<p>First, let&#39;s define the module, and import a bunch of stuff from the 
+<p>First, let&#39;s define the module, and import a bunch of stuff from the
 <a href="https://github.com/agda/agda-stdlib/">standard library</a>.</p>
 <div class="highlight"><pre><code class="language-agda" data-lang="agda"><span class="kr">module</span> <span class="n">Patience</span> <span class="kr">where</span>
   <span class="kr">open</span> <span class="kr">import</span> <span class="n">Relation.Binary</span> <span class="kr">using</span> <span class="o">(</span>DecTotalOrder; <span class="kr">module</span> <span class="n">DecTotalOrder</span>;
@@ -211,7 +211,7 @@ elements, and complete piles into existing (possibly empty) <code>Piles</code>:<
 
        ≡ℕ <span class="ow">=</span> cong suc <span class="o">(</span>permute-suc-xyz <span class="o">{</span>n₂<span class="o">}</span> <span class="o">{</span>n₁<span class="o">}</span> <span class="o">{</span>m₁<span class="o">})</span>
 </code></pre></div>
-<p>It&#39;d be nice to use some of <a href="https://personal.cis.strath.ac.uk/conor.mcbride/Pivotal.pdf">Connor McBride&#39;s ideas</a> to avoid the 
+<p>It&#39;d be nice to use some of <a href="https://personal.cis.strath.ac.uk/conor.mcbride/Pivotal.pdf">Connor McBride&#39;s ideas</a> to avoid the
 Green Slime<sup id="fnref1"><a href="#fn1" rel="footnote">1</a></sup> (i.e. the use of <code>min</code> in the return types). However, I seem to
 require the tight bounds, and didn&#39;t manage to effectively get rid of the calls
 to <code>min</code>. If you have any ideas or suggestions on this, please get in
@@ -219,7 +219,7 @@ contact!</p>
 
 <p>Once we have inserted elements into <code>Piles</code>, we can remove elements one-by-one,
 to obtain an ordered <code>List</code> of elements. When removing a single element (to
-obtain the minimum element and a new <code>Piles</code>), we have to use a <a href="http://ncatlab.org/nlab/show/dependent+sum+type">dependent-sum
+obtain the minimum element and a new <code>Piles</code>), we have to use a <a href="https://ncatlab.org/nlab/show/dependent+sum+type">dependent-sum
 type</a> to encode the fact that the lower bound of the resulting
 <code>Piles</code> is the removed element. We maintain the ordering by pushing any
 non-empty vectors back into the <code>Piles</code> to be consumed in-order.</p>

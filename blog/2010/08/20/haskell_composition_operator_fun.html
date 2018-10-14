@@ -65,10 +65,10 @@
           20 Aug 2010
       </time>
   </div>
-  <p>I&#39;ve been learning <a href="http://www.haskell.org">Haskell</a> over the summer, and have
+  <p>I&#39;ve been learning <a href="https://www.haskell.org">Haskell</a> over the summer, and have
 definitely had my fair share of head-scratching moments!</p>
 
-<p>Having seen <a href="http://www.reddit.com/r/programming/comments/a9tb2/secret_haskell_operators/">this reddit
+<p>Having seen <a href="https://www.reddit.com/r/programming/comments/a9tb2/secret_haskell_operators/">this reddit
 thread</a>,
 I attempted to figure out the type of the expression <code>(.).(.)</code> which is the
 infix representation of <code>(.)(.)(.)</code> (the function composition operator, applied
@@ -89,10 +89,10 @@ The first argument, <code>(.)</code> (we shall call it <code>(.)1</code>) theref
 type:</p>
 <div class="highlight"><pre><code class="language-haskell" data-lang="haskell"><span class="p">(</span><span class="o">.</span><span class="p">)</span><span class="mi">1</span> <span class="ow">::</span> <span class="p">(</span><span class="n">b1</span> <span class="ow">-&gt;</span> <span class="n">c1</span><span class="p">)</span> <span class="ow">-&gt;</span> <span class="p">(</span><span class="n">a1</span> <span class="ow">-&gt;</span> <span class="n">b1</span><span class="p">)</span> <span class="ow">-&gt;</span> <span class="n">a1</span> <span class="ow">-&gt;</span> <span class="n">c1</span>
 </code></pre></div>
-<p>When applying <code>(.)</code> to the single argument <code>(.)1</code> we are &#39;substituting&#39; </p>
-<div class="highlight"><pre><code class="language-haskell" data-lang="haskell"><span class="p">(</span><span class="n">b</span> <span class="ow">-&gt;</span> <span class="n">c</span><span class="p">)</span> 
+<p>When applying <code>(.)</code> to the single argument <code>(.)1</code> we are &#39;substituting&#39;</p>
+<div class="highlight"><pre><code class="language-haskell" data-lang="haskell"><span class="p">(</span><span class="n">b</span> <span class="ow">-&gt;</span> <span class="n">c</span><span class="p">)</span>
 </code></pre></div>
-<p>for </p>
+<p>for</p>
 <div class="highlight"><pre><code class="language-haskell" data-lang="haskell"><span class="p">(</span><span class="n">b1</span> <span class="ow">-&gt;</span> <span class="n">c1</span><span class="p">)</span> <span class="ow">-&gt;</span> <span class="p">(</span><span class="n">a1</span> <span class="ow">-&gt;</span> <span class="n">b1</span><span class="p">)</span> <span class="ow">-&gt;</span> <span class="n">a1</span> <span class="ow">-&gt;</span> <span class="n">c1</span>
 </code></pre></div>
 <p>taking a three-parameter function and passing it to something that expects a
@@ -103,7 +103,7 @@ parameter.</p>
 <p>Matching the types gives us the following &#39;mappings&#39;:</p>
 <div class="highlight"><pre><code class="language-haskell" data-lang="haskell"><span class="nf">b</span> <span class="ow">::</span> <span class="p">(</span><span class="n">b1</span> <span class="ow">-&gt;</span> <span class="n">c1</span><span class="p">)</span>
 </code></pre></div>
-<p>and </p>
+<p>and</p>
 <div class="highlight"><pre><code class="language-haskell" data-lang="haskell"><span class="nf">c</span> <span class="ow">::</span> <span class="p">(</span><span class="n">a1</span> <span class="ow">-&gt;</span> <span class="n">b1</span><span class="p">)</span> <span class="ow">-&gt;</span> <span class="n">a1</span> <span class="ow">-&gt;</span> <span class="n">c1</span>
 </code></pre></div>
 <p>In <code>(.)</code>&#39;s signature, the result of providing a single argument is of type:
@@ -116,11 +116,11 @@ parameter.</p>
 parameters.</p>
 
 <p>We can then repeat for the second argument of <code>(.)</code>, which we shall name <code>(.)2</code>
-and has type: </p>
+and has type:</p>
 <div class="highlight"><pre><code class="language-haskell" data-lang="haskell"><span class="p">(</span><span class="n">b2</span> <span class="ow">-&gt;</span> <span class="n">c2</span><span class="p">)</span> <span class="ow">-&gt;</span> <span class="p">(</span><span class="n">a2</span> <span class="ow">-&gt;</span> <span class="n">b2</span><span class="p">)</span> <span class="ow">-&gt;</span> <span class="n">a2</span> <span class="ow">-&gt;</span> <span class="n">c2</span>
 </code></pre></div>
 <p>N.B. <code>(.)(.)</code> takes 4 parameters, the first being a function of type <code>a -&gt; (b1
--&gt; c1)</code>. </p>
+-&gt; c1)</code>.</p>
 
 <p>When we apply <code>(.)(.)</code> to <code>(.)</code> we are providing its first parameter, which
 gives us type mappings of:</p>

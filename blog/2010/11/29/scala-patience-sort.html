@@ -65,7 +65,7 @@
           29 Nov 2010
       </time>
   </div>
-  <p>Here&#39;s a simple Scala implementation of <a href="http://en.wikipedia.org/wiki/Patience_sorting">Patience Sort</a>, that I
+  <p>Here&#39;s a simple Scala implementation of <a href="https://en.wikipedia.org/wiki/Patience_sorting">Patience Sort</a>, that I
 wrote as a precursor to implementing the patience diff algorithm.</p>
 <div class="highlight"><pre><code class="language-scala" data-lang="scala"><span class="k">def</span> <span class="n">sort</span><span class="o">[</span><span class="kt">A</span> <span class="k">&lt;%</span> <span class="kt">Ordered</span><span class="o">[</span><span class="kt">A</span><span class="o">]](</span><span class="n">source</span> <span class="k">:</span> <span class="kt">Traversable</span><span class="o">[</span><span class="kt">A</span><span class="o">])</span> <span class="k">:</span> <span class="kt">Traversable</span><span class="o">[</span><span class="kt">A</span><span class="o">]</span> <span class="k">=</span> <span class="o">{</span>
     <span class="k">val</span> <span class="n">piles</span> <span class="k">=</span> <span class="nc">ListBuffer</span><span class="o">.</span><span class="n">empty</span><span class="o">[</span><span class="kt">Stack</span><span class="o">[</span><span class="kt">A</span><span class="o">]]</span>
@@ -75,7 +75,7 @@ wrote as a precursor to implementing the patience diff algorithm.</p>
     <span class="k">for</span> <span class="o">(</span><span class="n">elem</span> <span class="k">&lt;-</span> <span class="n">source</span><span class="o">)</span> <span class="o">{</span>
         <span class="n">count</span> <span class="o">+=</span> <span class="mi">1</span>
 
-        <span class="c1">// Find leftmost &quot;possible&quot; pile </span>
+        <span class="c1">// Find leftmost &quot;possible&quot; pile</span>
         <span class="k">val</span> <span class="n">toAddPile</span> <span class="k">=</span> <span class="n">piles</span><span class="o">.</span><span class="n">find</span><span class="o">(</span><span class="n">p</span> <span class="k">=&gt;</span> <span class="n">p</span><span class="o">.</span><span class="n">head</span> <span class="o">&gt;=</span> <span class="n">elem</span><span class="o">)</span>
 
         <span class="c1">// If there isn&#39;t a pile available, add a new one.</span>
