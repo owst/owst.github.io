@@ -1,7 +1,7 @@
 ---
 title: JavaScript Game of Life
 js_includes:
-  - https://cdn.rawgit.com/owst/JS-Game-of-Life/2d78ba8a37d12ac7b2329a205622ccd85a1ee626/CA.js
+  - https://cdn.jsdelivr.net/gh/owst/JS-Game-of-Life@2d78ba8a37d12ac7b2329a205622ccd85a1ee626/CA.js
   - https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js
 css_includes:
   - https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css
