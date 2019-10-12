@@ -2,7 +2,7 @@
 languages:
     - Ruby
     - SQL
-weight: 10
+weight: 40
 ---
 
 I prevented [duplicating of jobs and misleading warnings][pr] in the
