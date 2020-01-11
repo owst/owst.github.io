@@ -1,7 +1,7 @@
 ---
 languages:
     - Haskell
-weight: 100
+weight: 110
 ---
 
 [I improved certain error messages][cabal-errs] of the [Cabal][cabal] packaging
