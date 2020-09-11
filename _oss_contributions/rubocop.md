@@ -1,7 +1,7 @@
 ---
 languages:
     - Ruby
-weight: 100
+weight: 70
 ---
 
 I [added and improved][prs] several linters of the popular [Rubocop][rubocop] code

@@ -1,7 +1,7 @@
 ---
 languages:
     - Haskell
-weight: 90
+weight: 100
 ---
 
 I was a core member of the [Darcs][darcs] VCS team, contributing [many

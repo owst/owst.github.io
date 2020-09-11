@@ -5,9 +5,9 @@ weight: 1
 
 Hi, I'm Owen,
 
-I live in London, working as a software developer at [Bamboo][bamboo] writing
-mostly Ruby. Previously, I completed a PhD at Southampton University, where I
-also obtained a masters in Computer Science.
+I live in [Woking][woking] and work as a software developer at [Bamboo][bamboo]
+writing mostly Ruby. Previously, I completed a PhD at Southampton University,
+where I also obtained a masters in Computer Science.
 
 Outside of work I enjoy programming in Haskell, and ignoring technical things my interests include playing waterpolo, skiing, playing the electric guitar, windsurfing, and watching MotoGP &amp; F1.
 
@@ -31,3 +31,4 @@ If you'd like to say hi, please send me an email: [{{site.email}}](mailto:{{site
 [oss]: /oss.html
 [research]: /research.html
 [bamboo]: https://www.bambooloans.com
+[woking]: https://en.wikipedia.org/wiki/Woking
