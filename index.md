@@ -30,5 +30,5 @@ If you'd like to say hi, please send me an email: [{{site.email}}](mailto:{{site
 [blog]: /blog.html
 [oss]: /oss.html
 [research]: /research.html
-[bamboo]: https://www.bambooloans.com
+[bamboo]: https://bambooengineering.io/
 [woking]: https://en.wikipedia.org/wiki/Woking
