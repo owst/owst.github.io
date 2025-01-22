@@ -90,7 +90,7 @@ and indeed, we can see the literal value `0xdeadbeef`, which means our Nickel
 program has been fully optimisated away by LLVM into the return of a single
 literal value - very cool!
 
-[blog_post]: {{ site.baseurl }}{% post_url 2018-09-25-getting-started-with-the-newer-llvm-c-api %}
+[blog_post]: {% post_url blog/2018-09-25-getting-started-with-the-newer-llvm-c-api %}
 [jit]: https://en.wikipedia.org/wiki/Just-in-time_compilation
 [llvm]: https://llvm.org/
 [nickel]: https://github.com/owst/nickel

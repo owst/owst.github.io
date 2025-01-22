@@ -1,5 +1,4 @@
 source 'https://rubygems.org'
 
-gem 'jekyll', '~> 3.1'
-gem 'redcarpet', '~> 3.3'
-gem 'pygments.rb', '~> 0.6'
+gem 'jekyll', "~> 3"
+gem 'kramdown-parser-gfm'

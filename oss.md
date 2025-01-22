@@ -11,7 +11,8 @@ remember them:
     {% for entry in entries %}
     <li class="oss_contribution">
       <span class='block_labels'>
-          {% for language in entry.languages | sort %}
+          {% assign sorted_languages = entry.languages | sort %}
+          {% for language in sorted_languages %}
             <span class="block_label">
                 {{ language }}
             </span>

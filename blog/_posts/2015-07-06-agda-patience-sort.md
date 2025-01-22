@@ -258,7 +258,7 @@ they contain.
 [patience sort]: https://en.wikipedia.org/wiki/Patience_sorting
 [scala]: https://www.scala-lang.org/
 [agda]: http://wiki.portal.chalmers.se/agda/pmwiki.php
-[scala patience sort]: {% post_url 2010-11-29-scala-patience-sort%}
+[scala patience sort]: {% post_url blog/2010-11-29-scala-patience-sort %}
 [github link]: https://github.com/owst/agda-patience-sort/blob/master/Patience.agda
 [agda-mode]: http://wiki.portal.chalmers.se/agda/pmwiki.php?n=Main.QuickGuideToEditingTypeCheckingAndCompilingAgdaCode
 [standard library]: https://github.com/agda/agda-stdlib/
