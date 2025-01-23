@@ -12,14 +12,8 @@ img_dir: '/assets/images/'
 static_dir: '/assets/static/'
 timezone: "Europe/London"
 kramdown:
+  auto_ids: true
   syntax_highlighter: rouge
-# redcarpet:
-#   extensions:
-#     - fenced_code_blocks
-#     - autolink
-#     - tables
-#     - with_toc_data
-#     - footnotes
 collections:
     - oss_contributions
 defaults:

@@ -1,3 +1,8 @@
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 60px;
+}
+
 time {
     font-family: 'Droid Sans Mono', monospace;
 }
@@ -41,4 +46,10 @@ textarea {
 
 .oss_contribution p {
     display: inline;
+}
+
+.header_link {
+    margin-left: 0.25rem;
+    font-size: 0.9rem;
+    vertical-align: middle;
 }

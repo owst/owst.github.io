@@ -7,10 +7,12 @@ js_includes:
 
 <article class="post mt-3 pb-3">
   <div id="post-header" class="pb-4">
-      <h3 class="post-title">{{ page.title }}</h3>
+      <h2 class="post-title">{{ page.title }}</h2>
       <time datetime="{{ page.date | date_to_xmlschema  }}" class="page-date">
           {{ page.date | date_to_string }}
       </time>
   </div>
-  {{ content }}
+  <div id="post-contents">
+      {{ content }}
+  </div>
 </article>
