@@ -24,7 +24,6 @@ defaults:
         global_cloudflare_js_includes:
           # Required by Bootstrap
           - jquery/3.2.1/jquery.min.js
-          - popper.js/1.12.9/umd/popper.min.js
   -
     scope:
       path: ""
