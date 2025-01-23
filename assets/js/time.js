@@ -7,10 +7,9 @@ var Time = {
 $(function() {
     var page_dates = document.getElementsByClassName("page-date");
 
-    _.each(page_dates, function(date) {
+    Array.from(page_dates).forEach((date) => {
         if (date.hasAttribute("datetime")) {
             date.innerHTML += Time.bracketed_time_from_now(date.getAttribute("datetime"));
         }
     });
-
 });
