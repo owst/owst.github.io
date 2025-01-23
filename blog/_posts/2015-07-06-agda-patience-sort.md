@@ -15,7 +15,7 @@ it using the excellent [Emacs agda-mode][agda-mode].
 First, let's define the module, and import a bunch of stuff from the
 [standard library][standard library].
 
-```agda
+```text
 module Patience where
   open import Relation.Binary using (DecTotalOrder; module DecTotalOrder;
     IsDecTotalOrder; module IsDecTotalOrder; Rel; module IsTotalOrder;
@@ -40,7 +40,7 @@ compares all elements as less than the maximum, and otherwise defers to the
 underlying ordering), and prove that it is transitive. I could prove other
 properties, but do not require them, so save space by not doing so.
 
-```agda
+```text
   -- A module that will contain a type of ordered "piles", analogous
   -- to piles of cards in Patience (though with the stronger
   -- restriction that piles are ordered by the top element).
@@ -67,7 +67,7 @@ We will want to use this lifted type to track the minimum element in a set of
 Piles, and we will therefore need to find the minimum of two elements of this
 type.
 
-```agda
+```text
     -- Minimum w.r.t. X⊤
     min : X⊤ → X⊤ → X⊤
     min ⊤ x = x
@@ -82,7 +82,7 @@ elements it contains. Notice how we leverage dependent types, taking a proof
 object argument that ensures that elements that are `cons`d onto the vector are
 indeed smaller than the existing head of the vector.
 
-```agda
+```text
     -- Define a type of bounded, ordered vectors
     data OVec : X⊤ → ℕ → Set where
       ε : OVec ⊤ 0
@@ -93,7 +93,7 @@ Now, using ordered vectors (individual piles), we can define a type representing
 a (ordered by top element) set of piles, again tracking the minimum element and
 the number of elements in the Piles.
 
-```agda
+```text
     -- Define a type of bounded, ordered (by head elem) vectors of
     -- (non-empty) OVecs.
     data Piles : X⊤ → ℕ → Set where
@@ -104,7 +104,7 @@ the number of elements in the Piles.
 
 Later, we will require a couple of lemmas:
 
-```agda
+```text
     -- Given a proof of equivalence between two elements of ℕ, we can transform
     -- Piles with one size to the other.
     cong-Piles : ∀ {l} {n m : ℕ} → (n ≡ m) → Piles l n  → Piles l m
@@ -121,7 +121,7 @@ Later, we will require a couple of lemmas:
 And now, we can move onto the meat of the implementation, inserting single
 elements, and complete piles into existing (possibly empty) `Piles`:
 
-```agda
+```text
     -- We can insert a single element into existing Piles...
     insertElemPiles : ∀ {l n} → (x : X) → Piles l n
       → Piles (min ⟦ x ⟧ l) (suc n)
@@ -182,7 +182,7 @@ type][dependent sum] to encode the fact that the lower bound of the resulting
 `Piles` is the removed element. We maintain the ordering by pushing any
 non-empty vectors back into the `Piles` to be consumed in-order.
 
-```agda
+```text
     -- From any non-empty Piles, we can remove the smallest element, to obtain
     -- a pair of that element, and a one-smaller Piles.
     removeOne : ∀ {l n} → Piles l (suc n) → X × (Σ X⊤ (λ l' → Piles l' n))
@@ -202,7 +202,7 @@ non-empty vectors back into the `Piles` to be consumed in-order.
  type to "hide" these values. To create a existential Piles, we repeatedly
  insert the elements of the list, one-by-one:
 
-```agda
+```text
     -- We can existentially hide the bound and size of Piles...
     data ∃Piles : Set where
       ∃<_> : ∀ {l n} → Piles l n → ∃Piles
@@ -217,7 +217,7 @@ non-empty vectors back into the `Piles` to be consumed in-order.
 
 Now, Patience sorting is simply defined:
 
-```agda
+```text
     -- Finally, patience sort is simply creating Piles from an arbitrary List,
     -- before converting back to an (ordered) List.
     patienceSort : List X → List X
@@ -229,7 +229,7 @@ And all that remains is to demonstrate some example sortings of natural
 numbers. Recall that Piles are parameterised by the (totally-ordered) elements
 they contain.
 
-```agda
+```text
   -- Let's create Piles of ℕ
   module Pilesℕ = Piles decTotalOrderℕ
 
