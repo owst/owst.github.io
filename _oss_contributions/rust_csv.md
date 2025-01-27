@@ -1,7 +1,7 @@
 ---
 languages:
     - Rust
-weight: 10
+weight: 20
 ---
 
 I [traced][traced] and [fixed][fixed] the cause of a tabular-layout

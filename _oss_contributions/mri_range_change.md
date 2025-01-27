@@ -2,7 +2,7 @@
 languages:
     - C
     - Ruby
-weight: 20
+weight: 30
 ---
 
 I [extended the Range#cover? method][commit] in the MRI Ruby standard library

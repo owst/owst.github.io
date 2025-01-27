@@ -1,7 +1,7 @@
 ---
 languages:
     - C
-weight: 40
+weight: 50
 ---
 
 [I tracked down and proposed a fix][ruby_bug] for a segfault in the MRI Ruby

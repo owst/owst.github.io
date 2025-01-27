@@ -1,7 +1,7 @@
 ---
 languages:
     - Python
-weight: 60
+weight: 70
 ---
 
 I [fixed a bug][pgcli_completions] to ensure table aliases were correctly taken

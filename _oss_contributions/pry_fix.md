@@ -1,7 +1,7 @@
 ---
 languages:
     - Ruby
-weight: 30
+weight: 40
 ---
 
 I [diagnosed][issue] and [fixed][pr] a crash-causing bug in the [pry][pry] Ruby
