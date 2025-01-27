@@ -1,26 +1,21 @@
----
-title: "Research"
-weight: 3
----
+## Research
 
-My research topics to date include model checking of Petri Nets (in particular, *compositional* reachability checking) and functional programming languages (specifically, methods of implementing IO).
+My research took place as part of a Masters and PhD in Computer Scence. The two main topics I studied were model checking of Petri Nets (specifically, *compositional* reachability checking) and functional programming languages (specifically, methods of implementing IO).
 
-**Compositional model checking of Petri Nets**:
+### Compositional model checking of Petri Nets
 
 My PhD research focussed on compositionally checking reachability in systems modeled by Petri nets. My PhD thesis *Compositional specification and reachability checking of net systems* is [available online][thesis], and includes the work from three papers I co-authored:
 
-- *Compositional Reachability in Petri Nets*, [Reachability Problems '14][rp]<br/>
-    with Julian Rathke and Paweł Sobociński, [paper (PDF)][rppaper]
+* *Compositional Reachability in Petri Nets*, [Reachability Problems '14][rp]
+   with Julian Rathke and Paweł Sobociński, [paper (PDF)][rppaper]
+* *A Programming Language for Spatial Distribution of Net Systems*, [Petri Nets '14][pn]
+   with Paweł Sobociński, [paper (PDF)][pnpaper]
+* *Penrose: Putting Compositionality to Work for Petri Net Reachability*, [CALCO'13][calco]
+   with Paweł Sobociński, [paper (PDF)][calcopaper]
 
-- *A Programming Language for Spatial Distribution of Net Systems*, [Petri Nets '14][pn]<br/>
-    with Paweł Sobociński, [paper (PDF)][pnpaper]
+### IO in functional programming languages
 
-- *Penrose: Putting Compositionality to Work for Petri Net Reachability*, [CALCO'13][calco]<br/>
-    with Paweł Sobociński, [paper (PDF)][calcopaper]
-
-**IO in functional programming languages**:
-
-My masters research project investigated methods of implementing input/output (I/O) in functional
+My Masters research project investigated methods of implementing input/output (I/O) in functional
 programming languages: [report (PDF)][report].
 
 

@@ -4,7 +4,7 @@ var Time = {
     }
 };
 
-$(function() {
+document.addEventListener("DOMContentLoaded", function() {
     var page_dates = document.getElementsByClassName("page-date");
 
     Array.from(page_dates).forEach((date) => {

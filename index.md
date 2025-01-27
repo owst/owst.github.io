@@ -1,34 +1,40 @@
 ---
-title: "Home"
-weight: 1
+title: "Index"
+layout: page
 ---
 
-Hi, I'm Owen,
+<div class="intro">
+  <img src="assets/images/owenstephens.png" alt="Owen Stephens"/>
 
-I live in [Woking][woking] and work as a software developer at [Bamboo][bamboo]
-writing mostly Ruby. Previously, I completed a PhD at Southampton University,
-where I also obtained a masters in Computer Science.
+  <div>
+  {% capture content %}
+  {% include_relative intro.md %}
+  {% endcapture %}
 
-Outside of work I enjoy programming in Haskell, and ignoring technical things my interests include playing waterpolo, skiing, playing the electric guitar, windsurfing, and watching MotoGP &amp; F1.
-
-Please have a look around; I very infrequently [blog][blog] about technical
-things, have linked to my [open source contributions][oss] and discussed my
-PhD/masters [research papers][research].
-
-If you'd like to say hi, please send me an email: [{{site.email}}](mailto:{{site.email}}).
-
-<div class="container">
-  <div class="row">
-    <div class="col-3"></div>
-    <div class="col-6">
-      <img src="{{site.img_dir}}owenstephens.png" class="rounded img-fluid" alt="A mugshot of Owen Stephens"/>
-    </div>
-    <div class="col-3"></div>
+  {{ content | markdownify }}
   </div>
 </div>
 
-[blog]: /blog.html
-[oss]: /oss.html
-[research]: /research.html
-[bamboo]: https://bambooengineering.io/
-[woking]: https://en.wikipedia.org/wiki/Woking
+<section>
+{% capture content %}
+{% include_relative blog.md %}
+{% endcapture %}
+
+{{ content | markdownify }}
+</section>
+
+<section>
+{% capture content %}
+{% include_relative oss.md %}
+{% endcapture %}
+
+{{ content | markdownify }}
+</section>
+
+<section>
+{% capture content %}
+{% include_relative research.md %}
+{% endcapture %}
+
+{{ content | markdownify }}
+</section>

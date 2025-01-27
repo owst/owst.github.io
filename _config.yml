@@ -7,7 +7,7 @@ exclude:
 name: "Owen Stephens"
 email: owen@owenstephens.co.uk
 title: "Owen Stephens' Website"
-tagline: "London-based Polyglot Programmer"
+tagline: "Software Engineer"
 img_dir: '/assets/images/'
 static_dir: '/assets/static/'
 timezone: "Europe/London"
@@ -17,13 +17,6 @@ kramdown:
 collections:
     - oss_contributions
 defaults:
-  -
-    scope:
-        path: ""
-    values:
-        global_cloudflare_js_includes:
-          # Required by Bootstrap
-          - jquery/3.2.1/jquery.min.js
   -
     scope:
       path: ""

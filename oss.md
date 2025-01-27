@@ -1,7 +1,4 @@
----
-title: "Open Source"
-weight: 4
----
+## Open Source
 
 A list of open source contributions I've made; some are small, but it's nice to
 remember them:
