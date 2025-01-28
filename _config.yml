@@ -29,3 +29,9 @@ defaults:
       type: "posts"
     values:
       layout: "post"
+exclude:
+ - Gemfile
+ - Gemfile.lock
+ - reweight.sh
+ - build.sh
+ - blog/generators
