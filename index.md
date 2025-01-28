@@ -8,7 +8,7 @@ layout: page
 
   <div>
   {% capture content %}
-  {% include_relative intro.md %}
+  {% include intro.md %}
   {% endcapture %}
 
   {{ content | markdownify }}
@@ -17,7 +17,7 @@ layout: page
 
 <section>
 {% capture content %}
-{% include_relative blog.md %}
+{% include blog.md %}
 {% endcapture %}
 
 {{ content | markdownify }}
@@ -25,7 +25,7 @@ layout: page
 
 <section>
 {% capture content %}
-{% include_relative oss.md %}
+{% include oss.md %}
 {% endcapture %}
 
 {{ content | markdownify }}
@@ -33,7 +33,7 @@ layout: page
 
 <section>
 {% capture content %}
-{% include_relative research.md %}
+{% include research.md %}
 {% endcapture %}
 
 {{ content | markdownify }}
