@@ -1,0 +1,26 @@
+name: Build Jekyll site and push to the master branch
+on:
+  push:
+    branches: [source]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: "jekyll_build"
+  cancel-in-progress: false
+
+jobs:
+  build_and_deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup Ruby
+        uses: ruby/setup-ruby@4a9ddd6f338a97768b8006bf671dfbad383215f4
+        with:
+          bundler-cache: true
+          cache-version: 0
+      - name: Build and commit to master
+        run: bash build.sh
