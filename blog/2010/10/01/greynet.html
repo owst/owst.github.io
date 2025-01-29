@@ -1,74 +1,49 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
   <title>
     
-      Linux Kernel Greynet implementation (RFC6018) &middot; Owen Stephens' Website
+      Linux Kernel Greynet implementation (RFC6018) · Owen Stephens' Website
     
   </title>
 
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-  <link rel="stylesheet" href="/assets/css/pygments.css">
   <link rel="stylesheet" href="/assets/css/style.css">
-  <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600|Droid+Sans+Mono' rel='stylesheet' type='text/css'>
+  <link rel="stylesheet" href="/assets/css/code_highlight.css">
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,600|Droid+Sans+Mono" rel="stylesheet" type="text/css">
 </head>
 
-    <body class="mt-5 pt-3">
-      <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top py-0">
-          <a class="navbar-brand align-baseline" href="/"><h2>Owen Stephens</h2><!--<h6
-          class="text-muted pl-2">London-based Polyglot Programmer</h6>--></a>
-          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
-              <span class="navbar-toggler-icon"></span>
-          </button>
-          <div class="collapse navbar-collapse" id="navbarResponsive">
-              <ul class="navbar-nav ml-auto">
-                  
-                  
-                  
-                  
-                  <li class="ml-auto nav-item text-nowrap">
-                      <a class="nav-link py-0" href="/"><h5>Home</a>
-                  </li>
-                  
-                  
-                  
-                  <li class="ml-auto nav-item active text-nowrap">
-                      <a class="nav-link py-0" href="/blog.html"><h5>Blog</h5><span class="sr-only">(current)</span></a>
-                  </li>
-                  
-                  
-                  
-                  <li class="ml-auto nav-item text-nowrap">
-                      <a class="nav-link py-0" href="/research.html"><h5>Research</a>
-                  </li>
-                  
-                  
-                  
-                  <li class="ml-auto nav-item text-nowrap">
-                      <a class="nav-link py-0" href="/oss.html"><h5>Open Source</a>
-                  </li>
-                  
-              </ul>
-          </div>
-      </nav>
-      <div class="container">
-          <div class="row">
-              <div class="col-lg-2"></div>
-              <div class="col-lg-8 border-bottom border-grey">
-                  <article class="post mt-3 pb-3">
-  <div id="post-header" class="pb-4">
-      <h3 class="post-title">Linux Kernel Greynet implementation (RFC6018)</h3>
-      <time datetime="2010-10-01T00:00:00+01:00" class="page-date">
-          01 Oct 2010
-      </time>
-  </div>
-  <p>Last year I completed my 3rd year project, entitled &quot;Facilitating the
-Collection and Analysis of Suspicious IPv4/6 Network Activity using a Greynet&quot;.
+    <body>
+        <header>
+            <a class="no_style" href="/" text="Home">
+            <h1>Owen Stephens</h1>
+            <h3>Software Engineer</h3>
+            </a>
+        </header>
+        <div class="container">
+    <div class="post_nav" markdown="1">
+    You can jump back <a href="/">Home</a>, or to the <a href="/#blog">Blog</a>, <a href="/#open-source">Open Source</a> or <a href="/#research">Research</a> sections.
+
+    </div>
+    <section>
+      <div id="post-header">
+          <h2 class="post-title">Linux Kernel Greynet implementation (RFC6018)<a class="header_link" href="#">🔗</a>
+</h2>
+          <time datetime="2010-10-01T00:00:00+01:00" class="page-date">
+              
+              1st
+              October
+              2010
+          </time>
+      </div>
+      <div id="post-contents">
+          <p>Last year I completed my 3rd year project, entitled “Facilitating the
+Collection and Analysis of Suspicious IPv4/6 Network Activity using a Greynet”.
 The aim of the project was to build a test implementation for the then
-unreleased <a href="https://datatracker.ietf.org/doc/rfc6018/">&quot;RFC 6018 - IPv4 and IPv6 Greynets&quot;</a>.</p>
+unreleased <a href="https://datatracker.ietf.org/doc/rfc6018/">“RFC 6018 - IPv4 and IPv6 Greynets”</a>.</p>
 
 <p>My objective was to create a working prototype of a dynamic greynet. To do this
 I made modifications to the Linux kernel (v2.6.31) which I have now made
@@ -82,33 +57,17 @@ neighbour.c file within the net/core folder. An example diff is given
 <p>For more information about IPv4 and IPv6 Greynets, see the RFC. For any
 questions relating to my code please feel free to <a href="mailto:owen@owenstephens.co.uk">pop me an email</a>.</p>
 
-</article>
 
-              </div>
-              <div class="col-lg-2"></div>
-          </div>
       </div>
-      <footer class="footer mt-2 mb-4">
-          <div class="container text-center">
-              <span class="text-muted">Owen Stephens 2020</span>
-          </div>
-      </footer>
+    </section>
+</div>
+
     </body>
     
-        <script type='text/javascript' src='https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js'></script>
-    
-        <script type='text/javascript' src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js'></script>
-    
-        <script type='text/javascript' src='https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js'></script>
-    
-    
         
-            <script type='text/javascript' src='https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.13.0/moment.min.js'></script>
+            <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.13.0/moment.min.js"></script>
         
-            <script type='text/javascript' src='/assets/js/time.js'></script>
+            <script type="text/javascript" src="/assets/js/time.js"></script>
         
     
-    
-    
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 </html>

@@ -1,86 +1,62 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
   <title>
     
-      Why there are only 33 possible IPv4 netmasks &middot; Owen Stephens' Website
+      Why there are only 33 possible IPv4 netmasks · Owen Stephens' Website
     
   </title>
 
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-  <link rel="stylesheet" href="/assets/css/pygments.css">
   <link rel="stylesheet" href="/assets/css/style.css">
-  <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600|Droid+Sans+Mono' rel='stylesheet' type='text/css'>
+  <link rel="stylesheet" href="/assets/css/code_highlight.css">
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,600|Droid+Sans+Mono" rel="stylesheet" type="text/css">
 </head>
 
-    <body class="mt-5 pt-3">
-      <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top py-0">
-          <a class="navbar-brand align-baseline" href="/"><h2>Owen Stephens</h2><!--<h6
-          class="text-muted pl-2">London-based Polyglot Programmer</h6>--></a>
-          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
-              <span class="navbar-toggler-icon"></span>
-          </button>
-          <div class="collapse navbar-collapse" id="navbarResponsive">
-              <ul class="navbar-nav ml-auto">
-                  
-                  
-                  
-                  
-                  <li class="ml-auto nav-item text-nowrap">
-                      <a class="nav-link py-0" href="/"><h5>Home</a>
-                  </li>
-                  
-                  
-                  
-                  <li class="ml-auto nav-item active text-nowrap">
-                      <a class="nav-link py-0" href="/blog.html"><h5>Blog</h5><span class="sr-only">(current)</span></a>
-                  </li>
-                  
-                  
-                  
-                  <li class="ml-auto nav-item text-nowrap">
-                      <a class="nav-link py-0" href="/research.html"><h5>Research</a>
-                  </li>
-                  
-                  
-                  
-                  <li class="ml-auto nav-item text-nowrap">
-                      <a class="nav-link py-0" href="/oss.html"><h5>Open Source</a>
-                  </li>
-                  
-              </ul>
-          </div>
-      </nav>
-      <div class="container">
-          <div class="row">
-              <div class="col-lg-2"></div>
-              <div class="col-lg-8 border-bottom border-grey">
-                  <article class="post mt-3 pb-3">
-  <div id="post-header" class="pb-4">
-      <h3 class="post-title">Why there are only 33 possible IPv4 netmasks</h3>
-      <time datetime="2009-10-29T00:00:00+00:00" class="page-date">
-          29 Oct 2009
-      </time>
-  </div>
-  <p>For my 3rd year project, I needed to look into the Linux kernel networking API.
-Whilst reading the architecture documents, I came across the following
-innocuous looking statement: &quot;...an array of 33 pointers, one for every
-FIB[forwarding information base] zone&quot;. </p>
+    <body>
+        <header>
+            <a class="no_style" href="/" text="Home">
+            <h1>Owen Stephens</h1>
+            <h3>Software Engineer</h3>
+            </a>
+        </header>
+        <div class="container">
+    <div class="post_nav" markdown="1">
+    You can jump back <a href="/">Home</a>, or to the <a href="/#blog">Blog</a>, <a href="/#open-source">Open Source</a> or <a href="/#research">Research</a> sections.
 
-<p>To me, it wasn&#39;t immediately obvious why there are just 33 possibilities for an
+    </div>
+    <section>
+      <div id="post-header">
+          <h2 class="post-title">Why there are only 33 possible IPv4 netmasks<a class="header_link" href="#">🔗</a>
+</h2>
+          <time datetime="2009-10-29T00:00:00+00:00" class="page-date">
+              
+              29th
+              October
+              2009
+          </time>
+      </div>
+      <div id="post-contents">
+          <p>For my 3rd year project, I needed to look into the Linux kernel networking API.
+Whilst reading the architecture documents, I came across the following
+innocuous looking statement: “…an array of 33 pointers, one for every
+FIB[forwarding information base] zone”.</p>
+
+<p>To me, it wasn’t immediately obvious why there are just 33 possibilities for an
 IPv4 netmask. After a little thinking and google-ing, I found the answer. Due
 to the fact that we want to split the address into two halves: the subnet and
-host part, and we use <code>ADDRESS &amp;&amp; NETMASK</code> to obtain the subnet we want a mask
-that has (in binary) zero or more 1&#39;s followed by 0 or more 0&#39;s (with a total
-of 32 bits). It&#39;s as simple as that. Anding the mask with the address will
-result in &#39;keeping&#39; the subnet bits and &#39;ignoring&#39; or &#39;setting to 0&#39; the host
+host part, and we use <code class="language-plaintext highlighter-rouge">ADDRESS &amp;&amp; NETMASK</code> to obtain the subnet we want a mask
+that has (in binary) zero or more 1’s followed by 0 or more 0’s (with a total
+of 32 bits). It’s as simple as that. Anding the mask with the address will
+result in ‘keeping’ the subnet bits and ‘ignoring’ or ‘setting to 0’ the host
 bits.</p>
 
 <p>The complete listing of possible netmasks is below:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">       {------------BINARY------------}    {---HEX---}    {--DECIMAL--}
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>       {------------BINARY------------}    {---HEX---}    {--DECIMAL--}
 01 - {00000000 00000000 00000000 00000000} {0x00000000} {000.000.000.000}
 02 - {10000000 00000000 00000000 00000000} {0x80000000} {128.000.000.000}
 03 - {11000000 00000000 00000000 00000000} {0xC0000000} {192.000.000.000}
@@ -114,34 +90,18 @@ bits.</p>
 31 - {11111111 11111111 11111111 11111100} {0xFFFFFFFC} {255.255.255.252}
 32 - {11111111 11111111 11111111 11111110} {0xFFFFFFFE} {255.255.255.254}
 33 - {11111111 11111111 11111111 11111111} {0xFFFFFFFF} {255.255.255.255}
-</code></pre></div>
-</article>
+</code></pre></div></div>
 
-              </div>
-              <div class="col-lg-2"></div>
-          </div>
       </div>
-      <footer class="footer mt-2 mb-4">
-          <div class="container text-center">
-              <span class="text-muted">Owen Stephens 2020</span>
-          </div>
-      </footer>
+    </section>
+</div>
+
     </body>
     
-        <script type='text/javascript' src='https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js'></script>
-    
-        <script type='text/javascript' src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js'></script>
-    
-        <script type='text/javascript' src='https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js'></script>
-    
-    
         
-            <script type='text/javascript' src='https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.13.0/moment.min.js'></script>
+            <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.13.0/moment.min.js"></script>
         
-            <script type='text/javascript' src='/assets/js/time.js'></script>
+            <script type="text/javascript" src="/assets/js/time.js"></script>
         
     
-    
-    
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 </html>

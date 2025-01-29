@@ -1,78 +1,54 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
   <title>
     
-      Haskell "Weasel Program" Genetic Algorithm &middot; Owen Stephens' Website
+      Haskell "Weasel Program" Genetic Algorithm · Owen Stephens' Website
     
   </title>
 
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-  <link rel="stylesheet" href="/assets/css/pygments.css">
   <link rel="stylesheet" href="/assets/css/style.css">
-  <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600|Droid+Sans+Mono' rel='stylesheet' type='text/css'>
+  <link rel="stylesheet" href="/assets/css/code_highlight.css">
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,600|Droid+Sans+Mono" rel="stylesheet" type="text/css">
 </head>
 
-    <body class="mt-5 pt-3">
-      <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top py-0">
-          <a class="navbar-brand align-baseline" href="/"><h2>Owen Stephens</h2><!--<h6
-          class="text-muted pl-2">London-based Polyglot Programmer</h6>--></a>
-          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
-              <span class="navbar-toggler-icon"></span>
-          </button>
-          <div class="collapse navbar-collapse" id="navbarResponsive">
-              <ul class="navbar-nav ml-auto">
-                  
-                  
-                  
-                  
-                  <li class="ml-auto nav-item text-nowrap">
-                      <a class="nav-link py-0" href="/"><h5>Home</a>
-                  </li>
-                  
-                  
-                  
-                  <li class="ml-auto nav-item active text-nowrap">
-                      <a class="nav-link py-0" href="/blog.html"><h5>Blog</h5><span class="sr-only">(current)</span></a>
-                  </li>
-                  
-                  
-                  
-                  <li class="ml-auto nav-item text-nowrap">
-                      <a class="nav-link py-0" href="/research.html"><h5>Research</a>
-                  </li>
-                  
-                  
-                  
-                  <li class="ml-auto nav-item text-nowrap">
-                      <a class="nav-link py-0" href="/oss.html"><h5>Open Source</a>
-                  </li>
-                  
-              </ul>
-          </div>
-      </nav>
-      <div class="container">
-          <div class="row">
-              <div class="col-lg-2"></div>
-              <div class="col-lg-8 border-bottom border-grey">
-                  <article class="post mt-3 pb-3">
-  <div id="post-header" class="pb-4">
-      <h3 class="post-title">Haskell "Weasel Program" Genetic Algorithm</h3>
-      <time datetime="2010-10-19T00:00:00+01:00" class="page-date">
-          19 Oct 2010
-      </time>
-  </div>
-  <p>As part of a university coursework, I had to create an implementation of a
+    <body>
+        <header>
+            <a class="no_style" href="/" text="Home">
+            <h1>Owen Stephens</h1>
+            <h3>Software Engineer</h3>
+            </a>
+        </header>
+        <div class="container">
+    <div class="post_nav" markdown="1">
+    You can jump back <a href="/">Home</a>, or to the <a href="/#blog">Blog</a>, <a href="/#open-source">Open Source</a> or <a href="/#research">Research</a> sections.
+
+    </div>
+    <section>
+      <div id="post-header">
+          <h2 class="post-title">Haskell "Weasel Program" Genetic Algorithm<a class="header_link" href="#">🔗</a>
+</h2>
+          <time datetime="2010-10-19T00:00:00+01:00" class="page-date">
+              
+              19th
+              October
+              2010
+          </time>
+      </div>
+      <div id="post-contents">
+          <p>As part of a university coursework, I had to create an implementation of a
 variant of the <a href="https://en.wikipedia.org/wiki/Weasel_program">Weasel Program</a>.</p>
 
 <p>The aim of the program is to show the effect of crossover when evolving a
 population towards a target string. The program first evolves a solution
 without crossover, then with crossover.
 The program in Haskell, looks like this:</p>
-<div class="highlight"><pre><code class="language-haskell" data-lang="haskell"><span class="kr">module</span> <span class="nn">Main</span> <span class="p">(</span><span class="nf">main</span><span class="p">)</span> <span class="kr">where</span>
+
+<div class="language-haskell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kr">module</span> <span class="nn">Main</span> <span class="p">(</span><span class="nf">main</span><span class="p">)</span> <span class="kr">where</span>
 
 <span class="kr">import</span> <span class="nn">Control.Applicative</span>
 <span class="kr">import</span> <span class="nn">Control.Monad</span>
@@ -80,149 +56,134 @@ The program in Haskell, looks like this:</p>
 <span class="kr">import</span> <span class="nn">Data.List</span>
 <span class="kr">import</span> <span class="nn">System.Random</span>
 
-<span class="nf">targetStr</span> <span class="ow">=</span> <span class="s">&quot;Methinks it is like a weasel&quot;</span>
-<span class="nf">targetLen</span> <span class="ow">=</span> <span class="mi">28</span>
-<span class="nf">populationSize</span> <span class="ow">=</span> <span class="mi">500</span>
-<span class="nf">replaceProbability</span> <span class="ow">=</span> <span class="mi">1</span> <span class="o">/</span> <span class="n">fromIntegral</span> <span class="n">targetLen</span>
+<span class="n">targetStr</span> <span class="o">=</span> <span class="s">"Methinks it is like a weasel"</span>
+<span class="n">targetLen</span> <span class="o">=</span> <span class="mi">28</span>
+<span class="n">populationSize</span> <span class="o">=</span> <span class="mi">500</span>
+<span class="n">replaceProbability</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">/</span> <span class="n">fromIntegral</span> <span class="n">targetLen</span>
 
-<span class="c1">-- Sum the &quot;difference&quot; of two strings&#39; chars.</span>
-<span class="nf">strDiff</span> <span class="ow">::</span> <span class="kt">String</span> <span class="ow">-&gt;</span> <span class="kt">Int</span>
-<span class="nf">strDiff</span> <span class="n">input</span> <span class="ow">=</span> <span class="n">sum</span> <span class="o">$</span> <span class="n">zipWith</span> <span class="p">(</span><span class="nf">\</span><span class="n">a</span> <span class="n">b</span> <span class="ow">-&gt;</span> <span class="kr">if</span> <span class="n">a</span> <span class="o">==</span> <span class="n">b</span> <span class="kr">then</span> <span class="mi">0</span> <span class="kr">else</span> <span class="mi">1</span><span class="p">)</span> <span class="n">input</span> <span class="n">targetStr</span>
+<span class="c1">-- Sum the "difference" of two strings' chars.</span>
+<span class="n">strDiff</span> <span class="o">::</span> <span class="kt">String</span> <span class="o">-&gt;</span> <span class="kt">Int</span>
+<span class="n">strDiff</span> <span class="n">input</span> <span class="o">=</span> <span class="n">sum</span> <span class="o">$</span> <span class="n">zipWith</span> <span class="p">(</span><span class="nf">\</span><span class="n">a</span> <span class="n">b</span> <span class="o">-&gt;</span> <span class="kr">if</span> <span class="n">a</span> <span class="o">==</span> <span class="n">b</span> <span class="kr">then</span> <span class="mi">0</span> <span class="kr">else</span> <span class="mi">1</span><span class="p">)</span> <span class="n">input</span> <span class="n">targetStr</span>
 
 <span class="c1">-- Generate a random char (in the range 32d - 127d)</span>
-<span class="nf">rndChar</span> <span class="ow">::</span> <span class="kt">IO</span> <span class="kt">Char</span>
-<span class="nf">rndChar</span> <span class="ow">=</span> <span class="n">randomRIO</span> <span class="p">(</span><span class="n">&#39;</span> <span class="n">&#39;</span><span class="p">,</span> <span class="n">&#39;</span><span class="o">~</span><span class="n">&#39;</span><span class="p">)</span>
+<span class="n">rndChar</span> <span class="o">::</span> <span class="kt">IO</span> <span class="kt">Char</span>
+<span class="n">rndChar</span> <span class="o">=</span> <span class="n">randomRIO</span> <span class="p">(</span><span class="sc">' '</span><span class="p">,</span> <span class="sc">'~'</span><span class="p">)</span>
 
 <span class="c1">-- Generate a string of random chars, of length targetLen</span>
-<span class="nf">rndString</span> <span class="ow">::</span> <span class="kt">IO</span> <span class="kt">String</span>
-<span class="nf">rndString</span> <span class="ow">=</span> <span class="n">replicateM</span> <span class="n">targetLen</span> <span class="n">rndChar</span>
+<span class="n">rndString</span> <span class="o">::</span> <span class="kt">IO</span> <span class="kt">String</span>
+<span class="n">rndString</span> <span class="o">=</span> <span class="n">replicateM</span> <span class="n">targetLen</span> <span class="n">rndChar</span>
 
 <span class="c1">-- Replace the input character with a random</span>
 <span class="c1">-- new character with a probability of (1/length of target)</span>
-<span class="nf">rndMutateChar</span> <span class="ow">::</span> <span class="kt">Char</span> <span class="ow">-&gt;</span> <span class="kt">IO</span> <span class="kt">Char</span>
-<span class="nf">rndMutateChar</span> <span class="n">input</span> <span class="ow">=</span> <span class="kr">do</span>
-    <span class="n">probability</span> <span class="ow">&lt;-</span> <span class="n">randomRIO</span> <span class="p">(</span><span class="mi">0</span> <span class="ow">::</span> <span class="kt">Double</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">rndMutateChar</span> <span class="o">::</span> <span class="kt">Char</span> <span class="o">-&gt;</span> <span class="kt">IO</span> <span class="kt">Char</span>
+<span class="n">rndMutateChar</span> <span class="n">input</span> <span class="o">=</span> <span class="kr">do</span>
+    <span class="n">probability</span> <span class="o">&lt;-</span> <span class="n">randomRIO</span> <span class="p">(</span><span class="mi">0</span> <span class="o">::</span> <span class="kt">Double</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
     <span class="kr">if</span> <span class="n">probability</span> <span class="o">&lt;=</span> <span class="n">replaceProbability</span>
         <span class="kr">then</span> <span class="n">rndChar</span>
         <span class="kr">else</span> <span class="n">return</span> <span class="n">input</span>
 
 <span class="c1">-- Randomly mutate the chars of a String</span>
-<span class="nf">rndMutateStr</span> <span class="ow">::</span> <span class="kt">String</span> <span class="ow">-&gt;</span> <span class="kt">IO</span> <span class="kt">String</span>
-<span class="nf">rndMutateStr</span> <span class="ow">=</span> <span class="n">mapM</span> <span class="n">rndMutateChar</span>
+<span class="n">rndMutateStr</span> <span class="o">::</span> <span class="kt">String</span> <span class="o">-&gt;</span> <span class="kt">IO</span> <span class="kt">String</span>
+<span class="n">rndMutateStr</span> <span class="o">=</span> <span class="n">mapM</span> <span class="n">rndMutateChar</span>
 
 <span class="c1">-- Take 2 strings and return a new string that is</span>
 <span class="c1">-- created by randomly picking each char from either</span>
 <span class="c1">-- string</span>
-<span class="nf">crossoverStrings</span> <span class="ow">::</span> <span class="kt">String</span> <span class="ow">-&gt;</span> <span class="kt">String</span> <span class="ow">-&gt;</span> <span class="kt">IO</span> <span class="kt">String</span>
-<span class="nf">crossoverStrings</span> <span class="ow">=</span> <span class="n">zipWithM</span> <span class="n">cross</span>
+<span class="n">crossoverStrings</span> <span class="o">::</span> <span class="kt">String</span> <span class="o">-&gt;</span> <span class="kt">String</span> <span class="o">-&gt;</span> <span class="kt">IO</span> <span class="kt">String</span>
+<span class="n">crossoverStrings</span> <span class="o">=</span> <span class="n">zipWithM</span> <span class="n">cross</span>
   <span class="kr">where</span>
-    <span class="n">cross</span> <span class="n">x</span> <span class="n">y</span> <span class="ow">=</span> <span class="p">(</span><span class="nf">\</span><span class="n">b</span> <span class="ow">-&gt;</span> <span class="kr">if</span> <span class="n">b</span> <span class="kr">then</span> <span class="n">x</span> <span class="kr">else</span> <span class="n">y</span><span class="p">)</span> <span class="o">&lt;$&gt;</span> <span class="n">randomIO</span>
+    <span class="n">cross</span> <span class="n">x</span> <span class="n">y</span> <span class="o">=</span> <span class="p">(</span><span class="nf">\</span><span class="n">b</span> <span class="o">-&gt;</span> <span class="kr">if</span> <span class="n">b</span> <span class="kr">then</span> <span class="n">x</span> <span class="kr">else</span> <span class="n">y</span><span class="p">)</span> <span class="o">&lt;$&gt;</span> <span class="n">randomIO</span>
 
 <span class="c1">-- Generate a list (of the given length) of mutually unique random elements with</span>
 <span class="c1">-- in the given bounds, using the given generator.</span>
-<span class="nf">uniqueRandoms</span> <span class="ow">::</span> <span class="p">(</span><span class="kt">Eq</span> <span class="n">a</span><span class="p">)</span> <span class="ow">=&gt;</span> <span class="p">(</span><span class="kt">Random</span> <span class="n">a</span><span class="p">)</span> <span class="ow">=&gt;</span> <span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">a</span><span class="p">)</span> <span class="ow">-&gt;</span> <span class="kt">Int</span> <span class="ow">-&gt;</span> <span class="p">[</span><span class="n">a</span><span class="p">]</span> <span class="ow">-&gt;</span> <span class="kt">IO</span> <span class="p">[</span><span class="n">a</span><span class="p">]</span>
-<span class="nf">uniqueRandoms</span> <span class="n">bounds</span> <span class="n">targetLen</span> <span class="n">acc</span>
-    <span class="o">|</span> <span class="n">length</span> <span class="n">acc</span> <span class="o">==</span> <span class="n">targetLen</span> <span class="ow">=</span> <span class="n">return</span> <span class="n">acc</span>
-    <span class="o">|</span> <span class="n">otherwise</span> <span class="ow">=</span> <span class="kr">do</span>
-        <span class="n">randVal</span> <span class="ow">&lt;-</span> <span class="n">randomRIO</span> <span class="n">bounds</span>
+<span class="n">uniqueRandoms</span> <span class="o">::</span> <span class="p">(</span><span class="kt">Eq</span> <span class="n">a</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">(</span><span class="kt">Random</span> <span class="n">a</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">a</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Int</span> <span class="o">-&gt;</span> <span class="p">[</span><span class="n">a</span><span class="p">]</span> <span class="o">-&gt;</span> <span class="kt">IO</span> <span class="p">[</span><span class="n">a</span><span class="p">]</span>
+<span class="n">uniqueRandoms</span> <span class="n">bounds</span> <span class="n">targetLen</span> <span class="n">acc</span>
+    <span class="o">|</span> <span class="n">length</span> <span class="n">acc</span> <span class="o">==</span> <span class="n">targetLen</span> <span class="o">=</span> <span class="n">return</span> <span class="n">acc</span>
+    <span class="o">|</span> <span class="n">otherwise</span> <span class="o">=</span> <span class="kr">do</span>
+        <span class="n">randVal</span> <span class="o">&lt;-</span> <span class="n">randomRIO</span> <span class="n">bounds</span>
         <span class="n">uniqueRandoms</span> <span class="n">bounds</span> <span class="n">targetLen</span> <span class="o">$</span> <span class="kr">if</span> <span class="n">randVal</span> <span class="p">`</span><span class="n">notElem</span><span class="p">`</span> <span class="n">acc</span>
-                                            <span class="kr">then</span> <span class="n">randVal</span> <span class="kt">:</span> <span class="n">acc</span>
+                                            <span class="kr">then</span> <span class="n">randVal</span> <span class="o">:</span> <span class="n">acc</span>
                                             <span class="kr">else</span> <span class="n">acc</span>
 
 <span class="c1">-- Generate a list of unique, random population indices</span>
-<span class="nf">uniqueRandomIndices</span> <span class="ow">::</span> <span class="kt">Int</span> <span class="ow">-&gt;</span> <span class="kt">IO</span> <span class="p">[</span><span class="kt">Int</span><span class="p">]</span>
-<span class="nf">uniqueRandomIndices</span> <span class="n">n</span> <span class="ow">=</span> <span class="n">uniqueRandoms</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">populationSize</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="n">n</span> <span class="kt">[]</span>
+<span class="n">uniqueRandomIndices</span> <span class="o">::</span> <span class="kt">Int</span> <span class="o">-&gt;</span> <span class="kt">IO</span> <span class="p">[</span><span class="kt">Int</span><span class="p">]</span>
+<span class="n">uniqueRandomIndices</span> <span class="n">n</span> <span class="o">=</span> <span class="n">uniqueRandoms</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">populationSize</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="n">n</span> <span class="kt">[]</span>
 
 <span class="c1">-- Take 2 individuals, compare using the passed function, returning the</span>
 <span class="c1">-- first element of the chosen individual (its index)</span>
-<span class="nf">chooseIndividual</span> <span class="ow">::</span> <span class="p">((</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span> <span class="ow">-&gt;</span> <span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span> <span class="ow">-&gt;</span> <span class="kt">Bool</span><span class="p">)</span> <span class="ow">-&gt;</span> <span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span> <span class="ow">-&gt;</span> <span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span> <span class="ow">-&gt;</span> <span class="n">a</span>
-<span class="nf">chooseIndividual</span> <span class="n">cmp</span> <span class="n">indvA</span> <span class="n">indvB</span> <span class="ow">=</span> <span class="n">fst</span> <span class="o">$</span> <span class="kr">if</span> <span class="n">cmp</span> <span class="n">indvA</span> <span class="n">indvB</span> <span class="kr">then</span> <span class="n">indvA</span> <span class="kr">else</span> <span class="n">indvB</span>
+<span class="n">chooseIndividual</span> <span class="o">::</span> <span class="p">((</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Bool</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">a</span>
+<span class="n">chooseIndividual</span> <span class="n">cmp</span> <span class="n">indvA</span> <span class="n">indvB</span> <span class="o">=</span> <span class="n">fst</span> <span class="o">$</span> <span class="kr">if</span> <span class="n">cmp</span> <span class="n">indvA</span> <span class="n">indvB</span> <span class="kr">then</span> <span class="n">indvA</span> <span class="kr">else</span> <span class="n">indvB</span>
 
 <span class="c1">-- choose chooses the more fit individual of form (String, Score)</span>
-<span class="nf">choose</span> <span class="ow">=</span> <span class="n">chooseIndividual</span> <span class="p">(</span><span class="nf">\</span><span class="n">a</span> <span class="n">b</span> <span class="ow">-&gt;</span> <span class="n">snd</span> <span class="n">a</span> <span class="o">&lt;=</span> <span class="n">snd</span> <span class="n">b</span><span class="p">)</span>
+<span class="n">choose</span> <span class="o">=</span> <span class="n">chooseIndividual</span> <span class="p">(</span><span class="nf">\</span><span class="n">a</span> <span class="n">b</span> <span class="o">-&gt;</span> <span class="n">snd</span> <span class="n">a</span> <span class="o">&lt;=</span> <span class="n">snd</span> <span class="n">b</span><span class="p">)</span>
 <span class="c1">-- chooseR chooses the less fit individual of form (Index, (String, Score))</span>
-<span class="nf">chooseR</span> <span class="ow">=</span> <span class="n">chooseIndividual</span> <span class="p">(</span><span class="nf">\</span><span class="n">a</span> <span class="n">b</span> <span class="ow">-&gt;</span> <span class="p">(</span><span class="n">snd</span><span class="o">.</span><span class="n">snd</span><span class="p">)</span> <span class="n">a</span> <span class="o">&gt;</span> <span class="p">(</span><span class="n">snd</span><span class="o">.</span><span class="n">snd</span><span class="p">)</span> <span class="n">b</span><span class="p">)</span>
+<span class="n">chooseR</span> <span class="o">=</span> <span class="n">chooseIndividual</span> <span class="p">(</span><span class="nf">\</span><span class="n">a</span> <span class="n">b</span> <span class="o">-&gt;</span> <span class="p">(</span><span class="n">snd</span><span class="o">.</span><span class="n">snd</span><span class="p">)</span> <span class="n">a</span> <span class="o">&gt;</span> <span class="p">(</span><span class="n">snd</span><span class="o">.</span><span class="n">snd</span><span class="p">)</span> <span class="n">b</span><span class="p">)</span>
 
 <span class="c1">-- Takes a new String and a population and replaces the weaker</span>
 <span class="c1">-- of two randomly chosen individuals with the mutated string.</span>
-<span class="nf">updatePopulation</span> <span class="ow">::</span> <span class="kt">String</span> <span class="ow">-&gt;</span> <span class="p">[(</span><span class="kt">String</span><span class="p">,</span> <span class="kt">Int</span><span class="p">)]</span> <span class="ow">-&gt;</span> <span class="kt">IO</span> <span class="p">[(</span><span class="kt">String</span><span class="p">,</span> <span class="kt">Int</span><span class="p">)]</span>
-<span class="nf">updatePopulation</span> <span class="n">mutatee</span> <span class="n">population</span> <span class="ow">=</span> <span class="kr">do</span>
-    <span class="n">newChildStr</span> <span class="ow">&lt;-</span> <span class="n">rndMutateStr</span> <span class="n">mutatee</span>
-    <span class="n">replaceIndices</span> <span class="ow">&lt;-</span> <span class="n">uniqueRandomIndices</span> <span class="mi">2</span>
+<span class="n">updatePopulation</span> <span class="o">::</span> <span class="kt">String</span> <span class="o">-&gt;</span> <span class="p">[(</span><span class="kt">String</span><span class="p">,</span> <span class="kt">Int</span><span class="p">)]</span> <span class="o">-&gt;</span> <span class="kt">IO</span> <span class="p">[(</span><span class="kt">String</span><span class="p">,</span> <span class="kt">Int</span><span class="p">)]</span>
+<span class="n">updatePopulation</span> <span class="n">mutatee</span> <span class="n">population</span> <span class="o">=</span> <span class="kr">do</span>
+    <span class="n">newChildStr</span> <span class="o">&lt;-</span> <span class="n">rndMutateStr</span> <span class="n">mutatee</span>
+    <span class="n">replaceIndices</span> <span class="o">&lt;-</span> <span class="n">uniqueRandomIndices</span> <span class="mi">2</span>
     <span class="c1">-- Keep hold of the indices, so we can split/merge the population</span>
-    <span class="kr">let</span> <span class="p">[</span><span class="n">r1</span><span class="p">,</span><span class="n">r2</span><span class="p">]</span> <span class="ow">=</span> <span class="n">map</span> <span class="p">(</span><span class="nf">\</span><span class="n">i</span> <span class="ow">-&gt;</span> <span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">population</span> <span class="o">!!</span> <span class="n">i</span><span class="p">))</span> <span class="n">replaceIndices</span>
+    <span class="kr">let</span> <span class="p">[</span><span class="n">r1</span><span class="p">,</span><span class="n">r2</span><span class="p">]</span> <span class="o">=</span> <span class="n">map</span> <span class="p">(</span><span class="nf">\</span><span class="n">i</span> <span class="o">-&gt;</span> <span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">population</span> <span class="o">!!</span> <span class="n">i</span><span class="p">))</span> <span class="n">replaceIndices</span>
     <span class="c1">-- chose the less fit individual to be replaced</span>
-    <span class="kr">let</span> <span class="p">(</span><span class="n">start</span><span class="p">,</span><span class="kr">_</span><span class="kt">:</span><span class="n">end</span><span class="p">)</span> <span class="ow">=</span> <span class="n">splitAt</span> <span class="p">(</span><span class="n">chooseR</span> <span class="n">r1</span> <span class="n">r2</span><span class="p">)</span> <span class="n">population</span>
-    <span class="n">return</span> <span class="o">$</span> <span class="p">(</span><span class="n">newChildStr</span><span class="p">,</span> <span class="n">strDiff</span> <span class="n">newChildStr</span><span class="p">)</span> <span class="kt">:</span> <span class="n">start</span> <span class="o">++</span> <span class="n">end</span>
+    <span class="kr">let</span> <span class="p">(</span><span class="n">start</span><span class="p">,</span><span class="kr">_</span><span class="o">:</span><span class="n">end</span><span class="p">)</span> <span class="o">=</span> <span class="n">splitAt</span> <span class="p">(</span><span class="n">chooseR</span> <span class="n">r1</span> <span class="n">r2</span><span class="p">)</span> <span class="n">population</span>
+    <span class="n">return</span> <span class="o">$</span> <span class="p">(</span><span class="n">newChildStr</span><span class="p">,</span> <span class="n">strDiff</span> <span class="n">newChildStr</span><span class="p">)</span> <span class="o">:</span> <span class="n">start</span> <span class="o">++</span> <span class="n">end</span>
 
-<span class="nf">withoutCrossover</span> <span class="ow">::</span> <span class="p">[(</span><span class="kt">String</span><span class="p">,</span> <span class="kt">Int</span><span class="p">)]</span> <span class="ow">-&gt;</span> <span class="kt">Int</span> <span class="ow">-&gt;</span> <span class="kt">IO</span> <span class="p">(</span><span class="kt">String</span><span class="p">,</span> <span class="kt">Int</span><span class="p">)</span>
-<span class="nf">withoutCrossover</span> <span class="n">population</span> <span class="n">count</span> <span class="ow">=</span> <span class="kr">do</span>
+<span class="n">withoutCrossover</span> <span class="o">::</span> <span class="p">[(</span><span class="kt">String</span><span class="p">,</span> <span class="kt">Int</span><span class="p">)]</span> <span class="o">-&gt;</span> <span class="kt">Int</span> <span class="o">-&gt;</span> <span class="kt">IO</span> <span class="p">(</span><span class="kt">String</span><span class="p">,</span> <span class="kt">Int</span><span class="p">)</span>
+<span class="n">withoutCrossover</span> <span class="n">population</span> <span class="n">count</span> <span class="o">=</span> <span class="kr">do</span>
     <span class="c1">-- pick two random individuals</span>
-    <span class="n">indices</span> <span class="ow">&lt;-</span> <span class="n">uniqueRandomIndices</span> <span class="mi">2</span>
-    <span class="kr">let</span> <span class="n">individuals</span><span class="o">@</span><span class="p">[</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">]</span> <span class="ow">=</span> <span class="n">map</span> <span class="p">(</span><span class="n">population</span> <span class="o">!!</span><span class="p">)</span> <span class="n">indices</span>
-    <span class="c1">-- If we&#39;ve not evolved the target string yet, carry on</span>
+    <span class="n">indices</span> <span class="o">&lt;-</span> <span class="n">uniqueRandomIndices</span> <span class="mi">2</span>
+    <span class="kr">let</span> <span class="n">individuals</span><span class="o">@</span><span class="p">[</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">]</span> <span class="o">=</span> <span class="n">map</span> <span class="p">(</span><span class="n">population</span> <span class="o">!!</span><span class="p">)</span> <span class="n">indices</span>
+    <span class="c1">-- If we've not evolved the target string yet, carry on</span>
     <span class="kr">case</span> <span class="n">find</span> <span class="p">((</span><span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="o">.</span> <span class="n">snd</span><span class="p">)</span> <span class="n">individuals</span> <span class="kr">of</span>
-        <span class="kt">Just</span> <span class="n">val</span> <span class="ow">-&gt;</span> <span class="n">return</span> <span class="p">(</span><span class="n">fst</span> <span class="n">val</span><span class="p">,</span> <span class="n">count</span><span class="p">)</span>
-        <span class="kt">Nothing</span>  <span class="ow">-&gt;</span> <span class="kr">do</span>
+        <span class="kt">Just</span> <span class="n">val</span> <span class="o">-&gt;</span> <span class="n">return</span> <span class="p">(</span><span class="n">fst</span> <span class="n">val</span><span class="p">,</span> <span class="n">count</span><span class="p">)</span>
+        <span class="kt">Nothing</span>  <span class="o">-&gt;</span> <span class="kr">do</span>
             <span class="c1">-- pick the fitter individual to be the parent</span>
-            <span class="kr">let</span> <span class="n">parentStr</span> <span class="ow">=</span> <span class="n">choose</span> <span class="n">x</span> <span class="n">y</span>
-            <span class="n">newPopulation</span> <span class="ow">&lt;-</span> <span class="n">updatePopulation</span> <span class="n">parentStr</span> <span class="n">population</span>
+            <span class="kr">let</span> <span class="n">parentStr</span> <span class="o">=</span> <span class="n">choose</span> <span class="n">x</span> <span class="n">y</span>
+            <span class="n">newPopulation</span> <span class="o">&lt;-</span> <span class="n">updatePopulation</span> <span class="n">parentStr</span> <span class="n">population</span>
             <span class="n">withoutCrossover</span> <span class="n">newPopulation</span> <span class="p">(</span><span class="n">count</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
 
-<span class="nf">withCrossover</span> <span class="ow">::</span> <span class="p">[(</span><span class="kt">String</span><span class="p">,</span> <span class="kt">Int</span><span class="p">)]</span> <span class="ow">-&gt;</span> <span class="kt">Int</span> <span class="ow">-&gt;</span> <span class="kt">IO</span> <span class="p">(</span><span class="kt">String</span><span class="p">,</span> <span class="kt">Int</span><span class="p">)</span>
-<span class="nf">withCrossover</span> <span class="n">population</span> <span class="n">count</span> <span class="ow">=</span> <span class="kr">do</span>
+<span class="n">withCrossover</span> <span class="o">::</span> <span class="p">[(</span><span class="kt">String</span><span class="p">,</span> <span class="kt">Int</span><span class="p">)]</span> <span class="o">-&gt;</span> <span class="kt">Int</span> <span class="o">-&gt;</span> <span class="kt">IO</span> <span class="p">(</span><span class="kt">String</span><span class="p">,</span> <span class="kt">Int</span><span class="p">)</span>
+<span class="n">withCrossover</span> <span class="n">population</span> <span class="n">count</span> <span class="o">=</span> <span class="kr">do</span>
     <span class="c1">-- pick four random individuals</span>
-    <span class="n">indices</span> <span class="ow">&lt;-</span> <span class="n">uniqueRandomIndices</span> <span class="mi">4</span>
-    <span class="kr">let</span> <span class="n">individuals</span><span class="o">@</span><span class="p">[</span><span class="n">a1</span><span class="p">,</span><span class="n">a2</span><span class="p">,</span><span class="n">b1</span><span class="p">,</span><span class="n">b2</span><span class="p">]</span> <span class="ow">=</span> <span class="n">map</span> <span class="p">(</span><span class="n">population</span> <span class="o">!!</span><span class="p">)</span> <span class="n">indices</span>
-    <span class="c1">-- If we&#39;ve not evolved the target string yet, carry on</span>
+    <span class="n">indices</span> <span class="o">&lt;-</span> <span class="n">uniqueRandomIndices</span> <span class="mi">4</span>
+    <span class="kr">let</span> <span class="n">individuals</span><span class="o">@</span><span class="p">[</span><span class="n">a1</span><span class="p">,</span><span class="n">a2</span><span class="p">,</span><span class="n">b1</span><span class="p">,</span><span class="n">b2</span><span class="p">]</span> <span class="o">=</span> <span class="n">map</span> <span class="p">(</span><span class="n">population</span> <span class="o">!!</span><span class="p">)</span> <span class="n">indices</span>
+    <span class="c1">-- If we've not evolved the target string yet, carry on</span>
     <span class="kr">case</span> <span class="n">find</span> <span class="p">((</span><span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="o">.</span> <span class="n">snd</span><span class="p">)</span> <span class="n">individuals</span> <span class="kr">of</span>
-        <span class="kt">Just</span> <span class="n">val</span> <span class="ow">-&gt;</span> <span class="n">return</span> <span class="p">(</span><span class="n">fst</span> <span class="n">val</span><span class="p">,</span> <span class="n">count</span><span class="p">)</span>
-        <span class="kt">Nothing</span>  <span class="ow">-&gt;</span> <span class="kr">do</span>
+        <span class="kt">Just</span> <span class="n">val</span> <span class="o">-&gt;</span> <span class="n">return</span> <span class="p">(</span><span class="n">fst</span> <span class="n">val</span><span class="p">,</span> <span class="n">count</span><span class="p">)</span>
+        <span class="kt">Nothing</span>  <span class="o">-&gt;</span> <span class="kr">do</span>
             <span class="c1">-- Pick the fitter two of two pairs of individuals to be parents</span>
-            <span class="kr">let</span> <span class="n">parentA</span> <span class="ow">=</span> <span class="n">choose</span> <span class="n">a1</span> <span class="n">a2</span>
-            <span class="kr">let</span> <span class="n">parentB</span> <span class="ow">=</span> <span class="n">choose</span> <span class="n">b1</span> <span class="n">b2</span>
-            <span class="c1">-- create the &quot;crossover&quot; of the two parents</span>
-            <span class="n">crossoverStr</span> <span class="ow">&lt;-</span> <span class="n">crossoverStrings</span> <span class="n">parentA</span> <span class="n">parentB</span>
-            <span class="n">newPopulation</span> <span class="ow">&lt;-</span> <span class="n">updatePopulation</span> <span class="n">crossoverStr</span> <span class="n">population</span>
+            <span class="kr">let</span> <span class="n">parentA</span> <span class="o">=</span> <span class="n">choose</span> <span class="n">a1</span> <span class="n">a2</span>
+            <span class="kr">let</span> <span class="n">parentB</span> <span class="o">=</span> <span class="n">choose</span> <span class="n">b1</span> <span class="n">b2</span>
+            <span class="c1">-- create the "crossover" of the two parents</span>
+            <span class="n">crossoverStr</span> <span class="o">&lt;-</span> <span class="n">crossoverStrings</span> <span class="n">parentA</span> <span class="n">parentB</span>
+            <span class="n">newPopulation</span> <span class="o">&lt;-</span> <span class="n">updatePopulation</span> <span class="n">crossoverStr</span> <span class="n">population</span>
             <span class="n">withCrossover</span> <span class="n">newPopulation</span> <span class="p">(</span><span class="n">count</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
 
-<span class="nf">main</span> <span class="ow">=</span> <span class="kr">do</span>
+<span class="n">main</span> <span class="o">=</span> <span class="kr">do</span>
     <span class="c1">-- Create a list of random individuals (just strings)</span>
-    <span class="n">individuals</span> <span class="ow">&lt;-</span> <span class="n">replicateM</span> <span class="n">populationSize</span> <span class="n">rndString</span>
-    <span class="kr">let</span> <span class="n">individualFitnesses</span> <span class="ow">=</span> <span class="n">map</span> <span class="p">(</span><span class="nf">\</span><span class="n">i</span> <span class="ow">-&gt;</span> <span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">strDiff</span> <span class="n">i</span><span class="p">))</span> <span class="n">individuals</span>
+    <span class="n">individuals</span> <span class="o">&lt;-</span> <span class="n">replicateM</span> <span class="n">populationSize</span> <span class="n">rndString</span>
+    <span class="kr">let</span> <span class="n">individualFitnesses</span> <span class="o">=</span> <span class="n">map</span> <span class="p">(</span><span class="nf">\</span><span class="n">i</span> <span class="o">-&gt;</span> <span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">strDiff</span> <span class="n">i</span><span class="p">))</span> <span class="n">individuals</span>
     <span class="c1">-- Now evolve, first without and then with crossover</span>
-    <span class="n">result2</span> <span class="ow">&lt;-</span> <span class="n">withoutCrossover</span> <span class="n">individualFitnesses</span> <span class="n">populationSize</span>
+    <span class="n">result2</span> <span class="o">&lt;-</span> <span class="n">withoutCrossover</span> <span class="n">individualFitnesses</span> <span class="n">populationSize</span>
     <span class="n">print</span> <span class="n">result2</span>
-    <span class="n">result3</span> <span class="ow">&lt;-</span> <span class="n">withCrossover</span> <span class="n">individualFitnesses</span> <span class="n">populationSize</span>
+    <span class="n">result3</span> <span class="o">&lt;-</span> <span class="n">withCrossover</span> <span class="n">individualFitnesses</span> <span class="n">populationSize</span>
     <span class="n">print</span> <span class="n">result3</span>
-</code></pre></div>
-</article>
+</code></pre></div></div>
 
-              </div>
-              <div class="col-lg-2"></div>
-          </div>
+
       </div>
-      <footer class="footer mt-2 mb-4">
-          <div class="container text-center">
-              <span class="text-muted">Owen Stephens 2020</span>
-          </div>
-      </footer>
+    </section>
+</div>
+
     </body>
     
-        <script type='text/javascript' src='https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js'></script>
-    
-        <script type='text/javascript' src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js'></script>
-    
-        <script type='text/javascript' src='https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js'></script>
-    
-    
         
-            <script type='text/javascript' src='https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.13.0/moment.min.js'></script>
+            <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.13.0/moment.min.js"></script>
         
-            <script type='text/javascript' src='/assets/js/time.js'></script>
+            <script type="text/javascript" src="/assets/js/time.js"></script>
         
     
-    
-    
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 </html>

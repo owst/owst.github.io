@@ -1,80 +1,56 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
   <title>
     
-      Nickel, an exercise in JIT evaluation &middot; Owen Stephens' Website
+      Nickel, an exercise in JIT evaluation · Owen Stephens' Website
     
   </title>
 
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-  <link rel="stylesheet" href="/assets/css/pygments.css">
   <link rel="stylesheet" href="/assets/css/style.css">
-  <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600|Droid+Sans+Mono' rel='stylesheet' type='text/css'>
+  <link rel="stylesheet" href="/assets/css/code_highlight.css">
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,600|Droid+Sans+Mono" rel="stylesheet" type="text/css">
 </head>
 
-    <body class="mt-5 pt-3">
-      <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top py-0">
-          <a class="navbar-brand align-baseline" href="/"><h2>Owen Stephens</h2><!--<h6
-          class="text-muted pl-2">London-based Polyglot Programmer</h6>--></a>
-          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
-              <span class="navbar-toggler-icon"></span>
-          </button>
-          <div class="collapse navbar-collapse" id="navbarResponsive">
-              <ul class="navbar-nav ml-auto">
-                  
-                  
-                  
-                  
-                  <li class="ml-auto nav-item text-nowrap">
-                      <a class="nav-link py-0" href="/"><h5>Home</a>
-                  </li>
-                  
-                  
-                  
-                  <li class="ml-auto nav-item active text-nowrap">
-                      <a class="nav-link py-0" href="/blog.html"><h5>Blog</h5><span class="sr-only">(current)</span></a>
-                  </li>
-                  
-                  
-                  
-                  <li class="ml-auto nav-item text-nowrap">
-                      <a class="nav-link py-0" href="/research.html"><h5>Research</a>
-                  </li>
-                  
-                  
-                  
-                  <li class="ml-auto nav-item text-nowrap">
-                      <a class="nav-link py-0" href="/oss.html"><h5>Open Source</a>
-                  </li>
-                  
-              </ul>
-          </div>
-      </nav>
-      <div class="container">
-          <div class="row">
-              <div class="col-lg-2"></div>
-              <div class="col-lg-8 border-bottom border-grey">
-                  <article class="post mt-3 pb-3">
-  <div id="post-header" class="pb-4">
-      <h3 class="post-title">Nickel, an exercise in JIT evaluation</h3>
-      <time datetime="2019-03-20T00:00:00+00:00" class="page-date">
-          20 Mar 2019
-      </time>
-  </div>
-  <p>As I hinted in my <a href="/blog/2018/09/25/getting-started-with-the-newer-llvm-c-api.html">previous post</a>, I have (very) slowly been working
+    <body>
+        <header>
+            <a class="no_style" href="/" text="Home">
+            <h1>Owen Stephens</h1>
+            <h3>Software Engineer</h3>
+            </a>
+        </header>
+        <div class="container">
+    <div class="post_nav" markdown="1">
+    You can jump back <a href="/">Home</a>, or to the <a href="/#blog">Blog</a>, <a href="/#open-source">Open Source</a> or <a href="/#research">Research</a> sections.
+
+    </div>
+    <section>
+      <div id="post-header">
+          <h2 class="post-title">Nickel, an exercise in JIT evaluation<a class="header_link" href="#">🔗</a>
+</h2>
+          <time datetime="2019-03-20T00:00:00+00:00" class="page-date">
+              
+              20th
+              March
+              2019
+          </time>
+      </div>
+      <div id="post-contents">
+          <p>As I hinted in my <a href="/blog/2018/09/25/getting-started-with-the-newer-llvm-c-api.html">previous post</a>, I have (very) slowly been working
 on implementing a simple <a href="https://en.wikipedia.org/wiki/Just-in-time_compilation">JIT</a>-based evaluator for a toy language, which
-I&#39;ve called <a href="https://github.com/owst/nickel">Nickel</a>. Nickel, which I&#39;ve now released on GitHub, uses
+I’ve called <a href="https://github.com/owst/nickel">Nickel</a>. Nickel, which I’ve now released on GitHub, uses
 the <a href="https://llvm.org/">LLVM</a> C library to leverage the power of the LLVM optimising
 compiler.</p>
 
-<p>For full details, see the <a href="https://github.com/owst/nickel">repo on GitHub</a>, but I&#39;ll try in this post
-to give a brief overview. Consider the following Nickel program<sup id="fnref1"><a href="#fn1" rel="footnote">1</a></sup>, which computes
+<p>For full details, see the <a href="https://github.com/owst/nickel">repo on GitHub</a>, but I’ll try in this post
+to give a brief overview. Consider the following Nickel program<sup id="fnref:1"><a href="#fn:1" class="footnote" rel="footnote" role="doc-noteref">1</a></sup>, which computes
 and prints a numeric value:</p>
-<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="c1"># Saved to input.nkl...</span>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Saved to input.nkl...</span>
 
 <span class="k">def</span> <span class="nf">g</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
   <span class="mi">9</span> <span class="o">*</span> <span class="n">x</span>
@@ -85,94 +61,85 @@ and prints a numeric value:</p>
 <span class="k">end</span>
 
 <span class="nb">puts</span> <span class="n">f</span><span class="p">(</span><span class="mi">16</span><span class="p">,</span> <span class="mi">5430</span><span class="p">)</span>
-</code></pre></div>
-<p>We can evaluate this program using the <code>nickel</code> evaluator in simple interpreter
+</code></pre></div></div>
+
+<p>We can evaluate this program using the <code class="language-plaintext highlighter-rouge">nickel</code> evaluator in simple interpreter
 mode:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nv">$ </span>./nickel --interpreter &lt; input.nkl
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>./nickel <span class="nt">--interpreter</span> &lt; input.nkl
 3735928559
-</code></pre></div>
+</code></pre></div></div>
+
 <p>However, the particular value printed will be more familiar with a hex
 representation:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nv">$ </span><span class="nb">printf</span> <span class="s2">&quot;0x%x\n&quot;</span> <span class="k">$(</span>./nickel --interpreter &lt; input.nkl<span class="k">)</span>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span><span class="nb">printf</span> <span class="s2">"0x%x</span><span class="se">\n</span><span class="s2">"</span> <span class="si">$(</span>./nickel <span class="nt">--interpreter</span> &lt; input.nkl<span class="si">)</span>
 0xdeadbeef
-</code></pre></div>
+</code></pre></div></div>
+
 <p>A JIT evaluator performs compilation during execution - essentially generating
 code to execute at run-time. We can witness the generated code by using a
-debugger such as <a href="https://lldb.llvm.org/"><code>lldb</code></a> to break at the point at which we <a href="https://github.com/owst/nickel/blob/404b685af5f0ef494e68e6a0c7068d6a8f97ade8/src/jit.c#L283">obtain a
+debugger such as <a href="https://lldb.llvm.org/"><code class="language-plaintext highlighter-rouge">lldb</code></a> to break at the point at which we <a href="https://github.com/owst/nickel/blob/404b685af5f0ef494e68e6a0c7068d6a8f97ade8/src/jit.c#L283">obtain a
 pointer to the dynamically generated code</a>:</p>
-<div class="highlight"><pre><code class="language-c" data-lang="c"><span class="kt">int</span> <span class="p">(</span><span class="o">*</span><span class="n">func</span><span class="p">)(</span><span class="kt">void</span><span class="p">)</span> <span class="o">=</span> <span class="p">(</span><span class="kt">int</span> <span class="p">(</span><span class="o">*</span><span class="p">)(</span><span class="kt">void</span><span class="p">))</span><span class="n">LLVMGetFunctionAddress</span><span class="p">(</span><span class="n">engine</span><span class="p">,</span> <span class="s">&quot;__anon_tl&quot;</span><span class="p">);</span> <span class="c1">//&lt;=</span>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">int</span> <span class="p">(</span><span class="o">*</span><span class="n">func</span><span class="p">)(</span><span class="kt">void</span><span class="p">)</span> <span class="o">=</span> <span class="p">(</span><span class="kt">int</span> <span class="p">(</span><span class="o">*</span><span class="p">)(</span><span class="kt">void</span><span class="p">))</span><span class="n">LLVMGetFunctionAddress</span><span class="p">(</span><span class="n">engine</span><span class="p">,</span> <span class="s">"__anon_tl"</span><span class="p">);</span> <span class="c1">//&lt;=</span>
 <span class="n">func</span><span class="p">();</span>
-</code></pre></div>
-<p>Let&#39;s run <code>lldb</code> and break before we call <code>func</code>:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">$ lldb ./nickel -- --jit
+</code></pre></div></div>
+
+<p>Let’s run <code class="language-plaintext highlighter-rouge">lldb</code> and break before we call <code class="language-plaintext highlighter-rouge">func</code>:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ lldb ./nickel -- --jit
 [...]
 (lldb) breakpoint set --file jit.c --line 284
 [...]
 (lldb) process launch -i input.nkl
 [...]
-* thread #1, queue = &#39;com.apple.main-thread&#39;, stop reason = breakpoint 1.1
+* thread #1, queue = 'com.apple.main-thread', stop reason = breakpoint 1.1
     frame #0: 0x00000001000035f9 nickel`jit(p=0x0000000101a08940) at jit.c:284
-   281      }
+   281 	    }
    282
-   283      int (*func)(void) = (int (*)(void))LLVMGetFunctionAddress(engine, &quot;__anon_tl&quot;);
--&gt; 284      func();
+   283 	    int (*func)(void) = (int (*)(void))LLVMGetFunctionAddress(engine, "__anon_tl");
+-&gt; 284 	    func();
    285
-   286      LLVMDisposeExecutionEngine(engine);
-   287  }
+   286 	    LLVMDisposeExecutionEngine(engine);
+   287 	}
 [...]
-</code></pre></div>
-<p>Now, we can ask lldb to <a href="https://en.wikipedia.org/wiki/Disassembler">disassemble</a> the <code>func</code> function, which
-will reveal the function&#39;s implementation:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">(lldb) disassemble -s func
+</code></pre></div></div>
+
+<p>Now, we can ask lldb to <a href="https://en.wikipedia.org/wiki/Disassembler">disassemble</a> the <code class="language-plaintext highlighter-rouge">func</code> function, which
+will reveal the function’s implementation:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(lldb) disassemble -s func
     0x101943030: movabsq $0x101944000, %rdi        ; imm = 0x101944000
     0x10194303a: movabsq $0x7fff67760710, %rcx     ; imm = 0x7FFF67760710
     0x101943044: movl   $0xdeadbeef, %esi         ; imm = 0xDEADBEEF
     0x101943049: xorl   %eax, %eax
     0x10194304b: jmpq   *%rcx
     0x10194304d: addb   %al, (%rax)
-</code></pre></div>
-<p>and indeed, we can see the literal value <code>0xdeadbeef</code>, which means our Nickel
+</code></pre></div></div>
+
+<p>and indeed, we can see the literal value <code class="language-plaintext highlighter-rouge">0xdeadbeef</code>, which means our Nickel
 program has been fully optimisated away by LLVM into the return of a single
 literal value - very cool!</p>
 
-<div class="footnotes">
-<hr>
-<ol>
-
-<li id="fn1">
-<p>Nickel syntax is superficially similar to Ruby.&nbsp;<a href="#fnref1" rev="footnote">&#8617;</a></p>
-</li>
-
-</ol>
+<div class="footnotes" role="doc-endnotes">
+  <ol>
+    <li id="fn:1">
+      <p>Nickel syntax is superficially similar to Ruby. <a href="#fnref:1" class="reversefootnote" role="doc-backlink">↩</a></p>
+    </li>
+  </ol>
 </div>
 
-</article>
-
-              </div>
-              <div class="col-lg-2"></div>
-          </div>
       </div>
-      <footer class="footer mt-2 mb-4">
-          <div class="container text-center">
-              <span class="text-muted">Owen Stephens 2020</span>
-          </div>
-      </footer>
+    </section>
+</div>
+
     </body>
     
-        <script type='text/javascript' src='https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js'></script>
-    
-        <script type='text/javascript' src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js'></script>
-    
-        <script type='text/javascript' src='https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js'></script>
-    
-    
         
-            <script type='text/javascript' src='https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.13.0/moment.min.js'></script>
+            <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.13.0/moment.min.js"></script>
         
-            <script type='text/javascript' src='/assets/js/time.js'></script>
+            <script type="text/javascript" src="/assets/js/time.js"></script>
         
     
-    
-    
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 </html>

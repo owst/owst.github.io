@@ -1,141 +1,102 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
   <title>
     
-      Scala implementation of Patience sort &middot; Owen Stephens' Website
+      Scala implementation of Patience sort · Owen Stephens' Website
     
   </title>
 
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-  <link rel="stylesheet" href="/assets/css/pygments.css">
   <link rel="stylesheet" href="/assets/css/style.css">
-  <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600|Droid+Sans+Mono' rel='stylesheet' type='text/css'>
+  <link rel="stylesheet" href="/assets/css/code_highlight.css">
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,600|Droid+Sans+Mono" rel="stylesheet" type="text/css">
 </head>
 
-    <body class="mt-5 pt-3">
-      <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top py-0">
-          <a class="navbar-brand align-baseline" href="/"><h2>Owen Stephens</h2><!--<h6
-          class="text-muted pl-2">London-based Polyglot Programmer</h6>--></a>
-          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
-              <span class="navbar-toggler-icon"></span>
-          </button>
-          <div class="collapse navbar-collapse" id="navbarResponsive">
-              <ul class="navbar-nav ml-auto">
-                  
-                  
-                  
-                  
-                  <li class="ml-auto nav-item text-nowrap">
-                      <a class="nav-link py-0" href="/"><h5>Home</a>
-                  </li>
-                  
-                  
-                  
-                  <li class="ml-auto nav-item active text-nowrap">
-                      <a class="nav-link py-0" href="/blog.html"><h5>Blog</h5><span class="sr-only">(current)</span></a>
-                  </li>
-                  
-                  
-                  
-                  <li class="ml-auto nav-item text-nowrap">
-                      <a class="nav-link py-0" href="/research.html"><h5>Research</a>
-                  </li>
-                  
-                  
-                  
-                  <li class="ml-auto nav-item text-nowrap">
-                      <a class="nav-link py-0" href="/oss.html"><h5>Open Source</a>
-                  </li>
-                  
-              </ul>
-          </div>
-      </nav>
-      <div class="container">
-          <div class="row">
-              <div class="col-lg-2"></div>
-              <div class="col-lg-8 border-bottom border-grey">
-                  <article class="post mt-3 pb-3">
-  <div id="post-header" class="pb-4">
-      <h3 class="post-title">Scala implementation of Patience sort</h3>
-      <time datetime="2010-11-29T00:00:00+00:00" class="page-date">
-          29 Nov 2010
-      </time>
-  </div>
-  <p>Here&#39;s a simple Scala implementation of <a href="https://en.wikipedia.org/wiki/Patience_sorting">Patience Sort</a>, that I
+    <body>
+        <header>
+            <a class="no_style" href="/" text="Home">
+            <h1>Owen Stephens</h1>
+            <h3>Software Engineer</h3>
+            </a>
+        </header>
+        <div class="container">
+    <div class="post_nav" markdown="1">
+    You can jump back <a href="/">Home</a>, or to the <a href="/#blog">Blog</a>, <a href="/#open-source">Open Source</a> or <a href="/#research">Research</a> sections.
+
+    </div>
+    <section>
+      <div id="post-header">
+          <h2 class="post-title">Scala implementation of Patience sort<a class="header_link" href="#">🔗</a>
+</h2>
+          <time datetime="2010-11-29T00:00:00+00:00" class="page-date">
+              
+              29th
+              November
+              2010
+          </time>
+      </div>
+      <div id="post-contents">
+          <p>Here’s a simple Scala implementation of <a href="https://en.wikipedia.org/wiki/Patience_sorting">Patience Sort</a>, that I
 wrote as a precursor to implementing the patience diff algorithm.</p>
-<div class="highlight"><pre><code class="language-scala" data-lang="scala"><span class="k">def</span> <span class="n">sort</span><span class="o">[</span><span class="kt">A</span> <span class="k">&lt;%</span> <span class="kt">Ordered</span><span class="o">[</span><span class="kt">A</span><span class="o">]](</span><span class="n">source</span> <span class="k">:</span> <span class="kt">Traversable</span><span class="o">[</span><span class="kt">A</span><span class="o">])</span> <span class="k">:</span> <span class="kt">Traversable</span><span class="o">[</span><span class="kt">A</span><span class="o">]</span> <span class="k">=</span> <span class="o">{</span>
-    <span class="k">val</span> <span class="n">piles</span> <span class="k">=</span> <span class="nc">ListBuffer</span><span class="o">.</span><span class="n">empty</span><span class="o">[</span><span class="kt">Stack</span><span class="o">[</span><span class="kt">A</span><span class="o">]]</span>
+
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">sort</span><span class="o">[</span><span class="kt">A</span> <span class="k">&lt;%</span> <span class="kt">Ordered</span><span class="o">[</span><span class="kt">A</span><span class="o">]](</span><span class="n">source</span> <span class="k">:</span> <span class="kt">Traversable</span><span class="o">[</span><span class="kt">A</span><span class="o">])</span> <span class="k">:</span> <span class="kt">Traversable</span><span class="o">[</span><span class="kt">A</span><span class="o">]</span> <span class="k">=</span> <span class="o">{</span>
+    <span class="k">val</span> <span class="nv">piles</span> <span class="k">=</span> <span class="nv">ListBuffer</span><span class="o">.</span><span class="py">empty</span><span class="o">[</span><span class="kt">Stack</span><span class="o">[</span><span class="kt">A</span><span class="o">]]</span>
     <span class="k">var</span> <span class="n">count</span> <span class="k">=</span> <span class="mi">0</span><span class="o">;</span>
 
     <span class="c1">// Create ordered piles of elements</span>
-    <span class="k">for</span> <span class="o">(</span><span class="n">elem</span> <span class="k">&lt;-</span> <span class="n">source</span><span class="o">)</span> <span class="o">{</span>
+    <span class="nf">for</span> <span class="o">(</span><span class="n">elem</span> <span class="k">&lt;-</span> <span class="n">source</span><span class="o">)</span> <span class="o">{</span>
         <span class="n">count</span> <span class="o">+=</span> <span class="mi">1</span>
 
-        <span class="c1">// Find leftmost &quot;possible&quot; pile</span>
-        <span class="k">val</span> <span class="n">toAddPile</span> <span class="k">=</span> <span class="n">piles</span><span class="o">.</span><span class="n">find</span><span class="o">(</span><span class="n">p</span> <span class="k">=&gt;</span> <span class="n">p</span><span class="o">.</span><span class="n">head</span> <span class="o">&gt;=</span> <span class="n">elem</span><span class="o">)</span>
+        <span class="c1">// Find leftmost "possible" pile</span>
+        <span class="k">val</span> <span class="nv">toAddPile</span> <span class="k">=</span> <span class="nv">piles</span><span class="o">.</span><span class="py">find</span><span class="o">(</span><span class="n">p</span> <span class="k">=&gt;</span> <span class="nv">p</span><span class="o">.</span><span class="py">head</span> <span class="o">&gt;=</span> <span class="n">elem</span><span class="o">)</span>
 
-        <span class="c1">// If there isn&#39;t a pile available, add a new one.</span>
+        <span class="c1">// If there isn't a pile available, add a new one.</span>
         <span class="n">toAddPile</span> <span class="k">match</span> <span class="o">{</span>
-            <span class="k">case</span> <span class="nc">Some</span><span class="o">(</span><span class="n">p</span><span class="o">)</span> <span class="k">=&gt;</span> <span class="n">p</span><span class="o">.</span><span class="n">push</span><span class="o">(</span><span class="n">elem</span><span class="o">)</span>
+            <span class="k">case</span> <span class="nc">Some</span><span class="o">(</span><span class="n">p</span><span class="o">)</span> <span class="k">=&gt;</span> <span class="nv">p</span><span class="o">.</span><span class="py">push</span><span class="o">(</span><span class="n">elem</span><span class="o">)</span>
             <span class="k">case</span> <span class="k">_</span>       <span class="k">=&gt;</span> <span class="n">piles</span> <span class="o">+=</span> <span class="nc">Stack</span><span class="o">(</span><span class="n">elem</span><span class="o">)</span>
         <span class="o">}</span>
     <span class="o">}</span>
 
-    <span class="k">def</span> <span class="nc">PileOrdering</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Ordering</span><span class="o">[</span><span class="kt">Stack</span><span class="o">[</span><span class="kt">A</span><span class="o">]]</span> <span class="o">{</span>
+    <span class="k">def</span> <span class="nf">PileOrdering</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Ordering</span><span class="o">[</span><span class="kt">Stack</span><span class="o">[</span><span class="kt">A</span><span class="o">]]</span> <span class="o">{</span>
         <span class="c1">// Order stacks in reverse: from smallest head to largest head.</span>
-        <span class="k">def</span> <span class="n">compare</span><span class="o">(</span><span class="n">a</span> <span class="k">:</span> <span class="kt">Stack</span><span class="o">[</span><span class="kt">A</span><span class="o">],</span> <span class="n">b</span> <span class="k">:</span> <span class="kt">Stack</span><span class="o">[</span><span class="kt">A</span><span class="o">])</span> <span class="k">=</span> <span class="n">b</span><span class="o">.</span><span class="n">head</span><span class="o">.</span><span class="n">compare</span><span class="o">(</span><span class="n">a</span><span class="o">.</span><span class="n">head</span><span class="o">)</span>
+        <span class="k">def</span> <span class="nf">compare</span><span class="o">(</span><span class="n">a</span> <span class="k">:</span> <span class="kt">Stack</span><span class="o">[</span><span class="kt">A</span><span class="o">],</span> <span class="n">b</span> <span class="k">:</span> <span class="kt">Stack</span><span class="o">[</span><span class="kt">A</span><span class="o">])</span> <span class="k">=</span> <span class="nv">b</span><span class="o">.</span><span class="py">head</span><span class="o">.</span><span class="py">compare</span><span class="o">(</span><span class="nv">a</span><span class="o">.</span><span class="py">head</span><span class="o">)</span>
     <span class="o">}</span>
 
     <span class="c1">// Use a priority queue, to simplify extracting minimum elements.</span>
-    <span class="k">val</span> <span class="n">pq</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">PriorityQueue</span><span class="o">[</span><span class="kt">Stack</span><span class="o">[</span><span class="kt">A</span><span class="o">]]()(</span><span class="nc">PileOrdering</span><span class="o">)</span>
+    <span class="k">val</span> <span class="nv">pq</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">PriorityQueue</span><span class="o">[</span><span class="kt">Stack</span><span class="o">[</span><span class="kt">A</span><span class="o">]]()(</span><span class="nc">PileOrdering</span><span class="o">)</span>
 
     <span class="n">pq</span> <span class="o">++=</span> <span class="n">piles</span>
 
     <span class="c1">// Return a new list, by taking the smallest stack head</span>
     <span class="c1">// until all stacks are empty.</span>
-    <span class="k">return</span> <span class="o">(</span><span class="mi">0</span> <span class="n">until</span> <span class="n">count</span><span class="o">)</span> <span class="n">map</span> <span class="o">(</span><span class="k">_</span> <span class="k">=&gt;</span> <span class="o">{</span>
-        <span class="k">val</span> <span class="n">smallestList</span> <span class="k">=</span> <span class="n">pq</span><span class="o">.</span><span class="n">dequeue</span>
-        <span class="k">val</span> <span class="n">smallestVal</span> <span class="k">=</span> <span class="n">smallestList</span><span class="o">.</span><span class="n">pop</span>
+    <span class="nf">return</span> <span class="o">(</span><span class="mi">0</span> <span class="n">until</span> <span class="n">count</span><span class="o">)</span> <span class="nf">map</span> <span class="o">(</span><span class="k">_</span> <span class="k">=&gt;</span> <span class="o">{</span>
+        <span class="k">val</span> <span class="nv">smallestList</span> <span class="k">=</span> <span class="nv">pq</span><span class="o">.</span><span class="py">dequeue</span>
+        <span class="k">val</span> <span class="nv">smallestVal</span> <span class="k">=</span> <span class="nv">smallestList</span><span class="o">.</span><span class="py">pop</span>
 
-        <span class="k">if</span> <span class="o">(</span><span class="n">smallestList</span><span class="o">.</span><span class="n">length</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="o">)</span> <span class="o">{</span>
-            <span class="n">pq</span><span class="o">.</span><span class="n">enqueue</span><span class="o">(</span><span class="n">smallestList</span><span class="o">)</span>
+        <span class="nf">if</span> <span class="o">(</span><span class="nv">smallestList</span><span class="o">.</span><span class="py">length</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="o">)</span> <span class="o">{</span>
+            <span class="nv">pq</span><span class="o">.</span><span class="py">enqueue</span><span class="o">(</span><span class="n">smallestList</span><span class="o">)</span>
         <span class="o">}</span>
 
         <span class="n">smallestVal</span>
     <span class="o">})</span>
 <span class="o">}</span>
-</code></pre></div>
-</article>
+</code></pre></div></div>
 
-              </div>
-              <div class="col-lg-2"></div>
-          </div>
+
       </div>
-      <footer class="footer mt-2 mb-4">
-          <div class="container text-center">
-              <span class="text-muted">Owen Stephens 2020</span>
-          </div>
-      </footer>
+    </section>
+</div>
+
     </body>
     
-        <script type='text/javascript' src='https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js'></script>
-    
-        <script type='text/javascript' src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js'></script>
-    
-        <script type='text/javascript' src='https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js'></script>
-    
-    
         
-            <script type='text/javascript' src='https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.13.0/moment.min.js'></script>
+            <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.13.0/moment.min.js"></script>
         
-            <script type='text/javascript' src='/assets/js/time.js'></script>
+            <script type="text/javascript" src="/assets/js/time.js"></script>
         
     
-    
-    
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 </html>

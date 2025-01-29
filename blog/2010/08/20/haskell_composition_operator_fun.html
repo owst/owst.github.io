@@ -1,181 +1,167 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
   <title>
     
-      Haskell composition operator fun: (.).(.) &middot; Owen Stephens' Website
+      Haskell composition operator fun: (.).(.) · Owen Stephens' Website
     
   </title>
 
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-  <link rel="stylesheet" href="/assets/css/pygments.css">
   <link rel="stylesheet" href="/assets/css/style.css">
-  <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600|Droid+Sans+Mono' rel='stylesheet' type='text/css'>
+  <link rel="stylesheet" href="/assets/css/code_highlight.css">
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,600|Droid+Sans+Mono" rel="stylesheet" type="text/css">
 </head>
 
-    <body class="mt-5 pt-3">
-      <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top py-0">
-          <a class="navbar-brand align-baseline" href="/"><h2>Owen Stephens</h2><!--<h6
-          class="text-muted pl-2">London-based Polyglot Programmer</h6>--></a>
-          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
-              <span class="navbar-toggler-icon"></span>
-          </button>
-          <div class="collapse navbar-collapse" id="navbarResponsive">
-              <ul class="navbar-nav ml-auto">
-                  
-                  
-                  
-                  
-                  <li class="ml-auto nav-item text-nowrap">
-                      <a class="nav-link py-0" href="/"><h5>Home</a>
-                  </li>
-                  
-                  
-                  
-                  <li class="ml-auto nav-item active text-nowrap">
-                      <a class="nav-link py-0" href="/blog.html"><h5>Blog</h5><span class="sr-only">(current)</span></a>
-                  </li>
-                  
-                  
-                  
-                  <li class="ml-auto nav-item text-nowrap">
-                      <a class="nav-link py-0" href="/research.html"><h5>Research</a>
-                  </li>
-                  
-                  
-                  
-                  <li class="ml-auto nav-item text-nowrap">
-                      <a class="nav-link py-0" href="/oss.html"><h5>Open Source</a>
-                  </li>
-                  
-              </ul>
-          </div>
-      </nav>
-      <div class="container">
-          <div class="row">
-              <div class="col-lg-2"></div>
-              <div class="col-lg-8 border-bottom border-grey">
-                  <article class="post mt-3 pb-3">
-  <div id="post-header" class="pb-4">
-      <h3 class="post-title">Haskell composition operator fun: (.).(.)</h3>
-      <time datetime="2010-08-20T00:00:00+01:00" class="page-date">
-          20 Aug 2010
-      </time>
-  </div>
-  <p>I&#39;ve been learning <a href="https://www.haskell.org">Haskell</a> over the summer, and have
+    <body>
+        <header>
+            <a class="no_style" href="/" text="Home">
+            <h1>Owen Stephens</h1>
+            <h3>Software Engineer</h3>
+            </a>
+        </header>
+        <div class="container">
+    <div class="post_nav" markdown="1">
+    You can jump back <a href="/">Home</a>, or to the <a href="/#blog">Blog</a>, <a href="/#open-source">Open Source</a> or <a href="/#research">Research</a> sections.
+
+    </div>
+    <section>
+      <div id="post-header">
+          <h2 class="post-title">Haskell composition operator fun: (.).(.)<a class="header_link" href="#">🔗</a>
+</h2>
+          <time datetime="2010-08-20T00:00:00+01:00" class="page-date">
+              
+              20th
+              August
+              2010
+          </time>
+      </div>
+      <div id="post-contents">
+          <p>I’ve been learning <a href="https://www.haskell.org">Haskell</a> over the summer, and have
 definitely had my fair share of head-scratching moments!</p>
 
 <p>Having seen <a href="https://www.reddit.com/r/programming/comments/a9tb2/secret_haskell_operators/">this reddit
 thread</a>,
-I attempted to figure out the type of the expression <code>(.).(.)</code> which is the
-infix representation of <code>(.)(.)(.)</code> (the function composition operator, applied
+I attempted to figure out the type of the expression <code class="language-plaintext highlighter-rouge">(.).(.)</code> which is the
+infix representation of <code class="language-plaintext highlighter-rouge">(.)(.)(.)</code> (the function composition operator, applied
 to itself twice).</p>
 
 <p>This was not an easy task for a novice Haskeller such as myself, so hopefully
 others may benefit from my notes that follow.</p>
 
-<p>The type of the operator <code>(.)</code> is:</p>
-<div class="highlight"><pre><code class="language-haskell" data-lang="haskell"><span class="p">(</span><span class="o">.</span><span class="p">)</span> <span class="ow">::</span> <span class="p">(</span><span class="n">b</span> <span class="ow">-&gt;</span> <span class="n">c</span><span class="p">)</span> <span class="ow">-&gt;</span> <span class="p">(</span><span class="n">a</span> <span class="ow">-&gt;</span> <span class="n">b</span><span class="p">)</span> <span class="ow">-&gt;</span> <span class="n">a</span> <span class="ow">-&gt;</span> <span class="n">c</span>
-</code></pre></div>
-<p>The first step of figuring out the type of <code>(.)(.)(.)</code> is to calculate the type
-of <code>(.)(.)</code></p>
+<p>The type of the operator <code class="language-plaintext highlighter-rouge">(.)</code> is:</p>
+
+<div class="language-haskell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">(</span><span class="o">.</span><span class="p">)</span> <span class="o">::</span> <span class="p">(</span><span class="n">b</span> <span class="o">-&gt;</span> <span class="n">c</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="p">(</span><span class="n">a</span> <span class="o">-&gt;</span> <span class="n">b</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">a</span> <span class="o">-&gt;</span> <span class="n">c</span>
+</code></pre></div></div>
+
+<p>The first step of figuring out the type of <code class="language-plaintext highlighter-rouge">(.)(.)(.)</code> is to calculate the type
+of <code class="language-plaintext highlighter-rouge">(.)(.)</code></p>
 
 <p>Since we are applying the (.) section (a section is a partially applied
 operator) to itself, we shall rename the parameter types to avoid confusion.
-The first argument, <code>(.)</code> (we shall call it <code>(.)1</code>) therefore has the following
+The first argument, <code class="language-plaintext highlighter-rouge">(.)</code> (we shall call it <code class="language-plaintext highlighter-rouge">(.)1</code>) therefore has the following
 type:</p>
-<div class="highlight"><pre><code class="language-haskell" data-lang="haskell"><span class="p">(</span><span class="o">.</span><span class="p">)</span><span class="mi">1</span> <span class="ow">::</span> <span class="p">(</span><span class="n">b1</span> <span class="ow">-&gt;</span> <span class="n">c1</span><span class="p">)</span> <span class="ow">-&gt;</span> <span class="p">(</span><span class="n">a1</span> <span class="ow">-&gt;</span> <span class="n">b1</span><span class="p">)</span> <span class="ow">-&gt;</span> <span class="n">a1</span> <span class="ow">-&gt;</span> <span class="n">c1</span>
-</code></pre></div>
-<p>When applying <code>(.)</code> to the single argument <code>(.)1</code> we are &#39;substituting&#39;</p>
-<div class="highlight"><pre><code class="language-haskell" data-lang="haskell"><span class="p">(</span><span class="n">b</span> <span class="ow">-&gt;</span> <span class="n">c</span><span class="p">)</span>
-</code></pre></div>
+
+<div class="language-haskell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">(</span><span class="o">.</span><span class="p">)</span><span class="mi">1</span> <span class="o">::</span> <span class="p">(</span><span class="n">b1</span> <span class="o">-&gt;</span> <span class="n">c1</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="p">(</span><span class="n">a1</span> <span class="o">-&gt;</span> <span class="n">b1</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">a1</span> <span class="o">-&gt;</span> <span class="n">c1</span>
+</code></pre></div></div>
+
+<p>When applying <code class="language-plaintext highlighter-rouge">(.)</code> to the single argument <code class="language-plaintext highlighter-rouge">(.)1</code> we are ‘substituting’</p>
+
+<div class="language-haskell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">(</span><span class="n">b</span> <span class="o">-&gt;</span> <span class="n">c</span><span class="p">)</span>
+</code></pre></div></div>
+
 <p>for</p>
-<div class="highlight"><pre><code class="language-haskell" data-lang="haskell"><span class="p">(</span><span class="n">b1</span> <span class="ow">-&gt;</span> <span class="n">c1</span><span class="p">)</span> <span class="ow">-&gt;</span> <span class="p">(</span><span class="n">a1</span> <span class="ow">-&gt;</span> <span class="n">b1</span><span class="p">)</span> <span class="ow">-&gt;</span> <span class="n">a1</span> <span class="ow">-&gt;</span> <span class="n">c1</span>
-</code></pre></div>
+
+<div class="language-haskell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">(</span><span class="n">b1</span> <span class="o">-&gt;</span> <span class="n">c1</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="p">(</span><span class="n">a1</span> <span class="o">-&gt;</span> <span class="n">b1</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">a1</span> <span class="o">-&gt;</span> <span class="n">c1</span>
+</code></pre></div></div>
+
 <p>taking a three-parameter function and passing it to something that expects a
 one-parameter function.  Therefore, the result is a two-parameter function.
 This is as if the original function took a a two-parameter function as a
 parameter.</p>
 
-<p>Matching the types gives us the following &#39;mappings&#39;:</p>
-<div class="highlight"><pre><code class="language-haskell" data-lang="haskell"><span class="nf">b</span> <span class="ow">::</span> <span class="p">(</span><span class="n">b1</span> <span class="ow">-&gt;</span> <span class="n">c1</span><span class="p">)</span>
-</code></pre></div>
-<p>and</p>
-<div class="highlight"><pre><code class="language-haskell" data-lang="haskell"><span class="nf">c</span> <span class="ow">::</span> <span class="p">(</span><span class="n">a1</span> <span class="ow">-&gt;</span> <span class="n">b1</span><span class="p">)</span> <span class="ow">-&gt;</span> <span class="n">a1</span> <span class="ow">-&gt;</span> <span class="n">c1</span>
-</code></pre></div>
-<p>In <code>(.)</code>&#39;s signature, the result of providing a single argument is of type:
-<code>(a -&gt; b) -&gt; a -&gt; c</code></p>
+<p>Matching the types gives us the following ‘mappings’:</p>
 
-<p>but using the type &#39;mappings&#39;, we obtain a result that looks like:</p>
-<div class="highlight"><pre><code class="language-haskell" data-lang="haskell"><span class="p">(</span><span class="o">.</span><span class="p">)(</span><span class="o">.</span><span class="p">)</span> <span class="ow">::</span> <span class="p">(</span><span class="n">a</span> <span class="ow">-&gt;</span> <span class="p">(</span><span class="n">b1</span> <span class="ow">-&gt;</span> <span class="n">c1</span><span class="p">))</span> <span class="ow">-&gt;</span> <span class="n">a</span> <span class="ow">-&gt;</span> <span class="p">(</span><span class="n">a1</span> <span class="ow">-&gt;</span> <span class="n">b1</span><span class="p">)</span> <span class="ow">-&gt;</span> <span class="n">a1</span> <span class="ow">-&gt;</span> <span class="n">c1</span>
-</code></pre></div>
-<p>Notice how we&#39;ve replaced the original single parameter with two new
+<div class="language-haskell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">b</span> <span class="o">::</span> <span class="p">(</span><span class="n">b1</span> <span class="o">-&gt;</span> <span class="n">c1</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>and</p>
+
+<div class="language-haskell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">c</span> <span class="o">::</span> <span class="p">(</span><span class="n">a1</span> <span class="o">-&gt;</span> <span class="n">b1</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">a1</span> <span class="o">-&gt;</span> <span class="n">c1</span>
+</code></pre></div></div>
+
+<p>In <code class="language-plaintext highlighter-rouge">(.)</code>’s signature, the result of providing a single argument is of type:
+<code class="language-plaintext highlighter-rouge">(a -&gt; b) -&gt; a -&gt; c</code></p>
+
+<p>but using the type ‘mappings’, we obtain a result that looks like:</p>
+
+<div class="language-haskell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">(</span><span class="o">.</span><span class="p">)(</span><span class="o">.</span><span class="p">)</span> <span class="o">::</span> <span class="p">(</span><span class="n">a</span> <span class="o">-&gt;</span> <span class="p">(</span><span class="n">b1</span> <span class="o">-&gt;</span> <span class="n">c1</span><span class="p">))</span> <span class="o">-&gt;</span> <span class="n">a</span> <span class="o">-&gt;</span> <span class="p">(</span><span class="n">a1</span> <span class="o">-&gt;</span> <span class="n">b1</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">a1</span> <span class="o">-&gt;</span> <span class="n">c1</span>
+</code></pre></div></div>
+
+<p>Notice how we’ve replaced the original single parameter with two new
 parameters.</p>
 
-<p>We can then repeat for the second argument of <code>(.)</code>, which we shall name <code>(.)2</code>
+<p>We can then repeat for the second argument of <code class="language-plaintext highlighter-rouge">(.)</code>, which we shall name <code class="language-plaintext highlighter-rouge">(.)2</code>
 and has type:</p>
-<div class="highlight"><pre><code class="language-haskell" data-lang="haskell"><span class="p">(</span><span class="n">b2</span> <span class="ow">-&gt;</span> <span class="n">c2</span><span class="p">)</span> <span class="ow">-&gt;</span> <span class="p">(</span><span class="n">a2</span> <span class="ow">-&gt;</span> <span class="n">b2</span><span class="p">)</span> <span class="ow">-&gt;</span> <span class="n">a2</span> <span class="ow">-&gt;</span> <span class="n">c2</span>
-</code></pre></div>
-<p>N.B. <code>(.)(.)</code> takes 4 parameters, the first being a function of type <code>a -&gt; (b1
+
+<div class="language-haskell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">(</span><span class="n">b2</span> <span class="o">-&gt;</span> <span class="n">c2</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="p">(</span><span class="n">a2</span> <span class="o">-&gt;</span> <span class="n">b2</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">a2</span> <span class="o">-&gt;</span> <span class="n">c2</span>
+</code></pre></div></div>
+
+<p>N.B. <code class="language-plaintext highlighter-rouge">(.)(.)</code> takes 4 parameters, the first being a function of type <code class="language-plaintext highlighter-rouge">a -&gt; (b1
 -&gt; c1)</code>.</p>
 
-<p>When we apply <code>(.)(.)</code> to <code>(.)</code> we are providing its first parameter, which
+<p>When we apply <code class="language-plaintext highlighter-rouge">(.)(.)</code> to <code class="language-plaintext highlighter-rouge">(.)</code> we are providing its first parameter, which
 gives us type mappings of:</p>
-<div class="highlight"><pre><code class="language-haskell" data-lang="haskell"><span class="nf">a</span> <span class="ow">::</span> <span class="p">(</span><span class="n">b2</span> <span class="ow">-&gt;</span> <span class="n">c2</span><span class="p">)</span>
-</code></pre></div>
+
+<div class="language-haskell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">a</span> <span class="o">::</span> <span class="p">(</span><span class="n">b2</span> <span class="o">-&gt;</span> <span class="n">c2</span><span class="p">)</span>
+</code></pre></div></div>
+
 <p>and</p>
-<div class="highlight"><pre><code class="language-haskell" data-lang="haskell"><span class="p">(</span><span class="n">b1</span> <span class="ow">-&gt;</span> <span class="n">c1</span><span class="p">)</span> <span class="ow">::</span> <span class="p">(</span><span class="n">a2</span> <span class="ow">-&gt;</span> <span class="n">b2</span><span class="p">)</span> <span class="ow">-&gt;</span> <span class="n">a2</span> <span class="ow">-&gt;</span> <span class="n">c2</span>
-</code></pre></div>
+
+<div class="language-haskell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">(</span><span class="n">b1</span> <span class="o">-&gt;</span> <span class="n">c1</span><span class="p">)</span> <span class="o">::</span> <span class="p">(</span><span class="n">a2</span> <span class="o">-&gt;</span> <span class="n">b2</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">a2</span> <span class="o">-&gt;</span> <span class="n">c2</span>
+</code></pre></div></div>
+
 <p>therefore:</p>
-<div class="highlight"><pre><code class="language-haskell" data-lang="haskell"><span class="nf">b1</span> <span class="ow">::</span> <span class="p">(</span><span class="n">a2</span> <span class="ow">-&gt;</span> <span class="n">b2</span><span class="p">)</span>
-</code></pre></div>
+
+<div class="language-haskell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">b1</span> <span class="o">::</span> <span class="p">(</span><span class="n">a2</span> <span class="o">-&gt;</span> <span class="n">b2</span><span class="p">)</span>
+</code></pre></div></div>
+
 <p>and</p>
-<div class="highlight"><pre><code class="language-haskell" data-lang="haskell"><span class="nf">c1</span> <span class="ow">::</span> <span class="n">a2</span> <span class="ow">-&gt;</span> <span class="n">c2</span>
-</code></pre></div>
-<p>The result of applying <code>(.)(.)</code> to a single argument is <code>a -&gt; (a1 -&gt; b1) -&gt; a1
+
+<div class="language-haskell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">c1</span> <span class="o">::</span> <span class="n">a2</span> <span class="o">-&gt;</span> <span class="n">c2</span>
+</code></pre></div></div>
+
+<p>The result of applying <code class="language-plaintext highlighter-rouge">(.)(.)</code> to a single argument is <code class="language-plaintext highlighter-rouge">a -&gt; (a1 -&gt; b1) -&gt; a1
 -&gt; c1</code> But using our mappings we see that the type is:</p>
-<div class="highlight"><pre><code class="language-haskell" data-lang="haskell"><span class="p">(</span><span class="o">.</span><span class="p">)(</span><span class="o">.</span><span class="p">)(</span><span class="o">.</span><span class="p">)</span> <span class="ow">::</span> <span class="p">(</span><span class="n">b2</span> <span class="ow">-&gt;</span> <span class="n">c2</span><span class="p">)</span> <span class="ow">-&gt;</span> <span class="p">(</span><span class="n">a1</span> <span class="ow">-&gt;</span> <span class="n">a2</span> <span class="ow">-&gt;</span> <span class="n">b2</span><span class="p">)</span> <span class="ow">-&gt;</span> <span class="n">a1</span> <span class="ow">-&gt;</span> <span class="n">a2</span> <span class="ow">-&gt;</span> <span class="n">c2</span>
-</code></pre></div>
+
+<div class="language-haskell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">(</span><span class="o">.</span><span class="p">)(</span><span class="o">.</span><span class="p">)(</span><span class="o">.</span><span class="p">)</span> <span class="o">::</span> <span class="p">(</span><span class="n">b2</span> <span class="o">-&gt;</span> <span class="n">c2</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="p">(</span><span class="n">a1</span> <span class="o">-&gt;</span> <span class="n">a2</span> <span class="o">-&gt;</span> <span class="n">b2</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">a1</span> <span class="o">-&gt;</span> <span class="n">a2</span> <span class="o">-&gt;</span> <span class="n">c2</span>
+</code></pre></div></div>
+
 <p>We can rename some types to simplify to the result given by GHCi:</p>
-<div class="highlight"><pre><code class="language-haskell" data-lang="haskell"><span class="p">(</span><span class="o">.</span><span class="p">)(</span><span class="o">.</span><span class="p">)(</span><span class="o">.</span><span class="p">)</span> <span class="ow">::</span> <span class="p">(</span><span class="n">b</span> <span class="ow">-&gt;</span> <span class="n">c</span><span class="p">)</span> <span class="ow">-&gt;</span> <span class="p">(</span><span class="n">a</span> <span class="ow">-&gt;</span> <span class="n">a1</span> <span class="ow">-&gt;</span> <span class="n">b</span><span class="p">)</span> <span class="ow">-&gt;</span> <span class="n">a</span> <span class="ow">-&gt;</span> <span class="n">a1</span> <span class="ow">-&gt;</span> <span class="n">c</span>
-</code></pre></div>
+
+<div class="language-haskell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">(</span><span class="o">.</span><span class="p">)(</span><span class="o">.</span><span class="p">)(</span><span class="o">.</span><span class="p">)</span> <span class="o">::</span> <span class="p">(</span><span class="n">b</span> <span class="o">-&gt;</span> <span class="n">c</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="p">(</span><span class="n">a</span> <span class="o">-&gt;</span> <span class="n">a1</span> <span class="o">-&gt;</span> <span class="n">b</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">a</span> <span class="o">-&gt;</span> <span class="n">a1</span> <span class="o">-&gt;</span> <span class="n">c</span>
+</code></pre></div></div>
+
 <p>Which is a function that takes a single-parameter function, a two-parameter
 function, and two values.  The result is obtained by applying the two-parameter
 function to the two values and passing the result to the single-parameter
 function.</p>
 
-<p>...and with that we&#39;ve solved the puzzle!</p>
+<p>…and with that we’ve solved the puzzle!</p>
 
-</article>
-
-              </div>
-              <div class="col-lg-2"></div>
-          </div>
       </div>
-      <footer class="footer mt-2 mb-4">
-          <div class="container text-center">
-              <span class="text-muted">Owen Stephens 2020</span>
-          </div>
-      </footer>
+    </section>
+</div>
+
     </body>
     
-        <script type='text/javascript' src='https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js'></script>
-    
-        <script type='text/javascript' src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js'></script>
-    
-        <script type='text/javascript' src='https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js'></script>
-    
-    
         
-            <script type='text/javascript' src='https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.13.0/moment.min.js'></script>
+            <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.13.0/moment.min.js"></script>
         
-            <script type='text/javascript' src='/assets/js/time.js'></script>
+            <script type="text/javascript" src="/assets/js/time.js"></script>
         
     
-    
-    
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 </html>

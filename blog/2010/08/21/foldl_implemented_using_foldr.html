@@ -1,117 +1,103 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
   <title>
     
-      foldl implemented using foldr &middot; Owen Stephens' Website
+      foldl implemented using foldr · Owen Stephens' Website
     
   </title>
 
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-  <link rel="stylesheet" href="/assets/css/pygments.css">
   <link rel="stylesheet" href="/assets/css/style.css">
-  <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600|Droid+Sans+Mono' rel='stylesheet' type='text/css'>
+  <link rel="stylesheet" href="/assets/css/code_highlight.css">
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,600|Droid+Sans+Mono" rel="stylesheet" type="text/css">
 </head>
 
-    <body class="mt-5 pt-3">
-      <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top py-0">
-          <a class="navbar-brand align-baseline" href="/"><h2>Owen Stephens</h2><!--<h6
-          class="text-muted pl-2">London-based Polyglot Programmer</h6>--></a>
-          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
-              <span class="navbar-toggler-icon"></span>
-          </button>
-          <div class="collapse navbar-collapse" id="navbarResponsive">
-              <ul class="navbar-nav ml-auto">
-                  
-                  
-                  
-                  
-                  <li class="ml-auto nav-item text-nowrap">
-                      <a class="nav-link py-0" href="/"><h5>Home</a>
-                  </li>
-                  
-                  
-                  
-                  <li class="ml-auto nav-item active text-nowrap">
-                      <a class="nav-link py-0" href="/blog.html"><h5>Blog</h5><span class="sr-only">(current)</span></a>
-                  </li>
-                  
-                  
-                  
-                  <li class="ml-auto nav-item text-nowrap">
-                      <a class="nav-link py-0" href="/research.html"><h5>Research</a>
-                  </li>
-                  
-                  
-                  
-                  <li class="ml-auto nav-item text-nowrap">
-                      <a class="nav-link py-0" href="/oss.html"><h5>Open Source</a>
-                  </li>
-                  
-              </ul>
-          </div>
-      </nav>
-      <div class="container">
-          <div class="row">
-              <div class="col-lg-2"></div>
-              <div class="col-lg-8 border-bottom border-grey">
-                  <article class="post mt-3 pb-3">
-  <div id="post-header" class="pb-4">
-      <h3 class="post-title">foldl implemented using foldr</h3>
-      <time datetime="2010-08-21T00:00:00+01:00" class="page-date">
-          21 Aug 2010
-      </time>
-  </div>
-  <p>I&#39;m re-reading <a href="https://www.amazon.co.uk/gp/product/0596514980?ie=UTF8&amp;tag=reaworhas-21&amp;linkCode=as2&amp;camp=1634&amp;creative=6738&amp;creativeASIN=0596514980">Real World
+    <body>
+        <header>
+            <a class="no_style" href="/" text="Home">
+            <h1>Owen Stephens</h1>
+            <h3>Software Engineer</h3>
+            </a>
+        </header>
+        <div class="container">
+    <div class="post_nav" markdown="1">
+    You can jump back <a href="/">Home</a>, or to the <a href="/#blog">Blog</a>, <a href="/#open-source">Open Source</a> or <a href="/#research">Research</a> sections.
+
+    </div>
+    <section>
+      <div id="post-header">
+          <h2 class="post-title">foldl implemented using foldr<a class="header_link" href="#">🔗</a>
+</h2>
+          <time datetime="2010-08-21T00:00:00+01:00" class="page-date">
+              
+              21st
+              August
+              2010
+          </time>
+      </div>
+      <div id="post-contents">
+          <p>I’m re-reading <a href="https://www.amazon.co.uk/gp/product/0596514980?ie=UTF8&amp;tag=reaworhas-21&amp;linkCode=as2&amp;camp=1634&amp;creative=6738&amp;creativeASIN=0596514980">Real World
 Haskell</a>
 having spent time reading online material (such as the excellent <a href="https://wiki.haskell.org/Haskell">Haskell
-Wiki</a>) to supplement the book, it&#39;s a much
+Wiki</a>) to supplement the book, it’s a much
 easier read the second time through!</p>
 
 <p>That said, I still found myself a little puzzled by the section that provides
 an implementation of foldl, using foldr.</p>
 
 <p>The type signatures of foldl and foldr are easy to understand:</p>
-<div class="highlight"><pre><code class="language-haskell" data-lang="haskell"><span class="nf">foldl</span> <span class="ow">::</span> <span class="p">(</span><span class="n">a</span> <span class="ow">-&gt;</span> <span class="n">b</span> <span class="ow">-&gt;</span> <span class="n">a</span><span class="p">)</span> <span class="ow">-&gt;</span> <span class="n">a</span> <span class="ow">-&gt;</span> <span class="p">[</span><span class="n">b</span><span class="p">]</span> <span class="ow">-&gt;</span> <span class="n">a</span>
-<span class="nf">foldr</span> <span class="ow">::</span> <span class="p">(</span><span class="n">a</span> <span class="ow">-&gt;</span> <span class="n">b</span> <span class="ow">-&gt;</span> <span class="n">b</span><span class="p">)</span> <span class="ow">-&gt;</span> <span class="n">b</span> <span class="ow">-&gt;</span> <span class="p">[</span><span class="n">a</span><span class="p">]</span> <span class="ow">-&gt;</span> <span class="n">b</span>
-</code></pre></div>
+
+<div class="language-haskell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">foldl</span> <span class="o">::</span> <span class="p">(</span><span class="n">a</span> <span class="o">-&gt;</span> <span class="n">b</span> <span class="o">-&gt;</span> <span class="n">a</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">a</span> <span class="o">-&gt;</span> <span class="p">[</span><span class="n">b</span><span class="p">]</span> <span class="o">-&gt;</span> <span class="n">a</span>
+<span class="n">foldr</span> <span class="o">::</span> <span class="p">(</span><span class="n">a</span> <span class="o">-&gt;</span> <span class="n">b</span> <span class="o">-&gt;</span> <span class="n">b</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">b</span> <span class="o">-&gt;</span> <span class="p">[</span><span class="n">a</span><span class="p">]</span> <span class="o">-&gt;</span> <span class="n">b</span>
+</code></pre></div></div>
+
 <p>Both take a function of two arguments, an initial value and a list of values.
-The list is &#39;folded&#39; into a single value, using the function.  <code>foldl</code> sums
-with left-associativity, <code>foldr</code> with right-associativity, e.g. summing
-<code>[1,2,3]</code>:</p>
-<div class="highlight"><pre><code class="language-haskell" data-lang="haskell"><span class="nf">foldl</span> <span class="o">==</span> <span class="p">(((</span><span class="mi">0</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="mi">2</span><span class="p">)</span> <span class="o">+</span> <span class="mi">3</span><span class="p">)</span>
-<span class="nf">foldr</span> <span class="o">==</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="p">(</span><span class="mi">2</span> <span class="o">+</span> <span class="p">(</span><span class="mi">3</span> <span class="o">+</span> <span class="mi">0</span><span class="p">)))</span>
-</code></pre></div>
+The list is ‘folded’ into a single value, using the function.  <code class="language-plaintext highlighter-rouge">foldl</code> sums
+with left-associativity, <code class="language-plaintext highlighter-rouge">foldr</code> with right-associativity, e.g. summing
+<code class="language-plaintext highlighter-rouge">[1,2,3]</code>:</p>
+
+<div class="language-haskell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">foldl</span> <span class="o">==</span> <span class="p">(((</span><span class="mi">0</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="mi">2</span><span class="p">)</span> <span class="o">+</span> <span class="mi">3</span><span class="p">)</span>
+<span class="n">foldr</span> <span class="o">==</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="p">(</span><span class="mi">2</span> <span class="o">+</span> <span class="p">(</span><span class="mi">3</span> <span class="o">+</span> <span class="mi">0</span><span class="p">)))</span>
+</code></pre></div></div>
+
 <p>Onto foldl using foldr! The implementation given in RWH is as follows:</p>
-<div class="highlight"><pre><code class="language-haskell" data-lang="haskell"><span class="nf">myFoldl</span> <span class="ow">::</span> <span class="p">(</span><span class="n">a</span> <span class="ow">-&gt;</span> <span class="n">b</span> <span class="ow">-&gt;</span> <span class="n">a</span><span class="p">)</span> <span class="ow">-&gt;</span> <span class="n">a</span> <span class="ow">-&gt;</span> <span class="p">[</span><span class="n">b</span><span class="p">]</span> <span class="ow">-&gt;</span> <span class="n">a</span>
-<span class="nf">myFoldl</span> <span class="n">f</span> <span class="n">z</span> <span class="n">xs</span> <span class="ow">=</span> <span class="n">foldr</span> <span class="n">step</span> <span class="n">id</span> <span class="n">xs</span> <span class="n">z</span>
-    <span class="kr">where</span> <span class="n">step</span> <span class="n">x</span> <span class="n">g</span> <span class="n">a</span> <span class="ow">=</span> <span class="n">g</span> <span class="p">(</span><span class="n">f</span> <span class="n">a</span> <span class="n">x</span><span class="p">)</span>
-</code></pre></div>
-<p>The key observations here are the use of the 3-parameter <code>step</code> function in
+
+<div class="language-haskell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">myFoldl</span> <span class="o">::</span> <span class="p">(</span><span class="n">a</span> <span class="o">-&gt;</span> <span class="n">b</span> <span class="o">-&gt;</span> <span class="n">a</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">a</span> <span class="o">-&gt;</span> <span class="p">[</span><span class="n">b</span><span class="p">]</span> <span class="o">-&gt;</span> <span class="n">a</span>
+<span class="n">myFoldl</span> <span class="n">f</span> <span class="n">z</span> <span class="n">xs</span> <span class="o">=</span> <span class="n">foldr</span> <span class="n">step</span> <span class="n">id</span> <span class="n">xs</span> <span class="n">z</span>
+    <span class="kr">where</span> <span class="n">step</span> <span class="n">x</span> <span class="n">g</span> <span class="n">a</span> <span class="o">=</span> <span class="n">g</span> <span class="p">(</span><span class="n">f</span> <span class="n">a</span> <span class="n">x</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>The key observations here are the use of the 3-parameter <code class="language-plaintext highlighter-rouge">step</code> function in
 place of the usual 2-parameter function, and passing id instead of an initial
 value.</p>
 
-<p>To understand how this works, it&#39;s useful to see how foldr is implemented:</p>
-<div class="highlight"><pre><code class="language-haskell" data-lang="haskell"><span class="nf">foldr</span> <span class="n">f</span> <span class="n">e</span> <span class="kt">[]</span>       <span class="ow">=</span> <span class="n">e</span>
-<span class="nf">foldr</span> <span class="n">f</span> <span class="n">e</span> <span class="p">(</span><span class="n">x</span> <span class="kt">:</span> <span class="n">xs</span><span class="p">)</span> <span class="ow">=</span> <span class="n">f</span> <span class="n">x</span> <span class="p">(</span><span class="n">foldr</span> <span class="n">f</span> <span class="n">e</span> <span class="n">xs</span><span class="p">)</span>
-</code></pre></div>
-<p>Remember, in myFoldl, <code>e</code> is <code>id</code> and <code>f</code> is <code>step</code></p>
+<p>To understand how this works, it’s useful to see how foldr is implemented:</p>
+
+<div class="language-haskell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">foldr</span> <span class="n">f</span> <span class="n">e</span> <span class="kt">[]</span>       <span class="o">=</span> <span class="n">e</span>
+<span class="n">foldr</span> <span class="n">f</span> <span class="n">e</span> <span class="p">(</span><span class="n">x</span> <span class="o">:</span> <span class="n">xs</span><span class="p">)</span> <span class="o">=</span> <span class="n">f</span> <span class="n">x</span> <span class="p">(</span><span class="n">foldr</span> <span class="n">f</span> <span class="n">e</span> <span class="n">xs</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>Remember, in myFoldl, <code class="language-plaintext highlighter-rouge">e</code> is <code class="language-plaintext highlighter-rouge">id</code> and <code class="language-plaintext highlighter-rouge">f</code> is <code class="language-plaintext highlighter-rouge">step</code></p>
 
 <p>This means that when the foldr unwraps one layer of the list, instead of a
-value, a one-parameter function (the partially applied <code>step</code> function) will be
-returned; when <code>e</code> is returned by the base case, instead of an initial value, a
+value, a one-parameter function (the partially applied <code class="language-plaintext highlighter-rouge">step</code> function) will be
+returned; when <code class="language-plaintext highlighter-rouge">e</code> is returned by the base case, instead of an initial value, a
 single-parameter function will be returned. So, we end up with a chain of one
 argument functions.</p>
 
-<p>To see this, let&#39;s trace an execution (bear with it, as it is a little
+<p>To see this, let’s trace an execution (bear with it, as it is a little
 verbose):</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">1) myFoldl (-) 0 [1,2] = foldr step id [1,2] 0
-</code></pre></div>
-<p>For now we ignore the <code>0</code> and calculate <code>foldr step id [1,2]</code>:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">2) foldr step id [1,2]
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>1) myFoldl (-) 0 [1,2] = foldr step id [1,2] 0
+</code></pre></div></div>
+
+<p>For now we ignore the <code class="language-plaintext highlighter-rouge">0</code> and calculate <code class="language-plaintext highlighter-rouge">foldr step id [1,2]</code>:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>2) foldr step id [1,2]
 3) step 1 (foldr step id [2])
 4) step 1 (step 2 (foldr step id []))
 5) step 1 (step 2 (id))
@@ -119,42 +105,28 @@ verbose):</p>
 7) \b -&gt; (\a -&gt; id ((-) a 2))((-) b 1)
 8) \b -&gt; id ((-) ((-) b 1) 2)
 9) \b -&gt; ((-) ((-) b 1) 2)
-</code></pre></div>
+</code></pre></div></div>
+
 <p>Now we can see that we are left with a one-parameter function,
 so we can pass in 0 as the argument:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">10) (\b -&gt; ((-) ((-) b 1) 2)) 0
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>10) (\b -&gt; ((-) ((-) b 1) 2)) 0
 11) ((-) ((-) 0 1) 2)
-</code></pre></div>
-<p>The result: <code>((-)((-) 0 1) 2)</code> can be rewritten as <code>((0 - 1) - 2)</code> which shows
+</code></pre></div></div>
+
+<p>The result: <code class="language-plaintext highlighter-rouge">((-)((-) 0 1) 2)</code> can be rewritten as <code class="language-plaintext highlighter-rouge">((0 - 1) - 2)</code> which shows
 the left associativity.</p>
 
-</article>
-
-              </div>
-              <div class="col-lg-2"></div>
-          </div>
       </div>
-      <footer class="footer mt-2 mb-4">
-          <div class="container text-center">
-              <span class="text-muted">Owen Stephens 2020</span>
-          </div>
-      </footer>
+    </section>
+</div>
+
     </body>
     
-        <script type='text/javascript' src='https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js'></script>
-    
-        <script type='text/javascript' src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js'></script>
-    
-        <script type='text/javascript' src='https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js'></script>
-    
-    
         
-            <script type='text/javascript' src='https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.13.0/moment.min.js'></script>
+            <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.13.0/moment.min.js"></script>
         
-            <script type='text/javascript' src='/assets/js/time.js'></script>
+            <script type="text/javascript" src="/assets/js/time.js"></script>
         
     
-    
-    
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 </html>

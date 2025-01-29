@@ -1,80 +1,56 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
   <title>
     
-      C# Pushdown Automaton &middot; Owen Stephens' Website
+      C# Pushdown Automaton · Owen Stephens' Website
     
   </title>
 
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-  <link rel="stylesheet" href="/assets/css/pygments.css">
   <link rel="stylesheet" href="/assets/css/style.css">
-  <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600|Droid+Sans+Mono' rel='stylesheet' type='text/css'>
+  <link rel="stylesheet" href="/assets/css/code_highlight.css">
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,600|Droid+Sans+Mono" rel="stylesheet" type="text/css">
 </head>
 
-    <body class="mt-5 pt-3">
-      <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top py-0">
-          <a class="navbar-brand align-baseline" href="/"><h2>Owen Stephens</h2><!--<h6
-          class="text-muted pl-2">London-based Polyglot Programmer</h6>--></a>
-          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
-              <span class="navbar-toggler-icon"></span>
-          </button>
-          <div class="collapse navbar-collapse" id="navbarResponsive">
-              <ul class="navbar-nav ml-auto">
-                  
-                  
-                  
-                  
-                  <li class="ml-auto nav-item text-nowrap">
-                      <a class="nav-link py-0" href="/"><h5>Home</a>
-                  </li>
-                  
-                  
-                  
-                  <li class="ml-auto nav-item active text-nowrap">
-                      <a class="nav-link py-0" href="/blog.html"><h5>Blog</h5><span class="sr-only">(current)</span></a>
-                  </li>
-                  
-                  
-                  
-                  <li class="ml-auto nav-item text-nowrap">
-                      <a class="nav-link py-0" href="/research.html"><h5>Research</a>
-                  </li>
-                  
-                  
-                  
-                  <li class="ml-auto nav-item text-nowrap">
-                      <a class="nav-link py-0" href="/oss.html"><h5>Open Source</a>
-                  </li>
-                  
-              </ul>
-          </div>
-      </nav>
-      <div class="container">
-          <div class="row">
-              <div class="col-lg-2"></div>
-              <div class="col-lg-8 border-bottom border-grey">
-                  <article class="post mt-3 pb-3">
-  <div id="post-header" class="pb-4">
-      <h3 class="post-title">C# Pushdown Automaton</h3>
-      <time datetime="2010-12-22T00:00:00+00:00" class="page-date">
-          22 Dec 2010
-      </time>
-  </div>
-  <p>I needed to write a <a href="https://en.wikipedia.org/wiki/Pushdown_automaton">Pushdown Automaton (PDA)</a> implementation as part of a
+    <body>
+        <header>
+            <a class="no_style" href="/" text="Home">
+            <h1>Owen Stephens</h1>
+            <h3>Software Engineer</h3>
+            </a>
+        </header>
+        <div class="container">
+    <div class="post_nav" markdown="1">
+    You can jump back <a href="/">Home</a>, or to the <a href="/#blog">Blog</a>, <a href="/#open-source">Open Source</a> or <a href="/#research">Research</a> sections.
+
+    </div>
+    <section>
+      <div id="post-header">
+          <h2 class="post-title">C# Pushdown Automaton<a class="header_link" href="#">🔗</a>
+</h2>
+          <time datetime="2010-12-22T00:00:00+00:00" class="page-date">
+              
+              22nd
+              December
+              2010
+          </time>
+      </div>
+      <div id="post-contents">
+          <p>I needed to write a <a href="https://en.wikipedia.org/wiki/Pushdown_automaton">Pushdown Automaton (PDA)</a> implementation as part of a
 genetic algorithm, used to evolve PDA, for a university project.</p>
 
-<p>I&#39;ve created an implementation using C# and have made the code available on
+<p>I’ve created an implementation using C# and have made the code available on
 <a href="https://github.com/owst/CSharp-Pushdown-Automata">Github, here</a>. It allows for non-deterministic PDA (NPDA) but
-does not allow for &epsilon;-moves.</p>
+does not allow for ε-moves.</p>
 
 <p>An example usage, which will match the language of balanced and nested
 parentheses:</p>
-<div class="highlight"><pre><code class="language-csharp" data-lang="csharp"><span class="k">using</span> <span class="nn">System</span><span class="p">;</span>
+
+<div class="language-csharp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">using</span> <span class="nn">System</span><span class="p">;</span>
 <span class="k">using</span> <span class="nn">System.Collections.Generic</span><span class="p">;</span>
 <span class="k">using</span> <span class="nn">PushdownAutomaton</span><span class="p">;</span>
 
@@ -84,54 +60,39 @@ parentheses:</p>
     <span class="p">{</span>
         <span class="k">static</span> <span class="k">void</span> <span class="nf">Main</span><span class="p">(</span><span class="kt">string</span><span class="p">[]</span> <span class="n">args</span><span class="p">)</span>
         <span class="p">{</span>
-            <span class="kt">var</span> <span class="n">inputAlphabet</span> <span class="p">=</span> <span class="k">new</span> <span class="n">List</span><span class="p">&lt;</span><span class="kt">char</span><span class="p">&gt;</span> <span class="p">{</span> <span class="sc">&#39;(&#39;</span><span class="p">,</span> <span class="sc">&#39;)&#39;</span> <span class="p">};</span>
-            <span class="kt">var</span> <span class="n">stackAlphabet</span> <span class="p">=</span> <span class="k">new</span> <span class="n">List</span><span class="p">&lt;</span><span class="kt">char</span><span class="p">&gt;</span> <span class="p">{</span> <span class="sc">&#39;(&#39;</span> <span class="p">};</span>
+            <span class="kt">var</span> <span class="n">inputAlphabet</span> <span class="p">=</span> <span class="k">new</span> <span class="n">List</span><span class="p">&lt;</span><span class="kt">char</span><span class="p">&gt;</span> <span class="p">{</span> <span class="sc">'('</span><span class="p">,</span> <span class="sc">')'</span> <span class="p">};</span>
+            <span class="kt">var</span> <span class="n">stackAlphabet</span> <span class="p">=</span> <span class="k">new</span> <span class="n">List</span><span class="p">&lt;</span><span class="kt">char</span><span class="p">&gt;</span> <span class="p">{</span> <span class="sc">'('</span> <span class="p">};</span>
             <span class="kt">var</span> <span class="n">states</span> <span class="p">=</span> <span class="k">new</span> <span class="n">HashSet</span><span class="p">&lt;</span><span class="kt">int</span><span class="p">&gt;</span> <span class="p">{</span> <span class="m">0</span> <span class="p">};</span>
             <span class="kt">var</span> <span class="n">transitions</span> <span class="p">=</span> <span class="k">new</span> <span class="n">List</span><span class="p">&lt;</span><span class="n">PDATransition</span><span class="p">&gt;</span>
             <span class="p">{</span>
                 <span class="c1">// Input char, stack head, from state, to state, stack replace.</span>
-                <span class="k">new</span> <span class="nf">PDATransition</span><span class="p">(</span><span class="sc">&#39;(&#39;</span><span class="p">,</span> <span class="sc">&#39;_&#39;</span><span class="p">,</span> <span class="m">0</span><span class="p">,</span> <span class="m">0</span><span class="p">,</span> <span class="s">&quot;(&quot;</span><span class="p">),</span> <span class="c1">// &#39;_&#39; is the empty stack.</span>
-                <span class="k">new</span> <span class="nf">PDATransition</span><span class="p">(</span><span class="sc">&#39;(&#39;</span><span class="p">,</span> <span class="sc">&#39;(&#39;</span><span class="p">,</span> <span class="m">0</span><span class="p">,</span> <span class="m">0</span><span class="p">,</span> <span class="s">&quot;((&quot;</span><span class="p">),</span>
-                <span class="k">new</span> <span class="nf">PDATransition</span><span class="p">(</span><span class="sc">&#39;)&#39;</span><span class="p">,</span> <span class="sc">&#39;(&#39;</span><span class="p">,</span> <span class="m">0</span><span class="p">,</span> <span class="m">0</span><span class="p">,</span> <span class="s">&quot;&quot;</span><span class="p">)</span>
+                <span class="k">new</span> <span class="nf">PDATransition</span><span class="p">(</span><span class="sc">'('</span><span class="p">,</span> <span class="sc">'_'</span><span class="p">,</span> <span class="m">0</span><span class="p">,</span> <span class="m">0</span><span class="p">,</span> <span class="s">"("</span><span class="p">),</span> <span class="c1">// '_' is the empty stack.</span>
+                <span class="k">new</span> <span class="nf">PDATransition</span><span class="p">(</span><span class="sc">'('</span><span class="p">,</span> <span class="sc">'('</span><span class="p">,</span> <span class="m">0</span><span class="p">,</span> <span class="m">0</span><span class="p">,</span> <span class="s">"(("</span><span class="p">),</span>
+                <span class="k">new</span> <span class="nf">PDATransition</span><span class="p">(</span><span class="sc">')'</span><span class="p">,</span> <span class="sc">'('</span><span class="p">,</span> <span class="m">0</span><span class="p">,</span> <span class="m">0</span><span class="p">,</span> <span class="s">""</span><span class="p">)</span>
             <span class="p">};</span>
 
-            <span class="kt">var</span> <span class="n">pda</span> <span class="p">=</span> <span class="k">new</span> <span class="n">PDA</span><span class="p">(</span><span class="n">inputAlphabet</span><span class="p">,</span> <span class="n">stackAlphabet</span><span class="p">,</span> <span class="n">states</span><span class="p">,</span> <span class="m">0</span><span class="p">,</span> <span class="n">transitions</span><span class="p">);</span>
+            <span class="kt">var</span> <span class="n">pda</span> <span class="p">=</span> <span class="k">new</span> <span class="nf">PDA</span><span class="p">(</span><span class="n">inputAlphabet</span><span class="p">,</span> <span class="n">stackAlphabet</span><span class="p">,</span> <span class="n">states</span><span class="p">,</span> <span class="m">0</span><span class="p">,</span> <span class="n">transitions</span><span class="p">);</span>
 
-            <span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(</span><span class="n">pda</span><span class="p">.</span><span class="n">DoesMatch</span><span class="p">(</span><span class="s">&quot;&quot;</span><span class="p">));</span>             <span class="c1">// True</span>
-            <span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(</span><span class="n">pda</span><span class="p">.</span><span class="n">DoesMatch</span><span class="p">(</span><span class="s">&quot;(())&quot;</span><span class="p">));</span>         <span class="c1">// True</span>
-            <span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(</span><span class="n">pda</span><span class="p">.</span><span class="n">DoesMatch</span><span class="p">(</span><span class="s">&quot;(()&quot;</span><span class="p">));</span>          <span class="c1">// False</span>
-            <span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(</span><span class="n">pda</span><span class="p">.</span><span class="n">DoesMatch</span><span class="p">(</span><span class="s">&quot;((())()(()))&quot;</span><span class="p">));</span> <span class="c1">// True</span>
+            <span class="n">Console</span><span class="p">.</span><span class="nf">WriteLine</span><span class="p">(</span><span class="n">pda</span><span class="p">.</span><span class="nf">DoesMatch</span><span class="p">(</span><span class="s">""</span><span class="p">));</span>             <span class="c1">// True</span>
+            <span class="n">Console</span><span class="p">.</span><span class="nf">WriteLine</span><span class="p">(</span><span class="n">pda</span><span class="p">.</span><span class="nf">DoesMatch</span><span class="p">(</span><span class="s">"(())"</span><span class="p">));</span>         <span class="c1">// True</span>
+            <span class="n">Console</span><span class="p">.</span><span class="nf">WriteLine</span><span class="p">(</span><span class="n">pda</span><span class="p">.</span><span class="nf">DoesMatch</span><span class="p">(</span><span class="s">"(()"</span><span class="p">));</span>          <span class="c1">// False</span>
+            <span class="n">Console</span><span class="p">.</span><span class="nf">WriteLine</span><span class="p">(</span><span class="n">pda</span><span class="p">.</span><span class="nf">DoesMatch</span><span class="p">(</span><span class="s">"((())()(()))"</span><span class="p">));</span> <span class="c1">// True</span>
         <span class="p">}</span>
     <span class="p">}</span>
 <span class="p">}</span>
-</code></pre></div>
-</article>
+</code></pre></div></div>
 
-              </div>
-              <div class="col-lg-2"></div>
-          </div>
+
       </div>
-      <footer class="footer mt-2 mb-4">
-          <div class="container text-center">
-              <span class="text-muted">Owen Stephens 2020</span>
-          </div>
-      </footer>
+    </section>
+</div>
+
     </body>
     
-        <script type='text/javascript' src='https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js'></script>
-    
-        <script type='text/javascript' src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js'></script>
-    
-        <script type='text/javascript' src='https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js'></script>
-    
-    
         
-            <script type='text/javascript' src='https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.13.0/moment.min.js'></script>
+            <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.13.0/moment.min.js"></script>
         
-            <script type='text/javascript' src='/assets/js/time.js'></script>
+            <script type="text/javascript" src="/assets/js/time.js"></script>
         
     
-    
-    
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 </html>
