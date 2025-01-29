@@ -2,6 +2,7 @@ set -euo pipefail
 
 bundle exec jekyll build
 
+git fetch origin master
 git worktree add master
 
 (cd master; git rm -r .)
