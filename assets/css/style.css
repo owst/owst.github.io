@@ -3,6 +3,12 @@ html {
   scroll-padding-top: 6rem;
 }
 
+@media (max-width: 500px) {
+    html {
+        scroll-padding-top: 8rem;
+    }
+}
+
 body {
     font-family: Arial, sans-serif;
     background-color: #f4f4f9;
