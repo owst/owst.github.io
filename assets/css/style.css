@@ -24,11 +24,14 @@ header {
     background: #343a40;
     color: #f0f0f0;
     padding: 0.75rem 0;
-    text-align: center;
     position: sticky;
     top: 0;
     z-index: 1000;
-    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: baseline;
+    flex-direction: row;
+    flex-wrap: nowrap;
     margin-bottom: 0.5rem;
 }
 
@@ -40,6 +43,18 @@ header h1 {
 header h3 {
     display: inline;
     margin-left: 1rem;
+}
+
+@media (max-width: 500px) {
+    header {
+        flex-direction: column;
+        align-items: center;
+        margin-bottom: 0;
+    }
+
+    header h3 {
+        margin-left: 0;
+    }
 }
 
 div.highlight {
@@ -99,6 +114,12 @@ section ul li {
     text-align: left;
 }
 
+@media (max-width: 500px) {
+    .intro {
+        flex-direction: column;
+    }
+}
+
 .highlight pre {
     margin: 0;
 }
@@ -119,6 +140,16 @@ section ul li {
     margin-left: -1rem;
 }
 
+.oss_contributions {
+    padding-left: 2rem;
+}
+
+@media (max-width: 500px) {
+    .oss_contributions {
+        padding-left: 1rem;
+    }
+}
+
 .oss_contribution {
     margin-bottom: 1rem;
     padding-left: 1rem;
@@ -137,6 +168,7 @@ section ul li {
 
 .entry {
     display: flex;
+    flex-direction: row;
     justify-content: space-between;
     padding: 0.1rem 0;
 }
@@ -150,6 +182,25 @@ section ul li {
 .entry_link {
     margin-left: 1rem;
     flex-grow: 1;
+}
+
+@media (max-width: 500px) {
+    .entries {
+        padding: 0;
+    }
+
+    .entry {
+        flex-direction: column;
+        padding: 0;
+    }
+
+    .entry_date {
+        text-align: left;
+    }
+
+    .entry_link {
+        margin: 0.5rem 0;
+    }
 }
 
 a.no_style {
